@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PortaBox — Logística Interna Simplificada</title>
+  <meta name="description" content="PortaBox — Logística Interna Simplificada. Controle inteligente de encomendas para condomínios residenciais." />
+  <link rel="icon" type="image/svg+xml" href="logo-portabox-mark.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design Tokens ── */
+    :root {
+      --pb-navy-900: #0B2B47;
+      --pb-navy-700: #1E3A8A;
+      --pb-orange-500: #F97316;
+      --pb-orange-700: #EA580C;
+      --pb-paper: #F9FAFB;
+      --pb-white: #FFFFFF;
+      --pb-ink-900: #1F2937;
+      --pb-gray-200: #D1D5DB;
+      --fg-muted: #6B7280;
+
+      --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+      --sh-md: 0 6px 16px rgba(11, 43, 71, 0.08), 0 2px 4px rgba(11, 43, 71, 0.04);
+      --sh-lg: 0 18px 40px rgba(11, 43, 71, 0.12), 0 4px 10px rgba(11, 43, 71, 0.06);
+      --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--pb-navy-900);
+      color: var(--pb-white);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero full-screen ── */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle geometric accent — box outline, faint */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: min(680px, 90vw);
+      height: min(680px, 90vw);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 32px;
+      rotate: 12deg;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: min(480px, 70vw);
+      height: min(480px, 70vw);
+      border: 1px solid rgba(249, 115, 22, 0.06);
+      border-radius: 24px;
+      rotate: -6deg;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      max-width: 560px;
+    }
+
+    /* Logo */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-mark {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .logo-wordmark {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--pb-white);
+      line-height: 1;
+    }
+
+    .logo-wordmark span {
+      color: var(--pb-orange-500);
+    }
+
+    .logo-tagline {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Divider */
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--pb-orange-500);
+      border-radius: 999px;
+      opacity: 0.8;
+    }
+
+    /* Headline */
+    .headline {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: var(--pb-white);
+    }
+
+    .headline em {
+      font-style: normal;
+      color: var(--pb-orange-500);
+    }
+
+    /* Sub */
+    .sub {
+      font-size: 16px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.55);
+      max-width: 420px;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.65);
+      letter-spacing: 0.01em;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pb-orange-500);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.75); }
+    }
+
+    /* Footer */
+    footer {
+      padding: 24px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    footer p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.02em;
+    }
+
+    footer a {
+      color: rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+      transition: color 200ms var(--ease);
+    }
+
+    footer a:hover {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Responsive: compact logo on small screens */
+    @media (max-width: 480px) {
+      .logo-wordmark { font-size: 28px; }
+      .logo-mark     { width: 48px; height: 48px; }
+      .badge         { font-size: 12px; padding: 8px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="hero" role="main">
+    <div class="hero-inner">
+
+      <!-- Logo -->
+      <div class="logo-wrap">
+        <img
+          src="logo-portabox-mark.svg"
+          alt="PortaBox mark"
+          class="logo-mark"
+          width="64"
+          height="64"
+        />
+        <div class="logo-text">
+          <div class="logo-wordmark">Porta<span>Box</span></div>
+          <div class="logo-tagline">Logística Interna Simplificada</div>
+        </div>
+      </div>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <!-- Headline -->
+      <h1 class="headline">
+        Em breve,<br />
+        uma forma <em>mais inteligente</em><br />
+        de gerenciar sua portaria
+      </h1>
+
+      <!-- Sub -->
+      <p class="sub">
+        Estamos construindo algo novo para condomínios residenciais.
+        Em breve você poderá conhecer tudo.
+      </p>
+
+      <!-- Status badge -->
+      <div class="badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        Em desenvolvimento
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      &copy; 2026 PortaBox &nbsp;·&nbsp;
+      <a href="mailto:contato@portaboxlog.com.br">contato@portaboxlog.com.br</a>
+    </p>
+  </footer>
+
+</body>
+</html>

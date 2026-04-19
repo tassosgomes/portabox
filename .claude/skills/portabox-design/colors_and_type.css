@@ -1,0 +1,189 @@
+/* ==========================================================================
+   PortaBox — Design Tokens
+   Colors + Typography
+   ========================================================================== */
+
+/* Google Fonts — substitution for brand fonts (see README fonts note) */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ------------------------------------------------------------------
+     BRAND COLORS
+     Source: PortaBox official palette (brand-palette-reference.png)
+     ------------------------------------------------------------------ */
+
+  /* Primary — logistics & trust */
+  --pb-navy-900: #0B2B47;   /* "Corcontal Blue" — deepest, used for hero bg, app chrome */
+  --pb-navy-700: #1E3A8A;   /* "Deep Navy Blue" — primary logo color, headers */
+  --pb-navy-500: #4B5563;   /* "Medium Steel Blue" — secondary action, body emphasis */
+
+  /* Primary — action / energy (from logo arrow) */
+  --pb-orange-500: #F97316; /* "Orange" — primary CTA, signals movement */
+  --pb-orange-700: #EA580C; /* "Deep Burnt Orange" — hover / pressed CTA */
+
+  /* Interface tones */
+  --pb-lilac-100: #E0D3F1;  /* "Tonto de Palol" — subtle status tint */
+  --pb-ice-100:   #E0E7FF;  /* "Ice Blue" — panel/background tint */
+  --pb-gray-200:  #D1D5DB;  /* dividers */
+
+  /* Neutrals */
+  --pb-white:     #FFFFFF;
+  --pb-paper:     #F9FAFB;  /* textural background, cards on app */
+  --pb-ink-900:   #1F2937;  /* body text */
+
+  /* Semantic */
+  --pb-success:   #16A34A;  /* OCR success check */
+  --pb-warning:   #F59E0B;
+  --pb-danger:    #DC2626;
+  --pb-info:      #2563EB;
+
+  /* ------------------------------------------------------------------
+     SEMANTIC (role) TOKENS
+     ------------------------------------------------------------------ */
+  --bg-app:        var(--pb-paper);
+  --bg-surface:    var(--pb-white);
+  --bg-chrome:     var(--pb-navy-900);      /* app nav bar, resident phone top */
+  --bg-elevated:   var(--pb-white);
+  --bg-subtle:     var(--pb-ice-100);
+
+  --fg-default:    var(--pb-ink-900);
+  --fg-muted:      #6B7280;
+  --fg-subtle:     #9CA3AF;
+  --fg-on-dark:    var(--pb-white);
+  --fg-on-accent:  var(--pb-white);
+  --fg-brand:      var(--pb-navy-700);
+
+  --border-default: var(--pb-gray-200);
+  --border-strong:  #9CA3AF;
+  --border-focus:   var(--pb-orange-500);
+
+  --action-primary:       var(--pb-orange-500);
+  --action-primary-hover: var(--pb-orange-700);
+  --action-secondary:     var(--pb-navy-700);
+  --action-secondary-hover:var(--pb-navy-900);
+
+  /* ------------------------------------------------------------------
+     TYPOGRAPHY
+     Display/UI  : Plus Jakarta Sans  — friendly geometric sans, PT-friendly
+     Body        : Inter              — screen-tuned, legible at small sizes
+     Mono        : JetBrains Mono     — for tokens, PINs, IDs, labels
+     ------------------------------------------------------------------ */
+  --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale */
+  --fs-display: 56px;
+  --fs-h1:      40px;
+  --fs-h2:      28px;
+  --fs-h3:      22px;
+  --fs-h4:      18px;
+  --fs-body:    16px;
+  --fs-sm:      14px;
+  --fs-xs:      12px;
+  --fs-pin:     40px; /* retrieval token display */
+
+  --lh-tight:   1.1;
+  --lh-snug:    1.25;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.65;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+  --fw-black:   800;
+
+  --ls-tight:  -0.02em;
+  --ls-normal: 0;
+  --ls-wide:   0.04em;
+  --ls-wider:  0.08em;  /* ALL-CAPS eyebrows */
+
+  /* ------------------------------------------------------------------
+     SPACING (4px base)
+     ------------------------------------------------------------------ */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Radii */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;     /* default for cards */
+  --r-xl: 20px;     /* feature cards, phone frames */
+  --r-pill: 999px;
+
+  /* Shadows — soft, "condo lobby" daylight quality */
+  --sh-xs: 0 1px 2px rgba(11, 43, 71, 0.06);
+  --sh-sm: 0 2px 4px rgba(11, 43, 71, 0.06), 0 1px 2px rgba(11, 43, 71, 0.04);
+  --sh-md: 0 6px 16px rgba(11, 43, 71, 0.08), 0 2px 4px rgba(11, 43, 71, 0.04);
+  --sh-lg: 0 18px 40px rgba(11, 43, 71, 0.12), 0 4px 10px rgba(11, 43, 71, 0.06);
+  --sh-inset: inset 0 0 0 1px rgba(11, 43, 71, 0.06);
+  --sh-focus: 0 0 0 3px rgba(249, 115, 22, 0.35);
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-entrance: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit:     cubic-bezier(0.4, 0, 1, 1);
+  --dur-fast:   120ms;
+  --dur-base:   200ms;
+  --dur-slow:   320ms;
+}
+
+/* =========================================================================
+   BASE ELEMENTS — semantic defaults
+   ========================================================================= */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--fg-default);
+  background: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--fg-brand);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+h1 { font-size: var(--fs-h1); font-weight: var(--fw-bold); }
+h2 { font-size: var(--fs-h2); font-weight: var(--fw-bold); }
+h3 { font-size: var(--fs-h3); font-weight: var(--fw-semibold); }
+h4 { font-size: var(--fs-h4); font-weight: var(--fw-semibold); letter-spacing: var(--ls-normal); }
+
+p  { margin: 0 0 var(--sp-3); line-height: var(--lh-relaxed); }
+
+code, kbd, pre, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--pb-orange-500);
+}
+
+/* Utility PIN/token display */
+.token-pin {
+  font-family: var(--font-mono);
+  font-size: var(--fs-pin);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.18em;
+  color: var(--pb-navy-900);
+}

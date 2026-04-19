@@ -1,0 +1,40 @@
+# Build outputs
+bin/
+obj/
+TestResults/
+coverage/
+dist/
+
+# Frontend caches
+.vite/
+*.tsbuildinfo
+
+# Test reports
+playwright-report/
+test-results/
+blob-report/
+
+# .NET user files
+*.user
+*.suo
+.vs/
+
+# Node / package managers
+node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment overrides
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.tmp/
+.codex

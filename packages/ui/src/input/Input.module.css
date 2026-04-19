@@ -1,0 +1,56 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.label {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-xs);
+  color: var(--pb-navy-900);
+}
+
+.input {
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 11px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface);
+  color: var(--fg-default);
+  outline: none;
+  box-shadow: var(--sh-sm);
+  transition:
+    border-color var(--dur-base) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard);
+}
+
+.input::placeholder {
+  color: var(--fg-subtle);
+}
+
+.input:focus {
+  border-color: var(--pb-orange-500);
+  box-shadow: var(--sh-focus);
+}
+
+.inputError {
+  border-color: var(--pb-danger);
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--fg-muted);
+}
+
+.errorMsg {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--pb-danger);
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-app);}
+  .wrap{padding:24px 28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-family:var(--font-display);font-weight:700;font-size:14px;border:none;cursor:pointer;letter-spacing:-0.01em;}
+  .primary{background:var(--pb-orange-500);color:white;box-shadow:0 4px 12px rgba(249,115,22,.3);}
+  .primary-hover{background:var(--pb-orange-700);color:white;box-shadow:0 4px 12px rgba(234,88,12,.35);}
+  .secondary{background:var(--pb-navy-700);color:white;}
+  .ghost{background:transparent;color:var(--pb-navy-700);box-shadow:inset 0 0 0 1.5px var(--pb-navy-700);}
+  .disabled{background:var(--pb-gray-200);color:var(--fg-subtle);cursor:not-allowed;}
+  .lbl{font-family:var(--font-mono);font-size:10px;color:var(--fg-muted);width:100%;margin-top:6px;}
+</style></head>
+<body>
+<div class="wrap">
+  <button class="btn primary">Registrar encomenda</button>
+  <button class="btn primary-hover">Registrar encomenda</button>
+  <button class="btn secondary">Ver histórico</button>
+  <button class="btn ghost">Cancelar</button>
+  <button class="btn disabled">Aguardando OCR…</button>
+  <div class="lbl">default · hover · secondary · ghost · disabled</div>
+</div>
+</body></html>

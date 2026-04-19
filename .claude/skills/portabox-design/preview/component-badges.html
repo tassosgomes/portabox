@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-app);}
+  .wrap{padding:24px 28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:0.02em;}
+  .dot{width:6px;height:6px;border-radius:50%;}
+  .received{background:#E0E7FF;color:#1E3A8A;}
+  .processing{background:#FEF3C7;color:#92400E;}
+  .waiting{background:#FFEDD5;color:#9A3412;}
+  .delivered{background:#DCFCE7;color:#166534;}
+  .expired{background:#FEE2E2;color:#991B1B;}
+</style></head>
+<body>
+<div class="wrap">
+  <span class="badge received"><span class="dot" style="background:#1E3A8A"></span>Registrada</span>
+  <span class="badge processing"><span class="dot" style="background:#D97706"></span>IA processando</span>
+  <span class="badge waiting"><span class="dot" style="background:#F97316"></span>Aguardando retirada</span>
+  <span class="badge delivered"><span class="dot" style="background:#16A34A"></span>Entregue</span>
+  <span class="badge expired"><span class="dot" style="background:#DC2626"></span>Expirada</span>
+</div>
+</body></html>

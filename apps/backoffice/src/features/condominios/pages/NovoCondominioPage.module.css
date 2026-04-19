@@ -1,0 +1,27 @@
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl, 1.25rem);
+  font-weight: var(--fw-bold);
+  color: var(--pb-navy-900);
+}
+
+.stepIndicator {
+  /* let StepIndicator handle its own layout */
+}
+
+.card {
+  background: var(--bg-surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-md);
+  padding: var(--sp-6);
+}

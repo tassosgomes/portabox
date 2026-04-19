@@ -1,0 +1,37 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.hint {
+  margin: 0 0 var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--fg-subtle);
+  line-height: 1.5;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  align-items: start;
+}
+
+.grow {
+  flex: 1;
+}
+
+.uf {
+  width: 72px;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--pb-gray-100, #f3f4f6);
+}

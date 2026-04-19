@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@portabox/ui — Component Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../.claude/skills/portabox-design/colors_and_type.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      * { box-sizing: border-box; }
+      body { padding: var(--sp-8); }
+      .section { margin-bottom: var(--sp-12); }
+      .section-title {
+        font-family: var(--font-mono);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: var(--ls-wider);
+        text-transform: uppercase;
+        color: var(--pb-orange-500);
+        margin-bottom: var(--sp-4);
+        padding-bottom: var(--sp-2);
+        border-bottom: 1px solid var(--border-default);
+      }
+      .row { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+      .col { display: flex; flex-direction: column; gap: var(--sp-3); max-width: 320px; }
+
+      /* Button */
+      .btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 12px var(--sp-5); border-radius: var(--r-pill); font-family: var(--font-display); font-weight: var(--fw-bold); font-size: var(--fs-sm); border: none; cursor: pointer; letter-spacing: -0.01em; transition: background var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard), transform var(--dur-fast) var(--ease-standard); }
+      .btn:focus-visible { outline: none; box-shadow: var(--sh-focus); }
+      .btn:active { transform: scale(0.98); }
+      .btn-primary { background: var(--pb-orange-500); color: white; box-shadow: 0 4px 12px rgba(249,115,22,.3); }
+      .btn-primary:hover { background: var(--pb-orange-700); }
+      .btn-secondary { background: var(--pb-navy-700); color: white; }
+      .btn-secondary:hover { background: var(--pb-navy-900); }
+      .btn-ghost { background: transparent; color: var(--pb-navy-700); box-shadow: inset 0 0 0 1.5px var(--pb-navy-700); }
+      .btn-ghost:hover { background: rgba(30,58,138,0.08); }
+      .btn-danger { background: var(--pb-danger); color: white; }
+      .btn-disabled { background: var(--pb-gray-200); color: var(--fg-subtle); cursor: not-allowed; }
+
+      /* Input */
+      .field { display: flex; flex-direction: column; gap: var(--sp-1); }
+      .field-label { font-family: var(--font-display); font-weight: var(--fw-semibold); font-size: var(--fs-xs); color: var(--pb-navy-900); }
+      input { font-family: var(--font-body); font-size: 15px; padding: 11px 14px; border-radius: var(--r-md); border: 1px solid var(--border-default); background: white; outline: none; box-shadow: var(--sh-sm); color: var(--fg-default); }
+      input.focus { border-color: var(--pb-orange-500); box-shadow: var(--sh-focus); }
+      input.error { border-color: var(--pb-danger); }
+      .hint { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--fg-muted); }
+      .err-msg { font-family: var(--font-body); font-size: var(--fs-xs); color: var(--pb-danger); }
+
+      /* Card */
+      .card { background: var(--bg-surface); border-radius: var(--r-lg); box-shadow: var(--sh-md); padding: var(--sp-5); border: none; }
+      .card h4 { margin: 0 0 var(--sp-2); }
+      .card p { margin: 0; color: var(--fg-muted); font-size: var(--fs-sm); }
+
+      /* Badge */
+      .badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-pill); font-family: var(--font-display); font-weight: var(--fw-bold); font-size: 11px; letter-spacing: 0.02em; }
+      .dot { width: 6px; height: 6px; border-radius: 50%; }
+      .badge-pre-ativo { background: var(--pb-ice-100); color: var(--pb-navy-700); }
+      .badge-ativo { background: #dcfce7; color: #166534; }
+      .badge-inativo { background: #fee2e2; color: #991b1b; }
+      .badge-pendente { background: #ffedd5; color: #9a3412; }
+      .badge-processando { background: #fef3c7; color: #92400e; }
+
+      /* StepIndicator */
+      .steps { display: flex; gap: 0; width: 100%; }
+      .step { display: flex; align-items: center; gap: var(--sp-3); flex: 1; position: relative; color: var(--fg-muted); }
+      .step:not(:last-child)::after { content: ''; position: absolute; top: 16px; left: calc(32px + var(--sp-3)); right: calc(-1 * var(--sp-3)); height: 2px; background: var(--pb-gray-200); }
+      .step.completed:not(:last-child)::after { background: var(--pb-orange-500); }
+      .step-circle { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--pb-gray-200); background: white; font-family: var(--font-display); font-weight: var(--fw-semibold); font-size: var(--fs-sm); flex-shrink: 0; position: relative; z-index: 1; }
+      .step.current .step-circle { border-color: var(--pb-orange-500); color: var(--pb-orange-500); }
+      .step.completed .step-circle { border-color: var(--pb-orange-500); background: var(--pb-orange-500); color: white; }
+      .step-label { font-family: var(--font-display); font-weight: var(--fw-semibold); font-size: var(--fs-sm); color: var(--fg-muted); }
+      .step.current .step-label { color: var(--pb-navy-900); }
+
+      /* Modal (static preview) */
+      .modal-preview { background: var(--bg-surface); border-radius: var(--r-xl); box-shadow: var(--sh-lg); max-width: 480px; overflow: hidden; }
+      .modal-header { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-5) var(--sp-6) var(--sp-4); border-bottom: 1px solid var(--border-default); }
+      .modal-title { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: var(--fw-semibold); color: var(--fg-brand); margin: 0; }
+      .modal-close { background: none; border: none; cursor: pointer; color: var(--fg-muted); font-size: var(--fs-body); padding: var(--sp-1); border-radius: var(--r-sm); }
+      .modal-body { padding: var(--sp-6); color: var(--fg-default); font-size: var(--fs-sm); }
+
+      /* Icons */
+      .icon-grid { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
+      .icon-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); color: var(--pb-navy-700); }
+      .icon-item span { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); }
+    </style>
+  </head>
+  <body>
+    <h1 style="margin-bottom:var(--sp-2);">@portabox/ui</h1>
+    <p style="color:var(--fg-muted);margin-bottom:var(--sp-10);">Component preview — tokens via <code>portabox-design</code> skill</p>
+
+    <!-- Buttons -->
+    <div class="section">
+      <div class="section-title">Button</div>
+      <div class="row">
+        <button class="btn btn-primary"><i data-lucide="plus" style="width:16px;height:16px;"></i>Criar condomínio</button>
+        <button class="btn btn-secondary">Ver histórico</button>
+        <button class="btn btn-ghost">Cancelar</button>
+        <button class="btn btn-danger">Excluir</button>
+        <button class="btn btn-disabled" disabled>Aguardando…</button>
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="section">
+      <div class="section-title">Input</div>
+      <div class="row" style="align-items:flex-start;">
+        <div class="field">
+          <span class="field-label">Nome do condomínio</span>
+          <input value="Residencial Flores" />
+          <span class="hint">default</span>
+        </div>
+        <div class="field">
+          <span class="field-label">CNPJ</span>
+          <input class="focus" value="12.345.678/0001-90" />
+          <span class="hint">focused</span>
+        </div>
+        <div class="field">
+          <span class="field-label">E-mail do síndico</span>
+          <input class="error" value="nao-e-um-email" />
+          <span class="err-msg">Formato de e-mail inválido</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="section">
+      <div class="section-title">Card</div>
+      <div class="row" style="align-items:flex-start;">
+        <div class="card" style="min-width:200px;">
+          <h4>Residencial Flores</h4>
+          <p>CNPJ 12.345.678/0001-90</p>
+        </div>
+        <div class="card" style="min-width:200px;">
+          <h4>Edifício Central</h4>
+          <p>CNPJ 98.765.432/0001-11</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="section">
+      <div class="section-title">Badge</div>
+      <div class="row">
+        <span class="badge badge-pre-ativo"><span class="dot" style="background:var(--pb-navy-700)"></span>Pré-ativo</span>
+        <span class="badge badge-ativo"><span class="dot" style="background:#16a34a"></span>Ativo</span>
+        <span class="badge badge-inativo"><span class="dot" style="background:var(--pb-danger)"></span>Inativo</span>
+        <span class="badge badge-pendente"><span class="dot" style="background:var(--pb-orange-500)"></span>Pendente</span>
+        <span class="badge badge-processando"><span class="dot" style="background:var(--pb-warning)"></span>Processando</span>
+      </div>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="section">
+      <div class="section-title">StepIndicator (etapa 2 ativa)</div>
+      <div class="steps">
+        <div class="step completed">
+          <div class="step-circle">✓</div>
+          <span class="step-label">Dados do condomínio</span>
+        </div>
+        <div class="step current">
+          <div class="step-circle">2</div>
+          <span class="step-label">Consentimento LGPD</span>
+        </div>
+        <div class="step">
+          <div class="step-circle">3</div>
+          <span class="step-label">Síndico responsável</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal (static) -->
+    <div class="section">
+      <div class="section-title">Modal (static preview)</div>
+      <div class="modal-preview">
+        <div class="modal-header">
+          <h2 class="modal-title">Novo condomínio</h2>
+          <button class="modal-close" aria-label="Fechar">✕</button>
+        </div>
+        <div class="modal-body">
+          <p>Preencha os dados do condomínio para iniciar o processo de cadastro.</p>
+          <div style="margin-top:var(--sp-4);display:flex;gap:var(--sp-3);justify-content:flex-end;">
+            <button class="btn btn-ghost">Cancelar</button>
+            <button class="btn btn-primary">Continuar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icons -->
+    <div class="section">
+      <div class="section-title">Lucide Icons (canonical F01)</div>
+      <div class="icon-grid">
+        <div class="icon-item"><i data-lucide="building-2" style="width:24px;height:24px;stroke-width:1.5"></i><span>building-2</span></div>
+        <div class="icon-item"><i data-lucide="file-text" style="width:24px;height:24px;stroke-width:1.5"></i><span>file-text</span></div>
+        <div class="icon-item"><i data-lucide="user-plus" style="width:24px;height:24px;stroke-width:1.5"></i><span>user-plus</span></div>
+        <div class="icon-item"><i data-lucide="mail" style="width:24px;height:24px;stroke-width:1.5"></i><span>mail</span></div>
+        <div class="icon-item"><i data-lucide="check-circle" style="width:24px;height:24px;stroke-width:1.5"></i><span>check-circle</span></div>
+        <div class="icon-item"><i data-lucide="upload-cloud" style="width:24px;height:24px;stroke-width:1.5"></i><span>upload-cloud</span></div>
+        <div class="icon-item"><i data-lucide="clipboard-check" style="width:24px;height:24px;stroke-width:1.5"></i><span>clipboard-check</span></div>
+        <div class="icon-item"><i data-lucide="power" style="width:24px;height:24px;stroke-width:1.5"></i><span>power</span></div>
+      </div>
+    </div>
+
+    <script>lucide.createIcons();</script>
+  </body>
+</html>

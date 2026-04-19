@@ -1,0 +1,76 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Status variants */
+.pre-ativo {
+  background: var(--pb-ice-100);
+  color: var(--pb-navy-700);
+}
+.pre-ativo .dot {
+  background: var(--pb-navy-700);
+}
+
+.ativo {
+  background: #dcfce7;
+  color: #166534;
+}
+.ativo .dot {
+  background: var(--pb-success);
+}
+
+.inativo {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.inativo .dot {
+  background: var(--pb-danger);
+}
+
+.pendente {
+  background: #ffedd5;
+  color: #9a3412;
+}
+.pendente .dot {
+  background: var(--pb-orange-500);
+}
+
+.processando {
+  background: #fef3c7;
+  color: #92400e;
+}
+.processando .dot {
+  background: var(--pb-warning);
+}
+
+.erro {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.erro .dot {
+  background: var(--pb-danger);
+}
+
+.info {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.info .dot {
+  background: var(--pb-info);
+}

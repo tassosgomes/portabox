@@ -1,0 +1,19 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-app);}
+  .wrap{padding:22px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .sw{border-radius:var(--r-md);overflow:hidden;box-shadow:var(--sh-sm);background:var(--bg-surface);}
+  .chip{height:74px;display:flex;align-items:center;justify-content:center;color:white;font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;}
+  .meta{padding:9px 11px;}
+  .name{font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--pb-navy-900);}
+  .hex{font-family:var(--font-mono);font-size:10px;color:var(--fg-muted);margin-top:2px;}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="sw"><div class="chip" style="background:#16A34A">Sucesso</div><div class="meta"><div class="name">Success</div><div class="hex">#16A34A</div></div></div>
+  <div class="sw"><div class="chip" style="background:#F59E0B">Aviso</div><div class="meta"><div class="name">Warning</div><div class="hex">#F59E0B</div></div></div>
+  <div class="sw"><div class="chip" style="background:#DC2626">Erro</div><div class="meta"><div class="name">Danger</div><div class="hex">#DC2626</div></div></div>
+  <div class="sw"><div class="chip" style="background:#2563EB">Info</div><div class="meta"><div class="name">Info</div><div class="hex">#2563EB</div></div></div>
+</div>
+</body></html>

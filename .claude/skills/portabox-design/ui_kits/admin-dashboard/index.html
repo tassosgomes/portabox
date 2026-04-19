@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>PortaBox — Admin Dashboard</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  body { margin:0; background:#0B2B47; min-height:100vh; font-family: var(--font-body); color: var(--fg-default); }
+  .app { display:grid; grid-template-columns: 240px 1fr; min-height:100vh; }
+
+  /* Sidebar */
+  .side { background:#0B2B47; color:white; padding:22px 16px; display:flex; flex-direction:column; gap:4px; }
+  .brand { display:flex; align-items:center; gap:10px; padding:4px 8px 22px; }
+  .brand img { width:30px; height:30px; filter:brightness(0) invert(1); }
+  .brand .t { font-family: var(--font-display); font-weight:800; font-size:18px; letter-spacing:-0.01em; }
+  .nav a { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; color:rgba(255,255,255,0.7); text-decoration:none; font-family: var(--font-display); font-weight:600; font-size:13px; }
+  .nav a.active { background:rgba(255,255,255,0.08); color:white; }
+  .nav a:hover { background:rgba(255,255,255,0.05); color:white; }
+  .nav .lbl { font-family: var(--font-mono); font-size:10px; color:rgba(255,255,255,0.4); letter-spacing:0.08em; text-transform:uppercase; padding:14px 12px 4px; }
+  .side-foot { margin-top:auto; background:rgba(255,255,255,0.05); border-radius:12px; padding:12px; font-family: var(--font-mono); font-size:11px; color:rgba(255,255,255,0.7); }
+
+  /* Main */
+  .main { background: #F9FAFB; border-radius:24px 0 0 0; padding:28px 32px; overflow:hidden; }
+  .topbar { display:flex; align-items:center; gap:16px; margin-bottom:26px; }
+  .topbar .crumb { font-family: var(--font-mono); font-size:11px; color: var(--fg-muted); letter-spacing:0.06em; text-transform:uppercase; }
+  .topbar h1 { font-size:30px; margin:0; }
+  .search { margin-left:auto; background:white; border:1px solid var(--border-default); border-radius:10px; padding:10px 14px; min-width:280px; display:flex; align-items:center; gap:8px; color: var(--fg-muted); font-family: var(--font-mono); font-size:12px; }
+  .profile { width:40px; height:40px; border-radius:50%; background: var(--pb-navy-700); color:white; display:flex; align-items:center; justify-content:center; font-family: var(--font-display); font-weight:700; font-size:13px; }
+
+  /* KPI row */
+  .kpis { display:grid; grid-template-columns: repeat(4, 1fr); gap:14px; margin-bottom:20px; }
+  .kpi { background:white; border-radius:14px; padding:18px; box-shadow: 0 6px 16px rgba(11,43,71,0.08); }
+  .kpi .lbl { font-family: var(--font-mono); font-size:10px; color: var(--fg-muted); letter-spacing:0.08em; text-transform:uppercase; }
+  .kpi .val { font-family: var(--font-display); font-weight:800; font-size:34px; letter-spacing:-0.02em; color: var(--pb-navy-900); margin-top:4px; line-height:1.1; }
+  .kpi .trend { display:inline-flex; align-items:center; gap:4px; font-family: var(--font-display); font-weight:700; font-size:11px; margin-top:6px; padding:2px 8px; border-radius:999px; }
+  .trend.up { background:#DCFCE7; color:#166534; }
+  .trend.down { background:#FEE2E2; color:#991B1B; }
+  .trend.flat { background:#E5E7EB; color:#374151; }
+
+  /* Grid */
+  .grid { display:grid; grid-template-columns: 2fr 1fr; gap:14px; }
+  .card { background:white; border-radius:14px; padding:20px; box-shadow: 0 6px 16px rgba(11,43,71,0.08); }
+  .card h2 { font-size:18px; margin:0 0 14px; }
+  .card .sub { font-family: var(--font-body); font-size:12px; color: var(--fg-muted); margin-top:-10px; margin-bottom:14px; }
+
+  /* Chart */
+  .bars { display:flex; align-items:flex-end; gap:8px; height:170px; padding:4px 0; border-bottom:1px solid var(--border-default); }
+  .bar { flex:1; background: var(--pb-orange-500); border-radius:6px 6px 0 0; min-height:4px; position:relative; }
+  .bar .v { position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-family: var(--font-mono); font-size:10px; color: var(--pb-navy-900); font-weight:600; }
+  .bar.ghost { background: var(--pb-ice-100); }
+  .x-axis { display:flex; gap:8px; margin-top:8px; }
+  .x-axis div { flex:1; text-align:center; font-family: var(--font-mono); font-size:10px; color: var(--fg-muted); }
+
+  /* Donut */
+  .donut-row { display:flex; align-items:center; gap:16px; }
+  .donut { width:120px; height:120px; }
+  .legend { display:flex; flex-direction:column; gap:8px; flex:1; }
+  .legend .item { display:flex; align-items:center; gap:8px; font-size:12px; }
+  .legend .dot { width:10px; height:10px; border-radius:3px; }
+  .legend .v { margin-left:auto; font-family: var(--font-mono); font-weight:600; color: var(--pb-navy-900); }
+
+  /* Table */
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; padding:10px 12px; font-family: var(--font-mono); font-size:10px; color: var(--fg-muted); letter-spacing:0.06em; text-transform:uppercase; border-bottom:1px solid var(--border-default); font-weight:500; }
+  td { padding:12px; font-size:13px; color: var(--pb-ink-900); border-bottom:1px solid #F3F4F6; }
+  td .apt { font-family: var(--font-display); font-weight:700; color: var(--pb-navy-900); }
+  .pin { font-family: var(--font-mono); font-weight:700; letter-spacing:0.1em; color: var(--pb-navy-900); }
+  .badge { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:999px; font-family: var(--font-display); font-weight:700; font-size:10px; }
+  .badge .d { width:5px; height:5px; border-radius:50%; }
+  .b-wait { background:#FFEDD5; color:#9A3412; } .b-wait .d { background:#F97316; }
+  .b-done { background:#DCFCE7; color:#166534; } .b-done .d { background:#16A34A; }
+  .b-proc { background:#FEF3C7; color:#92400E; } .b-proc .d { background:#D97706; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><img src="../../assets/logo-portabox-mark.svg"><div class="t">PortaBox</div></div>
+    <div class="nav">
+      <a class="active">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>
+        Encomendas
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 4-7 8-7s8 3 8 7"/></svg>
+        Moradores
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg>
+        Prédios
+      </a>
+      <div class="lbl">Operação</div>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg>
+        Auditoria
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3h0a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8v0a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
+        Configurações
+      </a>
+    </div>
+    <div class="side-foot">
+      <div style="font-family: var(--font-display); font-weight:700; color:white;">Vista Verde</div>
+      3 torres · 184 unidades
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="crumb">Condomínio Vista Verde</div>
+        <h1>Visão geral</h1>
+      </div>
+      <div class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        Buscar encomenda, morador, PIN…
+      </div>
+      <div class="profile">MS</div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="lbl">Aguardando retirada</div>
+        <div class="val">12</div>
+        <span class="trend down">▼ 8% vs. ontem</span>
+      </div>
+      <div class="kpi">
+        <div class="lbl">Entregues hoje</div>
+        <div class="val">27</div>
+        <span class="trend up">▲ 14% vs. ontem</span>
+      </div>
+      <div class="kpi">
+        <div class="lbl">Tempo médio de retirada</div>
+        <div class="val">4h 12m</div>
+        <span class="trend flat">≈ igual</span>
+      </div>
+      <div class="kpi">
+        <div class="lbl">Precisão do OCR</div>
+        <div class="val">98,2%</div>
+        <span class="trend up">▲ 0,4 pt</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Encomendas por dia</h2>
+        <div class="sub">Últimos 7 dias · seg–dom</div>
+        <div class="bars">
+          <div class="bar" style="height:55%"><span class="v">22</span></div>
+          <div class="bar" style="height:78%"><span class="v">31</span></div>
+          <div class="bar" style="height:62%"><span class="v">25</span></div>
+          <div class="bar" style="height:90%"><span class="v">36</span></div>
+          <div class="bar" style="height:72%"><span class="v">29</span></div>
+          <div class="bar" style="height:48%"><span class="v">19</span></div>
+          <div class="bar ghost" style="height:68%"><span class="v">27</span></div>
+        </div>
+        <div class="x-axis">
+          <div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div><div>Hoje</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Canais de aviso</h2>
+        <div class="sub">Abril · 184 notificações</div>
+        <div class="donut-row">
+          <svg class="donut" viewBox="0 0 42 42">
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#E5E7EB" stroke-width="6"/>
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#F97316" stroke-width="6" stroke-dasharray="72 100" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#1E3A8A" stroke-width="6" stroke-dasharray="18 100" stroke-dashoffset="-47" transform="rotate(-90 21 21)"/>
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#6B7280" stroke-width="6" stroke-dasharray="10 100" stroke-dashoffset="-65" transform="rotate(-90 21 21)"/>
+          </svg>
+          <div class="legend">
+            <div class="item"><span class="dot" style="background:#F97316"></span>WhatsApp <span class="v">72%</span></div>
+            <div class="item"><span class="dot" style="background:#1E3A8A"></span>Email <span class="v">18%</span></div>
+            <div class="item"><span class="dot" style="background:#6B7280"></span>SMS <span class="v">10%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h2>Últimas encomendas</h2>
+      <table>
+        <thead><tr>
+          <th>Apto</th><th>Morador</th><th>Transportadora</th><th>PIN</th><th>Canal</th><th>Status</th><th>Recebida</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><span class="apt">0701</span></td><td>João Mendes</td><td>Amazon</td><td class="pin">4829</td><td>WhatsApp</td><td><span class="badge b-wait"><span class="d"></span>Aguardando</span></td><td>hoje, 14:32</td></tr>
+          <tr><td><span class="apt">0402</span></td><td>Ana Lima</td><td>Mercado Livre</td><td class="pin">7731</td><td>WhatsApp</td><td><span class="badge b-wait"><span class="d"></span>Aguardando</span></td><td>hoje, 14:18</td></tr>
+          <tr><td><span class="apt">1105</span></td><td>Pedro Santos</td><td>Shopee</td><td class="pin">2204</td><td>SMS</td><td><span class="badge b-done"><span class="d"></span>Entregue</span></td><td>hoje, 13:55</td></tr>
+          <tr><td><span class="apt">0807</span></td><td>Beatriz Nunes</td><td>Magalu</td><td class="pin">5612</td><td>WhatsApp</td><td><span class="badge b-done"><span class="d"></span>Entregue</span></td><td>hoje, 12:58</td></tr>
+          <tr><td><span class="apt">0305</span></td><td>Marina Costa</td><td>Shopee</td><td class="pin">9043</td><td>Email</td><td><span class="badge b-proc"><span class="d"></span>IA processando</span></td><td>hoje, 12:40</td></tr>
+          <tr><td><span class="apt">1202</span></td><td>Ricardo Paz</td><td>Mercado Livre</td><td class="pin">6188</td><td>WhatsApp</td><td><span class="badge b-wait"><span class="d"></span>Aguardando</span></td><td>hoje, 11:22</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-app);}
+  .wrap{padding:22px 24px;display:grid;grid-template-columns:repeat(6,1fr);gap:18px 14px;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .icon{width:40px;height:40px;color:var(--pb-navy-700);display:flex;align-items:center;justify-content:center;}
+  .icon svg{width:28px;height:28px;stroke-width:2;}
+  .lbl{font-family:var(--font-mono);font-size:10px;color:var(--fg-muted);}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="cell"><div class="icon"><i data-lucide="package"></i></div><div class="lbl">package</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="package-check"></i></div><div class="lbl">delivered</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="scan-line"></i></div><div class="lbl">scan</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="camera"></i></div><div class="lbl">capture</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="bell"></i></div><div class="lbl">notify</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="key-round"></i></div><div class="lbl">PIN</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="building-2"></i></div><div class="lbl">condo</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="users"></i></div><div class="lbl">residents</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="shield-check"></i></div><div class="lbl">audit</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="clock"></i></div><div class="lbl">pending</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="check-circle-2"></i></div><div class="lbl">success</div></div>
+  <div class="cell"><div class="icon"><i data-lucide="message-circle"></i></div><div class="lbl">message</div></div>
+</div>
+<script>lucide.createIcons();</script>
+</body></html>

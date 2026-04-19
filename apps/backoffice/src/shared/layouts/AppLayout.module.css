@@ -1,0 +1,28 @@
+.layout {
+  min-height: 100vh;
+  background: var(--bg-app);
+  display: grid;
+  grid-template-rows: 56px 1fr;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 0;
+}
+
+.main {
+  padding: 32px 40px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .main {
+    padding: 24px 20px;
+  }
+}

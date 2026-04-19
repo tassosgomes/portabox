@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>PortaBox — Resident Notifications</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  body { margin:0; background: var(--bg-app); min-height:100vh; padding:40px 20px; font-family: var(--font-body); }
+  h1 { margin:0 0 4px; font-size:28px; color: var(--pb-navy-900); font-family: var(--font-display); letter-spacing:-0.02em; }
+  .caption { font-family: var(--font-mono); font-size:11px; color: var(--fg-muted); margin-bottom:32px; }
+  .stage { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+  .device { width:300px; height:620px; border-radius:40px; background:#111; padding:12px; box-shadow: 0 30px 60px rgba(11,43,71,0.18); }
+  .screen { width:100%; height:100%; border-radius:30px; overflow:hidden; position:relative; }
+
+  /* WhatsApp */
+  .wa { background:#E5DDD5 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='20' cy='20' r='1.5' fill='%23d6cec3' opacity='0.4'/></svg>"); }
+  .wa-hdr { background:#075E54; color:white; padding:34px 12px 10px; display:flex; align-items:center; gap:10px; }
+  .wa-hdr .back { font-size:20px; }
+  .wa-hdr .avatar { width:34px; height:34px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:14px; font-family: var(--font-display); }
+  .wa-hdr .name { font-weight:600; font-size:15px; }
+  .wa-hdr .sub { font-size:11px; opacity:0.7; }
+  .wa-body { padding:14px 10px; display:flex; flex-direction:column; gap:6px; overflow:hidden; height: calc(100% - 60px); }
+  .wa-bubble { align-self:flex-start; max-width:86%; background:white; border-radius:7px 7px 7px 0; padding:8px 10px 6px; box-shadow: 0 1px 0.5px rgba(0,0,0,0.13); font-size:13.5px; color:#111; line-height:1.4; }
+  .wa-bubble .ctx { font-weight:600; color:#075E54; font-size:12px; margin-bottom:3px; }
+  .wa-time { font-size:10px; color:#8696a0; float:right; margin-top:4px; margin-left:6px; }
+  .pin { font-family: var(--font-mono); font-weight:700; letter-spacing:0.1em; background:#FEF3E9; color:#9A3412; padding:1px 5px; border-radius:3px; }
+
+  /* iOS SMS */
+  .sms { background:white; }
+  .sms-hdr { padding:50px 12px 12px; display:flex; flex-direction:column; align-items:center; gap:4px; border-bottom:1px solid #e5e5ea; }
+  .sms-hdr .circle { width:48px; height:48px; border-radius:50%; background:#FEF3E9; display:flex; align-items:center; justify-content:center; font-weight:700; color:#EA580C; font-family: var(--font-display); font-size:16px; }
+  .sms-hdr .name { font-size:12px; font-weight:500; color:#333; }
+  .sms-body { padding:16px 12px; display:flex; flex-direction:column; gap:4px; }
+  .sms-bubble { align-self:flex-start; max-width:80%; background:#E9E9EB; border-radius:18px; padding:8px 13px; font-size:13px; color:#000; line-height:1.4; }
+  .sms-time { text-align:center; font-size:10px; color:#8e8e93; margin:8px 0; }
+  .sms-sender { text-align:center; font-size:10px; color:#8e8e93; font-weight:500; margin-bottom:4px; }
+
+  /* Email */
+  .em { background:white; display:flex; flex-direction:column; }
+  .em-hdr { padding:40px 14px 12px; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px; font-family: var(--font-display); }
+  .em-hdr .logo { width:32px; height:32px; }
+  .em-hdr .brand { font-weight:800; font-size:14px; color: var(--pb-navy-900); }
+  .em-body { padding:18px 16px; flex:1; overflow:hidden; }
+  .em-from { font-size:11px; color:#666; margin-bottom:6px; font-family: var(--font-mono); }
+  .em-subj { font-family: var(--font-display); font-weight:700; font-size:17px; color: var(--pb-navy-900); letter-spacing:-0.01em; margin-bottom:12px; line-height:1.2; }
+  .em-p { font-size:13px; color:#222; line-height:1.55; margin:0 0 10px; }
+  .em-pin-card { background:#FEF3E9; border-radius:12px; padding:14px; text-align:center; margin:14px 0; }
+  .em-pin-card .lbl { font-family: var(--font-display); font-weight:800; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#9A3412; }
+  .em-pin-card .pin { font-family: var(--font-mono); font-weight:700; font-size:36px; letter-spacing:0.18em; color: var(--pb-navy-900); margin-top:4px; }
+  .em-cta { display:block; text-align:center; background: var(--pb-navy-900); color:white; padding:11px; border-radius:8px; font-family: var(--font-display); font-weight:700; font-size:13px; text-decoration:none; }
+
+  .lbl { margin-top:12px; font-family: var(--font-mono); font-size:11px; color: var(--fg-muted); text-align:center; }
+  .col { display:flex; flex-direction:column; align-items:center; }
+
+  /* Dynamic island */
+  .island { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:90px; height:24px; border-radius:16px; background:#000; z-index:50; }
+</style>
+</head>
+<body>
+<div style="max-width:1100px; margin:0 auto;">
+  <h1>Notificação ao morador</h1>
+  <div class="caption">Três canais · uma mensagem · um PIN</div>
+
+  <div class="stage">
+    <div class="col">
+      <div class="device"><div class="screen wa">
+        <div class="island"></div>
+        <div class="wa-hdr">
+          <span class="back">‹</span>
+          <div class="avatar">P</div>
+          <div>
+            <div class="name">Portaria · Vista Verde</div>
+            <div class="sub">online</div>
+          </div>
+        </div>
+        <div class="wa-body">
+          <div class="wa-bubble">
+            <div class="ctx">PortaBox</div>
+            Olá, João! 📦 Chegou uma encomenda para você aqui na portaria. Para retirar, basta informar este PIN ao porteiro: <span class="pin">4829</span>. Te esperamos!
+            <span class="wa-time">14:34 ✓✓</span>
+          </div>
+          <div class="wa-bubble">
+            <div class="ctx">PortaBox</div>
+            Obrigada, João! Sua encomenda foi entregue às 18:12. ✅
+            <span class="wa-time">18:12 ✓✓</span>
+          </div>
+        </div>
+      </div></div>
+      <div class="lbl">WhatsApp · primário</div>
+    </div>
+
+    <div class="col">
+      <div class="device"><div class="screen sms">
+        <div class="island"></div>
+        <div class="sms-hdr">
+          <div class="circle">PB</div>
+          <div class="name">PortaBox</div>
+        </div>
+        <div class="sms-body">
+          <div class="sms-time">hoje 14:34</div>
+          <div class="sms-sender">Mensagem de texto</div>
+          <div class="sms-bubble">PortaBox: Olá João! Uma encomenda aguarda você na portaria. PIN de retirada: <b>4829</b>. Válido por 7 dias.</div>
+        </div>
+      </div></div>
+      <div class="lbl">SMS · fallback</div>
+    </div>
+
+    <div class="col">
+      <div class="device"><div class="screen em">
+        <div class="island"></div>
+        <div class="em-hdr">
+          <img class="logo" src="../../assets/logo-portabox-mark.svg">
+          <div class="brand">PortaBox</div>
+        </div>
+        <div class="em-body">
+          <div class="em-from">portaria@vistaverde.portabox.app</div>
+          <div class="em-subj">Sua encomenda chegou</div>
+          <p class="em-p">Olá, João. Recebemos uma encomenda da <b>Amazon</b> para você na portaria do Vista Verde.</p>
+          <div class="em-pin-card">
+            <div class="lbl">PIN de retirada</div>
+            <div class="pin">4829</div>
+          </div>
+          <p class="em-p" style="font-size:12px; color:#666;">Retire no horário da portaria: seg–sex 8h às 22h.</p>
+          <a class="em-cta" href="#">Ver detalhes da encomenda →</a>
+        </div>
+      </div></div>
+      <div class="lbl">Email · secundário</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

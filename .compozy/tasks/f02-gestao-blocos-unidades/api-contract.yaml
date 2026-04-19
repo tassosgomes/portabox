@@ -1,0 +1,819 @@
+openapi: 3.1.0
+
+info:
+  title: "PortaBox — F02 Gestão de Blocos e Unidades API"
+  description: |
+    API da feature F02 do domínio D01 — Gestão do Condomínio da plataforma PortaBox.
+    Expõe CRUD soft-delete de Bloco e Unidade e leitura da árvore hierárquica do condomínio.
+
+    **Contrato derivado de:**
+    - PRD: `.compozy/tasks/f02-gestao-blocos-unidades/_prd.md`
+    - TechSpec: `.compozy/tasks/f02-gestao-blocos-unidades/_techspec.md` (ADR-009)
+    - Data de geração: 2026-04-18
+
+    ## Premissas Adotadas
+
+    - **Autenticação:** JWT Bearer emitido por ASP.NET Core Identity (baseline de F01, ADR-005). Claim `tenant_id` + role (`Sindico` ou `Operator`).
+    - **Versionamento:** `/api/v1` como prefixo global (convenção de F01). Breaking changes incrementam major version no path.
+    - **Case JSON:** `camelCase` em todos os payloads (request e response), default do System.Text.Json.
+    - **Idioma:** mensagens de erro (`title`, `detail` do ProblemDetails) em pt-BR; `operationId`, paths e nomes de campos em en/camelCase.
+    - **Formato de erros:** RFC 7807 ProblemDetails (`application/problem+json`). 400 com erros de validação usa extensão `errors` por campo.
+    - **Paginação:** não aplicável em F02 — árvore completa retornada em uma chamada (ADR-009).
+    - **Datas:** ISO 8601 UTC (ex.: `2026-04-18T12:34:56Z`).
+    - **IDs:** UUID v4 como string.
+    - **Custom verbs:** `:inativar` e `:reativar` seguindo convenção Google AIP para ações que não mapeiam bem em verbos HTTP REST puros.
+    - **Cross-tenant:** síndico só acessa seu próprio tenant (middleware); operador acessa qualquer tenant via rota `/admin/...` passando `condominioId` explícito.
+
+  version: "1.0.0"
+  contact:
+    name: "Equipe PortaBox"
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Desenvolvimento local
+  - url: https://staging.portabox.app/api/v1
+    description: Staging (provisório)
+  - url: https://api.portabox.app/api/v1
+    description: Produção (provisório)
+
+# ─── Segurança Global ────────────────────────────────────────────────────────
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Estrutura
+    description: "Leitura da árvore hierárquica do condomínio (blocos → andares → unidades)"
+  - name: Blocos
+    description: "CRUD soft-delete de Bloco (síndico)"
+  - name: Unidades
+    description: "CRUD soft-delete de Unidade (síndico). Unidade é imutável após criação (ADR-003)."
+  - name: Admin
+    description: "Leitura cross-tenant para operadores da plataforma em modo read-only (ADR-005)"
+
+# ─── Paths ───────────────────────────────────────────────────────────────────
+paths:
+
+  # ── SÍNDICO — Estrutura (leitura) ──────────────────────────────────────────
+  /condominios/{condominioId}/estrutura:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+    get:
+      summary: Ler árvore de estrutura (síndico)
+      description: |
+        Retorna a árvore hierárquica completa do condomínio: blocos → andares → unidades.
+        Agrupamento e ordenação feitos no servidor (blocos alfabético; andares numérico; unidades por andar + número semântico).
+        Apenas o síndico do tenant pode consumir este endpoint.
+      operationId: getEstrutura
+      tags:
+        - Estrutura
+      parameters:
+        - $ref: "#/components/parameters/IncludeInactive"
+      responses:
+        "200":
+          description: Árvore retornada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Estrutura"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      x-frontend-notes: "Use TanStack Query com key queryKeys.estrutura(condominioId) e staleTime 30s. Invalidar após qualquer mutação de Bloco ou Unidade (ADR-010)."
+      x-backend-notes: "Consulta única com JOIN bloco×unidade; agrupamento em memória. Métrica portabox_estrutura_tree_fetch_duration_seconds."
+
+  # ── SÍNDICO — Blocos ───────────────────────────────────────────────────────
+  /condominios/{condominioId}/blocos:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+    post:
+      summary: Criar bloco
+      description: |
+        Cria um novo bloco vinculado ao condomínio. Nome único entre blocos ativos do tenant.
+        Unicidade enforced via partial unique index no Postgres (ADR-007).
+      operationId: criarBloco
+      tags:
+        - Blocos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBlocoRequest"
+      responses:
+        "201":
+          description: Bloco criado com sucesso
+          headers:
+            Location:
+              description: URI do bloco criado
+              schema:
+                type: string
+                example: "/api/v1/condominios/550e8400-e29b-41d4-a716-446655440000/blocos/aa111111-2222-3333-4444-555555555555"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bloco"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      x-frontend-notes: "Mostrar toast de 409 sugerindo reativação se bloco inativo com mesmo nome existir. Optimistic update: inserir nó temporário antes do round-trip."
+      x-backend-notes: "Verificar ExistsActiveWithNameAsync antes do Add; capturar DbUpdateException para converter race condition em 409 limpo."
+
+  /condominios/{condominioId}/blocos/{blocoId}:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+      - $ref: "#/components/parameters/BlocoId"
+    patch:
+      summary: Renomear bloco
+      description: |
+        Altera o nome de exibição do bloco. Apenas o nome é editável (ADR-003);
+        unidades vinculadas permanecem intactas. Novo nome deve ser distinto do atual
+        e único entre blocos ativos do tenant.
+      operationId: renomearBloco
+      tags:
+        - Blocos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RenameBlocoRequest"
+      responses:
+        "200":
+          description: Bloco renomeado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bloco"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /condominios/{condominioId}/blocos/{blocoId}:inativar:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+      - $ref: "#/components/parameters/BlocoId"
+    post:
+      summary: Inativar bloco
+      description: |
+        Executa soft-delete do bloco. Sem cascata no MVP — unidades ativas permanecem e
+        precisam ser inativadas separadamente. Criação de novas unidades no bloco passa
+        a ser bloqueada (422).
+      operationId: inativarBloco
+      tags:
+        - Blocos
+      responses:
+        "200":
+          description: Bloco inativado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bloco"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /condominios/{condominioId}/blocos/{blocoId}:reativar:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+      - $ref: "#/components/parameters/BlocoId"
+    post:
+      summary: Reativar bloco
+      description: |
+        Reverte inativação. Rejeita com 409 se já existir outro bloco ativo com o mesmo
+        nome no tenant (conflito canônico; partial unique index).
+      operationId: reativarBloco
+      tags:
+        - Blocos
+      responses:
+        "200":
+          description: Bloco reativado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bloco"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  # ── SÍNDICO — Unidades ─────────────────────────────────────────────────────
+  /condominios/{condominioId}/blocos/{blocoId}/unidades:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+      - $ref: "#/components/parameters/BlocoId"
+    post:
+      summary: Criar unidade
+      description: |
+        Cria uma nova unidade no bloco indicado. Bloco deve estar ativo (caso contrário 422).
+        A tripla (blocoId, andar, numero) deve ser única entre unidades ativas do tenant.
+        Número é normalizado para caixa alta no servidor (ADR-002).
+      operationId: criarUnidade
+      tags:
+        - Unidades
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUnidadeRequest"
+      responses:
+        "201":
+          description: Unidade criada com sucesso
+          headers:
+            Location:
+              description: URI da unidade criada
+              schema:
+                type: string
+                example: "/api/v1/condominios/550e8400.../blocos/aa111111.../unidades/bb222222..."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unidade"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      x-frontend-notes: "Normalizar numero para caixa alta antes do submit; UX de rajada mantém modal aberto após sucesso (ADR-001)."
+
+  /condominios/{condominioId}/blocos/{blocoId}/unidades/{unidadeId}:inativar:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+      - $ref: "#/components/parameters/BlocoId"
+      - $ref: "#/components/parameters/UnidadeId"
+    post:
+      summary: Inativar unidade
+      description: |
+        Soft-delete de unidade. Moradores associados permanecem vinculados — gestão de
+        moradores é responsabilidade de F03.
+      operationId: inativarUnidade
+      tags:
+        - Unidades
+      responses:
+        "200":
+          description: Unidade inativada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unidade"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /condominios/{condominioId}/blocos/{blocoId}/unidades/{unidadeId}:reativar:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+      - $ref: "#/components/parameters/BlocoId"
+      - $ref: "#/components/parameters/UnidadeId"
+    post:
+      summary: Reativar unidade
+      description: |
+        Reverte inativação. Rejeita com 409 se já existir outra unidade ativa com a mesma
+        tripla (bloco, andar, número) no tenant. Exige que o bloco alvo esteja ativo (422 caso contrário).
+      operationId: reativarUnidade
+      tags:
+        - Unidades
+      responses:
+        "200":
+          description: Unidade reativada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unidade"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  # ── ADMIN — Leitura cross-tenant (operador) ────────────────────────────────
+  /admin/condominios/{condominioId}/estrutura:
+    parameters:
+      - $ref: "#/components/parameters/CondominioId"
+    get:
+      summary: Ler estrutura de qualquer tenant (operador)
+      description: |
+        Mesmo shape de resposta de `GET /condominios/{id}/estrutura`, porém acessível por operadores
+        da plataforma (role `Operator`) em qualquer tenant, sem capacidade de escrita (ADR-005).
+        O `condominioId` no path é usado como tenant explícito.
+      operationId: getEstruturaAdmin
+      tags:
+        - Admin
+        - Estrutura
+      parameters:
+        - $ref: "#/components/parameters/IncludeInactive"
+      responses:
+        "200":
+          description: Árvore retornada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Estrutura"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      x-frontend-notes: "Query key separada queryKeys.estruturaAdmin(condominioId) para isolar cache do cache de síndico. UI renderiza sem botões de ação (read-only)."
+      x-backend-notes: "Handler aplica ITenantContext.BeginScope(condominioId) explicitamente (middleware não aplica scope para Operator)."
+
+# ─── Components ──────────────────────────────────────────────────────────────
+components:
+
+  # Parâmetros compartilhados
+  parameters:
+    CondominioId:
+      name: condominioId
+      in: path
+      required: true
+      description: Identificador único do condomínio (tenant)
+      schema:
+        type: string
+        format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440000"
+    BlocoId:
+      name: blocoId
+      in: path
+      required: true
+      description: Identificador único do bloco
+      schema:
+        type: string
+        format: uuid
+        example: "aa111111-2222-3333-4444-555555555555"
+    UnidadeId:
+      name: unidadeId
+      in: path
+      required: true
+      description: Identificador único da unidade
+      schema:
+        type: string
+        format: uuid
+        example: "bb222222-3333-4444-5555-666666666666"
+    IncludeInactive:
+      name: includeInactive
+      in: query
+      required: false
+      description: Quando `true`, inclui blocos e unidades inativos na resposta. Default `false`.
+      schema:
+        type: boolean
+        default: false
+        example: false
+
+  # Segurança
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Token JWT emitido por ASP.NET Core Identity (baseline F01).
+        Claims relevantes:
+        - `sub` — user id
+        - `tenant_id` — tenant do usuário (apenas síndico; operador não tem escopo fixo)
+        - `role` — `Sindico` ou `Operator`
+
+  # Respostas reutilizáveis (RFC 7807 ProblemDetails)
+  responses:
+    BadRequest:
+      description: Requisição inválida — erro de validação de campos
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ValidationProblemDetails"
+          example:
+            type: "https://portabox.app/problems/validation-error"
+            title: "Falha de validação"
+            status: 400
+            detail: "Um ou mais campos estão inválidos"
+            instance: "/api/v1/condominios/550e8400-e29b-41d4-a716-446655440000/blocos"
+            errors:
+              nome:
+                - "O nome é obrigatório"
+
+    Unauthorized:
+      description: Não autenticado — token ausente, expirado ou inválido
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+          example:
+            type: "https://portabox.app/problems/unauthorized"
+            title: "Não autorizado"
+            status: 401
+            detail: "Token de autenticação inválido ou expirado"
+
+    Forbidden:
+      description: Autenticado mas sem permissão para a operação (role errada ou tenant alheio)
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+          example:
+            type: "https://portabox.app/problems/forbidden"
+            title: "Acesso negado"
+            status: 403
+            detail: "Você não tem permissão para executar esta operação"
+
+    NotFound:
+      description: Recurso não encontrado (ou existente em outro tenant — mesma resposta para não vazar existência)
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+          example:
+            type: "https://portabox.app/problems/not-found"
+            title: "Recurso não encontrado"
+            status: 404
+            detail: "Bloco não encontrado"
+
+    Conflict:
+      description: Conflito de estado — unicidade canônica violada em criação ou reativação
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+          example:
+            type: "https://portabox.app/problems/canonical-conflict"
+            title: "Conflito canônico"
+            status: 409
+            detail: "Já existe unidade ativa para Bloco A / Andar 2 / Apto 201. Inative-a antes de reativar esta."
+
+    UnprocessableEntity:
+      description: |
+        Requisição bem formada mas impossível de processar por estado atual:
+        - Tentativa de inativar entidade já inativa
+        - Tentativa de reativar entidade já ativa
+        - Tentativa de criar unidade em bloco inativo
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+          example:
+            type: "https://portabox.app/problems/invalid-transition"
+            title: "Transição inválida"
+            status: 422
+            detail: "Não é possível criar unidade em bloco inativo. Reative o bloco antes."
+
+    InternalServerError:
+      description: Erro interno inesperado
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+          example:
+            type: "https://portabox.app/problems/internal-error"
+            title: "Erro interno do servidor"
+            status: 500
+            detail: "Ocorreu um erro inesperado. Tente novamente mais tarde."
+            traceId: "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+
+  # Schemas
+  schemas:
+
+    # ── Entidades da árvore (leitura) ────────────────────────────────────────
+    Estrutura:
+      type: object
+      description: "Árvore hierárquica completa do condomínio"
+      required:
+        - condominioId
+        - nomeFantasia
+        - blocos
+        - geradoEm
+      properties:
+        condominioId:
+          type: string
+          format: uuid
+          description: Identificador do condomínio
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        nomeFantasia:
+          type: string
+          description: Nome de exibição do condomínio
+          example: "Condomínio Residencial Alfa"
+        blocos:
+          type: array
+          description: Blocos do condomínio. Ordenados alfabeticamente pelo nome.
+          items:
+            $ref: "#/components/schemas/BlocoNode"
+        geradoEm:
+          type: string
+          format: date-time
+          description: Timestamp da geração da resposta (ISO 8601 UTC)
+          example: "2026-04-18T12:34:56Z"
+
+    BlocoNode:
+      type: object
+      description: "Nó de bloco dentro da árvore de estrutura"
+      required:
+        - id
+        - nome
+        - ativo
+        - andares
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Identificador do bloco
+          example: "aa111111-2222-3333-4444-555555555555"
+        nome:
+          type: string
+          description: Nome de exibição
+          example: "Bloco A"
+        ativo:
+          type: boolean
+          description: Status do bloco. Inativos só aparecem quando `includeInactive=true`.
+          example: true
+        andares:
+          type: array
+          description: Andares do bloco, ordenados numericamente crescente
+          items:
+            $ref: "#/components/schemas/AndarNode"
+
+    AndarNode:
+      type: object
+      description: "Agrupamento interno de unidades por andar dentro de um bloco"
+      required:
+        - andar
+        - unidades
+      properties:
+        andar:
+          type: integer
+          minimum: 0
+          description: Número do andar (0 = térreo)
+          example: 2
+        unidades:
+          type: array
+          description: Unidades do andar, ordenadas semanticamente (parte numérica primeiro, depois sufixo alfabético)
+          items:
+            $ref: "#/components/schemas/UnidadeLeaf"
+
+    UnidadeLeaf:
+      type: object
+      description: "Folha de unidade dentro da árvore de estrutura"
+      required:
+        - id
+        - numero
+        - ativo
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Identificador da unidade
+          example: "bb222222-3333-4444-5555-666666666666"
+        numero:
+          type: string
+          description: "Número da unidade; aceita sufixo alfabético maiúsculo (regex `^[0-9]{1,4}[A-Z]?$`)"
+          example: "201A"
+        ativo:
+          type: boolean
+          description: Status da unidade
+          example: true
+
+    # ── Entidades de mutação (response) ──────────────────────────────────────
+    Bloco:
+      type: object
+      description: "Bloco (response de mutações — Create/Rename/Inativar/Reativar)"
+      required:
+        - id
+        - condominioId
+        - nome
+        - ativo
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Identificador do bloco
+          example: "aa111111-2222-3333-4444-555555555555"
+        condominioId:
+          type: string
+          format: uuid
+          description: Condomínio ao qual o bloco pertence
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        nome:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Nome de exibição (mutável via `PATCH`)
+          example: "Bloco A"
+        ativo:
+          type: boolean
+          description: Status do bloco
+          example: true
+        inativadoEm:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp de inativação; `null` quando ativo
+          example: null
+
+    Unidade:
+      type: object
+      description: "Unidade (response de mutações — Create/Inativar/Reativar). Imutável após criação (ADR-003)."
+      required:
+        - id
+        - blocoId
+        - andar
+        - numero
+        - ativo
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Identificador da unidade
+          example: "bb222222-3333-4444-5555-666666666666"
+        blocoId:
+          type: string
+          format: uuid
+          description: Bloco ao qual a unidade pertence
+          example: "aa111111-2222-3333-4444-555555555555"
+        andar:
+          type: integer
+          minimum: 0
+          description: Andar (imutável após criação)
+          example: 2
+        numero:
+          type: string
+          minLength: 1
+          maxLength: 5
+          pattern: "^[0-9]{1,4}[A-Z]?$"
+          description: "Número canônico (imutável após criação). Caixa alta."
+          example: "201A"
+        ativo:
+          type: boolean
+          description: Status da unidade
+          example: true
+        inativadoEm:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp de inativação; `null` quando ativa
+          example: null
+
+    # ── Requests ─────────────────────────────────────────────────────────────
+    CreateBlocoRequest:
+      type: object
+      required:
+        - nome
+      properties:
+        nome:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: "Nome do bloco (único entre ativos do tenant; trim aplicado no servidor)"
+          example: "Bloco A"
+
+    RenameBlocoRequest:
+      type: object
+      required:
+        - nome
+      properties:
+        nome:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: "Novo nome; deve ser distinto do atual e único entre ativos do tenant"
+          example: "Torre Alfa"
+
+    CreateUnidadeRequest:
+      type: object
+      required:
+        - andar
+        - numero
+      properties:
+        andar:
+          type: integer
+          minimum: 0
+          description: Andar da unidade (0 = térreo)
+          example: 2
+        numero:
+          type: string
+          minLength: 1
+          maxLength: 5
+          pattern: "^[0-9]{1,4}[A-Za-z]?$"
+          description: "Número da unidade. Aceita caixa mista no input; normalizado para caixa alta no servidor."
+          example: "201A"
+
+    # ── Erros (RFC 7807) ─────────────────────────────────────────────────────
+    ProblemDetails:
+      type: object
+      description: "Payload de erro RFC 7807 (application/problem+json)"
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          description: URI identificando o tipo do problema
+          example: "https://portabox.app/problems/canonical-conflict"
+        title:
+          type: string
+          description: Título curto em pt-BR (não muda entre ocorrências do mesmo `type`)
+          example: "Conflito canônico"
+        status:
+          type: integer
+          description: HTTP status code espelhado aqui para conveniência
+          example: 409
+        detail:
+          type: string
+          nullable: true
+          description: Descrição contextual em pt-BR sobre esta ocorrência específica
+          example: "Já existe unidade ativa para Bloco A / Andar 2 / Apto 201."
+        instance:
+          type: string
+          nullable: true
+          description: URI da ocorrência (path chamado)
+          example: "/api/v1/condominios/550e8400.../blocos/aa111111.../unidades"
+        traceId:
+          type: string
+          nullable: true
+          description: TraceId OpenTelemetry para correlação (presente em 5xx)
+          example: "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+
+    ValidationProblemDetails:
+      allOf:
+        - $ref: "#/components/schemas/ProblemDetails"
+        - type: object
+          description: "Variante de ProblemDetails para erros de validação (400) com erros por campo"
+          required:
+            - errors
+          properties:
+            errors:
+              type: object
+              description: "Erros agrupados por nome do campo. Cada campo lista uma ou mais mensagens em pt-BR."
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              example:
+                nome:
+                  - "O nome é obrigatório"
+                  - "O nome deve ter no máximo 50 caracteres"
+                andar:
+                  - "O andar deve ser maior ou igual a 0"

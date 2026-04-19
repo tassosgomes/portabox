@@ -1,0 +1,18 @@
+.page {
+  max-width: 640px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--pb-navy-900);
+  margin: 0 0 var(--sp-3);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--pb-neutral-500, #6b7280);
+  margin: 0;
+}

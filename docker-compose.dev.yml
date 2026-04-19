@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: portabox-postgres
+    environment:
+      POSTGRES_DB: portabox
+      POSTGRES_USER: portabox
+      POSTGRES_PASSWORD: portabox
+    ports:
+      - "5432:5432"
+    volumes:
+      - portabox-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portabox -d portabox"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    container_name: portabox-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: adminadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - portabox-minio-data:/data
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: portabox-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    volumes:
+      - portabox-mailhog-data:/maildir
+
+volumes:
+  portabox-postgres-data:
+  portabox-minio-data:
+  portabox-mailhog-data:
