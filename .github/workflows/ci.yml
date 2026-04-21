@@ -152,14 +152,15 @@ jobs:
           --health-cmd pg_isready --health-interval 5s --health-timeout 3s --health-retries 10
 
       minio:
-        image: minio/minio:RELEASE.2025-02-28T09-55-16Z
+        image: bitnami/minio:latest
         env:
           MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
+          MINIO_DEFAULT_BUCKETS: portabox-e2e
         ports:
           - 9000:9000
         options: >-
-          --health-cmd "curl -sf http://localhost:9000/minio/health/ready" --health-interval 5s --health-retries 10
+          --health-cmd "curl -sf http://localhost:9000/minio/health/live" --health-interval 5s --health-retries 10
 
       mailhog:
         image: mailhog/mailhog:v1.0.1
@@ -197,13 +198,6 @@ jobs:
 
       - name: Install Playwright browsers
         run: pnpm --filter @portabox/e2e exec playwright install --with-deps chromium
-
-      - name: Create MinIO bucket
-        run: |
-          curl -sf http://localhost:9000/minio/health/live && \
-          docker run --rm --network host \
-            -e MC_HOST_local=http://minioadmin:minioadmin@localhost:9000 \
-            minio/mc:latest mc mb local/portabox-e2e || true
 
       - name: Start API
         env:
