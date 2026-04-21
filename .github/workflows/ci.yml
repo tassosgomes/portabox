@@ -109,7 +109,7 @@ jobs:
       - name: Test sindico
         run: pnpm --filter @portabox/sindico test
 
-      - name: Build backoffice (for Playwright reuse)
+      - name: Build backoffice
         run: pnpm --filter @portabox/backoffice build
 
       - name: Copy functions/ into backoffice dist
@@ -133,121 +133,14 @@ jobs:
           name: sindico-dist
           path: apps/sindico/dist/
 
-  # ─── Playwright E2E smoke ────────────────────────────────────────────────────
-  playwright-smoke:
-    name: Playwright Smoke (E2E)
-    runs-on: ubuntu-latest
-    needs: [dotnet-tests, frontend-tests]
-
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: portabox_e2e
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready --health-interval 5s --health-timeout 3s --health-retries 10
-
-      minio:
-        image: bitnami/minio:latest
-        env:
-          MINIO_ROOT_USER: minioadmin
-          MINIO_ROOT_PASSWORD: minioadmin
-          MINIO_DEFAULT_BUCKETS: portabox-e2e
-        ports:
-          - 9000:9000
-        options: >-
-          --health-cmd "curl -sf http://localhost:9000/minio/health/live" --health-interval 5s --health-retries 10
-
-      mailhog:
-        image: mailhog/mailhog:v1.0.1
-        ports:
-          - 1025:1025
-          - 8025:8025
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 10
-
-      - name: Download backoffice build
-        uses: actions/download-artifact@v4
-        with:
-          name: backoffice-dist
-          path: apps/backoffice/dist/
-
-      - name: Install root + e2e deps
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: pnpm --filter @portabox/e2e exec playwright install --with-deps chromium
-
-      - name: Start API
-        env:
-          ConnectionStrings__Postgres: "Host=localhost;Port=5432;Database=portabox_e2e;Username=postgres;Password=postgres"
-          Storage__Provider: Minio
-          Storage__Endpoint: "http://localhost:9000"
-          Storage__BucketName: portabox-e2e
-          Storage__AccessKey: minioadmin
-          Storage__SecretKey: minioadmin
-          Storage__UseSsl: "false"
-          Storage__ForcePathStyle: "true"
-          Storage__Region: us-east-1
-          Email__Host: localhost
-          Email__Port: "1025"
-          Email__UseSsl: "false"
-          DomainEvents__Publisher__Enabled: "false"
-          CondominioMagicLink__SindicoAppBaseUrl: "http://localhost:4173"
-          ASPNETCORE_ENVIRONMENT: Development
-          ASPNETCORE_URLS: "http://localhost:5000"
-        run: |
-          dotnet run --project src/PortaBox.Api/PortaBox.Api.csproj -c Release --no-build &
-          echo "Waiting for API..."
-          until curl -sf http://localhost:5000/health/live; do sleep 2; done
-          echo "API ready."
-
-      - name: Start backoffice preview
-        run: |
-          pnpm --filter @portabox/backoffice preview --port 4173 &
-          until curl -sf http://localhost:4173; do sleep 1; done
-          echo "Backoffice ready."
-
-      - name: Run Playwright smoke
-        env:
-          PLAYWRIGHT_API_URL: "http://localhost:5000"
-          PLAYWRIGHT_APP_URL: "http://localhost:4173"
-          CI: "true"
-        run: pnpm --filter @portabox/e2e e2e
-
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: tests/e2e/playwright-report/
-
   # ─── Cloudflare Pages deploy ────────────────────────────────────────────────
+  # TODO: Adicionar workflow separado de E2E que rode Playwright contra a URL
+  # de preview do Cloudflare Pages apos cada deploy, em vez de duplicar a
+  # stack (Postgres + MinIO + MailHog + API .NET) aqui.
   deploy-backoffice:
     name: Deploy Backoffice (Cloudflare Pages)
     runs-on: ubuntu-latest
-    needs: [dotnet-tests, frontend-tests, playwright-smoke]
+    needs: [dotnet-tests, frontend-tests]
     if: >-
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' &&
@@ -288,7 +181,7 @@ jobs:
   deploy-sindico:
     name: Deploy Sindico (Cloudflare Pages)
     runs-on: ubuntu-latest
-    needs: [dotnet-tests, frontend-tests, playwright-smoke]
+    needs: [dotnet-tests, frontend-tests]
     if: >-
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' &&
