@@ -169,6 +169,7 @@ public sealed class TenantIsolationTests(PostgresDatabaseFixture fixture)
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(fixture.ConnectionString)
             .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning))
             .Options;
 
         return new TenantAwareTestDbContext(options, tenantContext);

@@ -1,0 +1,614 @@
+========================================
+API VALIDATION — CT-API-01: GET tenant details
+Timestamp: 2026-04-19T01:19:04Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+Auth: cookie portabox.auth
+--- RESPONSE ---
+Status: 200
+Body:
+{
+  "id": "f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5",
+  "nomeFantasia": "Residencial Teste QA",
+  "cnpjMasked": "****3000181",
+  "status": 1,
+  "createdAt": "2026-04-19T01:13:12.704495+00:00",
+  "activatedAt": null,
+  "enderecoLogradouro": "Rua das Flores",
+  "enderecoNumero": "123",
+  "enderecoComplemento": null,
+  "enderecoBairro": null,
+  "enderecoCidade": "Sao Paulo",
+  "enderecoUf": "SP",
+  "enderecoCep": null,
+  "administradoraNome": null,
+  "optIn": {
+    "dataAssembleia": "2026-03-01",
+    "quorumDescricao": "75%",
+    "signatarioNome": "Joao da Silva",
+    "signatarioCpfMasked": "***.982.247-**",
+    "dataTermo": "2026-03-01",
+    "registeredByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+    "registeredAt": "2026-04-19T01:13:12.705873+00:00"
+  },
+  "sindico": {
+    "id": "1c32c1f6-61da-4c4b-a8bf-fa4661934789",
+    "userId": "547b2417-fac5-4b3c-9cc8-69c855a95924",
+    "nomeCompleto": "Maria Oliveira",
+    "email": "sindico.qa@portabox.dev",
+    "celularMasked": "+55 11 9****-5678",
+    "status": 1,
+    "createdAt": "2026-04-19T01:13:12.705095+00:00"
+  },
+  "documentos": [],
+  "auditLog": [
+    {
+      "id": 1,
+      "eventKind": 1,
+      "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+      "occurredAt": "2026-04-19T01:13:12.70591+00:00",
+      "note": null,
+      "metadataJson": null
+    }
+  ],
+  "sindicoSenhaDefinida": false
+}
+[2026-04-19T01:20:49.814Z] === CT-01: Acessar painel de detalhes do tenant ===
+[2026-04-19T01:20:50.383Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:50.396Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:51.774Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:20:51.778Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:20:51.782Z] [BROWSER_ERROR] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:20:51.782Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:20:52.393Z] CT-01: Nome presente: false
+[2026-04-19T01:20:52.394Z] CT-01: Status pré-ativo presente: false
+[2026-04-19T01:20:52.394Z] CT-01: CNPJ presente: false
+[2026-04-19T01:20:52.395Z] CT-01: URL: http://localhost:5173/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+[2026-04-19T01:20:52.469Z] CT-01: FAIL — Nome: false, Status: false
+[2026-04-19T01:20:52.469Z] CT-01: Body snippet: 
+    
+    
+  
+
+
+[2026-04-19T01:20:51.214Z] === CT-02: Dados do opt-in exibidos ===
+[2026-04-19T01:20:51.750Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:51.762Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:53.128Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:20:53.131Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:20:53.134Z] [BROWSER_ERROR] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:20:53.135Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:20:53.717Z] CT-02: Seção opt-in/LGPD: false
+[2026-04-19T01:20:53.717Z] CT-02: Data assembleia: false
+[2026-04-19T01:20:53.718Z] CT-02: Quórum 75%: false
+[2026-04-19T01:20:53.718Z] CT-02: Signatário: false
+[2026-04-19T01:20:53.755Z] CT-02: FAIL — Quorum: false, Signatario: false
+[2026-04-19T01:20:53.755Z] CT-02: Body snippet: 
+    
+    
+  
+
+
+[2026-04-19T01:20:55.172Z] === CT-03: Situacao do primeiro sindico exibida ===
+[2026-04-19T01:20:55.715Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:55.725Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:56.779Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:21:08.133Z] === CT-04: Botao Ativar operacao requer confirmacao ===
+[2026-04-19T01:21:08.653Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:08.664Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:09.697Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:21:18.313Z] === CT-05 a CT-08: Ativacao go-live e validacoes ===
+[2026-04-19T01:21:18.844Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:18.855Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:19.943Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+========================================
+DB VALIDATION — CT-06-PRE: Status do tenant antes da ativacao
+Timestamp: 2026-04-19T01:22:32Z
+Query: SELECT id, status, activated_at FROM condominios WHERE id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5'
+Result: ERROR:  relation "condominios" does not exist
+LINE 1: SELECT id, status, activated_at FROM condominios WHERE id = ...
+                                             ^
+========================================
+DB VALIDATION — CT-06-PRE: Status do tenant antes da ativacao
+Timestamp: 2026-04-19T01:22:41Z
+Query: SELECT id, status, activated_at FROM condominio WHERE id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5'
+Result: f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5|1|
+========================================
+CT-05 API: Ativacao do tenant via POST :activate
+Timestamp: 2026-04-19T01:22:51Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5:activate
+Body: {"note": "Ativacao via QA test runner"}
+--- RESPONSE ---
+Status: 200
+Body:
+{
+  "condominioId": "f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5"
+}
+--- RESULTADO: PASS (HTTP 200) ---
+========================================
+DB VALIDATION — CT-06: Status apos ativacao
+Timestamp: 2026-04-19T01:22:57Z
+Query: SELECT id, status, activated_at FROM condominio WHERE id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5'
+Result: f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5|2|2026-04-19 01:22:51.638297+00
+========================================
+DB VALIDATION — CT-07: Registro de auditoria da ativacao
+Timestamp: 2026-04-19T01:23:04Z
+Query: SELECT id, event_kind, performed_by_user_id, occurred_at, note FROM tenant_audit_log WHERE condominio_id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5' ORDER BY id
+Result:
+ERROR:  column "condominio_id" does not exist
+LINE 1: ...id, occurred_at, note FROM tenant_audit_log WHERE condominio...
+                                                             ^
+========================================
+DB VALIDATION — CT-07: Registro de auditoria da ativacao
+Timestamp: 2026-04-19T01:23:12Z
+Query: SELECT id, event_kind, performed_by_user_id, occurred_at, note FROM tenant_audit_log WHERE tenant_id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5' ORDER BY id
+Result:
+1|1|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-19 01:13:12.70591+00|
+3|2|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-19 01:22:51.638297+00|Ativacao via QA test runner
+========================================
+API VALIDATION — CT-07-UI: GET tenant details apos ativacao
+Timestamp: 2026-04-19T01:23:23Z
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+Status: 200
+Body:
+{
+  "id": "f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5",
+  "nomeFantasia": "Residencial Teste QA",
+  "cnpjMasked": "****3000181",
+  "status": 2,
+  "createdAt": "2026-04-19T01:13:12.704495+00:00",
+  "activatedAt": "2026-04-19T01:22:51.638297+00:00",
+  "enderecoLogradouro": "Rua das Flores",
+  "enderecoNumero": "123",
+  "enderecoComplemento": null,
+  "enderecoBairro": null,
+  "enderecoCidade": "Sao Paulo",
+  "enderecoUf": "SP",
+  "enderecoCep": null,
+  "administradoraNome": null,
+  "optIn": {
+    "dataAssembleia": "2026-03-01",
+    "quorumDescricao": "75%",
+    "signatarioNome": "Joao da Silva",
+    "signatarioCpfMasked": "***.982.247-**",
+    "dataTermo": "2026-03-01",
+    "registeredByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+    "registeredAt": "2026-04-19T01:13:12.705873+00:00"
+  },
+  "sindico": {
+    "id": "1c32c1f6-61da-4c4b-a8bf-fa4661934789",
+    "userId": "547b2417-fac5-4b3c-9cc8-69c855a95924",
+    "nomeCompleto": "Maria Oliveira",
+    "email": "sindico.qa@portabox.dev",
+    "celularMasked": "+55 11 9****-5678",
+    "status": 1,
+    "createdAt": "2026-04-19T01:13:12.705095+00:00"
+  },
+  "documentos": [],
+  "auditLog": [
+    {
+      "id": 3,
+      "eventKind": 2,
+      "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+      "occurredAt": "2026-04-19T01:22:51.638297+00:00",
+      "note": "Ativacao via QA test runner",
+      "metadataJson": null
+    },
+    {
+      "id": 1,
+      "eventKind": 1,
+      "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+      "occurredAt": "2026-04-19T01:13:12.70591+00:00",
+      "note": null,
+      "metadataJson": null
+    }
+  ],
+  "sindicoSenhaDefinida": false
+}
+========================================
+CT-06: DB RESULTADO — Status apos ativacao
+Expected: status = 2 (Ativo), activated_at preenchido
+Actual: status = 2, activated_at = 2026-04-19 01:22:51.638297+00
+RESULTADO: PASS
+========================================
+CT-07: DB RESULTADO — Auditoria da ativacao
+Expected: entrada com event_kind = 2 (Activated), performed_by_user_id preenchido
+Actual: id=3, event_kind=2, performed_by_user_id=0dcbb805-e21e-4db3-a196-e6e456b3ea2d, occurred_at=2026-04-19 01:22:51.638297+00, note='Ativacao via QA test runner'
+RESULTADO: PASS
+========================================
+BUGS IDENTIFICADOS na UI (DetalhesCondominioPage):
+BUG-1: API retorna 'cnpjMasked', frontend espera 'cnpj' — causa crash 'Cannot read properties of undefined (reading replace)'
+BUG-2: API retorna 'signatarioCpfMasked', frontend espera 'signatarioCpf' (optIn.signatarioCpf)
+BUG-3: API retorna 'sindico.celularMasked', frontend espera 'sindico.celularE164'
+BUG-4: API retorna 'sindicoSenhaDefinida' no nivel raiz, frontend espera 'sindico.passwordDefined'
+BUG-5: API retorna 'auditLog[].performedByUserId', frontend espera 'auditLog[].performedByEmail'
+Resultado: A pagina de detalhes crasha completamente e exibe tela branca
+========================================
+CT-03/04/05 DIAG: Rate limiting status
+Timestamp: 2026-04-19T01:24:06Z
+Login attempt status: 429
+Body: Too many requests. Please retry after the indicated period.
+[2026-04-19T01:28:08.055Z] === CT-01: Acessar painel de detalhes do tenant ===
+[2026-04-19T01:28:08.605Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:08.615Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:06.915Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:28:18.038Z] === CT-02: Dados do opt-in exibidos ===
+[2026-04-19T01:28:18.540Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:18.550Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:19.601Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:28:30.762Z] === CT-03: Situacao do primeiro sindico exibida ===
+[2026-04-19T01:28:31.297Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:31.307Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:32.350Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:28:40.788Z] === CT-04: Botao Ativar operacao requer confirmacao ===
+[2026-04-19T01:28:41.290Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:41.301Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:42.332Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:28:53.485Z] === CT-05 a CT-08: Ativacao go-live e validacoes ===
+[2026-04-19T01:28:53.999Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:54.009Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:28:55.063Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-20T16:36:35.563Z] === RERUN CT-01: Acessar painel de detalhes do tenant ===
+[2026-04-20T16:36:36.067Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:36.077Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:37.396Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:37.401Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:37.404Z] [BROWSER_ERROR] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-20T16:36:37.405Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:37.988Z] CT-01: Pagina em branco (crash): true
+[2026-04-20T16:36:37.988Z] CT-01: Tamanho do texto: 0
+[2026-04-20T16:36:37.989Z] CT-01: Nome presente: false
+[2026-04-20T16:36:37.989Z] CT-01: Status pré-ativo presente: false
+[2026-04-20T16:36:37.989Z] CT-01: CNPJ presente: false
+[2026-04-20T16:36:37.989Z] CT-01: URL: http://localhost:5173/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T16:36:37.989Z] CT-01: Body snippet (primeiros 500 chars): 
+    
+    
+  
+
+
+[2026-04-20T16:36:38.041Z] CT-01: FAIL — Nome: false, Status: false
+[2026-04-20T16:36:39.207Z] === RERUN CT-02: Dados do opt-in exibidos ===
+[2026-04-20T16:36:39.694Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:39.705Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:41.004Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:41.007Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:41.009Z] [BROWSER_ERROR] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-20T16:36:41.010Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:41.576Z] CT-02: Seção LGPD/opt-in: false
+[2026-04-20T16:36:41.577Z] CT-02: Quórum 60%: false
+[2026-04-20T16:36:41.577Z] CT-02: Signatário Carlos Rerun: false
+[2026-04-20T16:36:41.577Z] CT-02: Data assembleia 15/03/2026: false
+[2026-04-20T16:36:41.577Z] CT-02: CPF mascarado: false
+[2026-04-20T16:36:41.577Z] CT-02: Body snippet: 
+    
+    
+  
+
+
+[2026-04-20T16:36:41.619Z] CT-02: FAIL — Quorum: false, Signatario: false
+[2026-04-20T16:36:42.815Z] === RERUN CT-03: Situacao do primeiro sindico exibida ===
+[2026-04-20T16:36:43.310Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:43.322Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:43.062Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:43.065Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:43.068Z] [BROWSER_ERROR] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-20T16:36:43.069Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:43.642Z] CT-03: Nome sindico Sindico Rerun: false
+[2026-04-20T16:36:43.643Z] CT-03: Email sindico.rerun@portabox.dev: false
+[2026-04-20T16:36:43.643Z] CT-03: Celular mascarado: false
+[2026-04-20T16:36:43.643Z] CT-03: Campo senha/Não: false
+[2026-04-20T16:36:43.643Z] CT-03: Body snippet: 
+    
+    
+  
+
+
+[2026-04-20T16:36:43.685Z] CT-03: FAIL — Nome: false, Email: false
+[2026-04-20T16:36:44.958Z] === RERUN CT-04: Botao Ativar operacao requer confirmacao ===
+[2026-04-20T16:36:45.462Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:45.471Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:46.766Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:46.769Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:46.772Z] [BROWSER_ERROR] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-20T16:36:46.772Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:47.345Z] CT-04: Botao de ativacao encontrado: false
+[2026-04-20T16:36:47.385Z] CT-04: FAIL — Botão 'Ativar operação' não encontrado
+[2026-04-20T16:36:47.385Z] CT-04: Body snippet: 
+    
+    
+  
+
+
+[2026-04-20T16:36:48.547Z] === RERUN CT-05+CT-08: Ativacao go-live e validacoes ===
+[2026-04-20T16:36:49.079Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:49.092Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:36:50.557Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:50.562Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:50.566Z] [BROWSER_ERROR] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-20T16:36:50.567Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T16:36:51.153Z] CT-05: Status inicial pré-ativo na UI: false
+[2026-04-20T16:36:51.209Z] CT-05: FAIL — Botão de ativação não encontrado. Body: 
+    
+    
+  
+
+
+
+========================================
+RERUN — ANALISE DO CRASH POS-CORRECAO
+Timestamp: 2026-04-20T16:37:00Z
+========================================
+API retorna campo: "documentos": []
+Frontend acessa: details.optInDocuments  (undefined)
+Linha do crash: DetalhesCondominioPage.tsx linha 187
+  details.optInDocuments.length  -> TypeError: Cannot read properties of undefined (reading 'length')
+
+Corrigo BUG-1 (cnpjMasked) resolvido — confirmado no codigo.
+Novo crash BUG-6: documentos vs optInDocuments — BLOQUEANTE.
+Todos CT-01 a CT-08 continuam FAIL por tela branca.
+
+STATUS RERUN: FAIL (crash ainda presente, causa diferente)
+[2026-04-20T16:55:29.866Z] === CT-01: Acessar painel de detalhes ===
+[2026-04-20T16:55:30.382Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:30.392Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:31.489Z] Login: OK
+[2026-04-20T16:55:32.385Z] CT-01 body (200 chars): 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BR← CondomíniosResi
+[2026-04-20T16:55:32.506Z] CT-01: PASS
+[2026-04-20T16:55:32.655Z] === CT-02: Dados do opt-in exibidos ===
+[2026-04-20T16:55:33.105Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:33.116Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:34.221Z] Login: OK
+[2026-04-20T16:55:36.445Z] === CT-03: Situação do síndico exibida ===
+[2026-04-20T16:55:36.294Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:36.304Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:36.336Z] Login: OK
+[2026-04-20T16:55:37.455Z] CT-03: PASS
+[2026-04-20T16:55:37.626Z] === CT-04: Ativar operação requer confirmação ===
+[2026-04-20T16:55:38.105Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:38.116Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:39.190Z] Login: OK
+[2026-04-20T16:55:41.227Z] CT-04 body after click (300 chars): 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BR← CondomíniosResidencial Rerun QA****7000161Pré-ativoCriado em 20/04/2026Ativar operaçãoConfirmar ativação✕Ao ativar,
+[2026-04-20T16:55:41.359Z] CT-04: PASS
+[2026-04-20T16:55:41.497Z] === CT-05+CT-08: Ativação do tenant via UI ===
+[2026-04-20T16:55:41.956Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:41.968Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:55:43.081Z] Login: OK
+[2026-04-20T16:55:44.987Z] CT-05: dialogs found=1, confirmBtn visible=false
+[2026-04-20T16:55:45.038Z] CT-05: Clicked fallback confirm element
+[2026-04-20T16:55:46.162Z] CT-05 body after activation (300 chars): 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BR← CondomíniosOperação ativadaResidencial Rerun QA****7000161AtivoCriado em 20/04/2026Ativado em 20/04/2026Reenviar ma
+[2026-04-20T16:55:46.167Z] CT-08: activateBtn count after activation=0
+[2026-04-20T16:55:46.274Z] CT-05: PASS
+[2026-04-20T16:55:46.274Z] CT-08: PASS
+
+========================================
+DB VALIDATION — CT-06
+Timestamp: 2026-04-20T17:00:00Z
+Query: SELECT status, activated_at FROM condominio WHERE id = '4a3d87ea-f62f-4d9c-80de-a34237d0dae3'
+Result: 2|2026-04-20 16:55:45.05646+00
+PASS: status=2 (Ativo), activated_at preenchido
+========================================
+
+========================================
+DB VALIDATION — CT-07
+Timestamp: 2026-04-20T17:00:00Z
+Query: SELECT event_kind, performed_by_user_id, occurred_at FROM tenant_audit_log WHERE tenant_id='4a3d87ea-f62f-4d9c-80de-a34237d0dae3' ORDER BY id
+Result:
+  1|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 16:33:34.472521+00
+  2|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 16:55:45.05646+00
+PASS: event_kind=1 (Criação) + event_kind=2 (Ativação) presentes
+========================================
+
+========================================
+DB VALIDATION — CT-02 (data assembleia)
+Timestamp: 2026-04-20T17:00:00Z
+Query: SELECT data_assembleia FROM opt_in_record WHERE tenant_id='4a3d87ea-f62f-4d9c-80de-a34237d0dae3'
+Result: 2026-03-15
+Observação: DB armazena 2026-03-15; API retorna "2026-03-15" (date-only);
+  formatDate() faz new Date("2026-03-15").toLocaleDateString('pt-BR')
+  new Date("2026-03-15") é interpretado como UTC midnight (2026-03-15T00:00:00Z)
+  toLocaleDateString em timezone UTC-3 converte para 2026-03-14T21:00:00-03:00 → exibe 14/03/2026
+  BUG-7: Off-by-one-day em datas de formato "YYYY-MM-DD" na função formatDate()
+========================================
+[2026-04-20T17:46:42.708Z] ========================================
+[2026-04-20T17:46:42.709Z] CT-02 (rerun3): Data assembleia off-by-one — iniciando
+[2026-04-20T17:46:42.709Z] Timestamp: 2026-04-20T17:46:42.709Z
+[2026-04-20T17:46:42.709Z] Tenant: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:46:42.710Z] Expected: 15/03/2026, NOT 14/03/2026
+[2026-04-20T17:46:42.710Z] ========================================
+[2026-04-20T17:48:19.618Z] ========================================
+[2026-04-20T17:48:19.619Z] CT-02 (rerun3): Data assembleia off-by-one — iniciando
+[2026-04-20T17:48:19.619Z] Timestamp: 2026-04-20T17:48:19.619Z
+[2026-04-20T17:48:19.619Z] Tenant: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:48:19.619Z] Expected: 15/03/2026, NOT 14/03/2026
+[2026-04-20T17:48:19.620Z] ========================================
+[2026-04-20T17:49:02.993Z] ========================================
+[2026-04-20T17:49:02.994Z] CT-02 (rerun3): Data assembleia off-by-one — iniciando
+[2026-04-20T17:49:02.994Z] Timestamp: 2026-04-20T17:49:02.994Z
+[2026-04-20T17:49:02.994Z] Tenant: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:49:02.994Z] Expected: 15/03/2026, NOT 14/03/2026
+[2026-04-20T17:49:02.994Z] ========================================
+[2026-04-20T17:50:09.034Z] === CT-02: Dados do opt-in exibidos ===
+[2026-04-20T17:50:09.455Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-20T17:50:53.098Z] === RERUN CT-02: Dados do opt-in exibidos ===
+[2026-04-20T17:50:53.529Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-20T17:51:35.316Z] === CT-02: Dados do opt-in exibidos ===
+[2026-04-20T17:51:35.762Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-20T17:51:38.745Z] ========================================
+[2026-04-20T17:51:38.746Z] CT-02 (rerun3): Data assembleia off-by-one — iniciando
+[2026-04-20T17:51:38.746Z] Timestamp: 2026-04-20T17:51:38.746Z
+[2026-04-20T17:51:38.746Z] Tenant: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:51:38.746Z] Expected: 15/03/2026, NOT 14/03/2026
+[2026-04-20T17:51:38.747Z] ========================================
+[2026-04-20T17:52:19.545Z] ========================================
+[2026-04-20T17:52:19.546Z] CT-02 (rerun3): Data assembleia off-by-one — iniciando
+[2026-04-20T17:52:19.546Z] Timestamp: 2026-04-20T17:52:19.546Z
+[2026-04-20T17:52:19.546Z] Tenant: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:52:19.547Z] Expected: 15/03/2026, NOT 14/03/2026
+[2026-04-20T17:52:19.547Z] ========================================
+[2026-04-20T17:54:24.851Z] ========================================
+[2026-04-20T17:54:24.852Z] CT-02 (rerun3): Data assembleia off-by-one — iniciando
+[2026-04-20T17:54:24.852Z] Timestamp: 2026-04-20T17:54:24.852Z
+[2026-04-20T17:54:24.852Z] Tenant: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:54:24.852Z] Expected: 15/03/2026, NOT 14/03/2026
+[2026-04-20T17:54:24.853Z] ========================================
+[2026-04-20T17:54:25.702Z] CT-02 (rerun3): Login concluido
+[2026-04-20T17:54:29.201Z] CT-02 (rerun3): Página carregada. URL: http://localhost:5173/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:54:29.202Z] CT-02 (rerun3): Body (500 chars): 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BR← CondomíniosResidencial Rerun QA****7000161AtivoCriado em 20/04/2026Ativado em 20/04/2026Reenviar magic linkDados do condomínioLogradouroAv. PaulistaNúmero1000Complemento—Bairro—CidadeSão PauloUFSPCEP01310100Administradora—Consentimento LGPDData da assembleia15/03/2026Quórum60%SignatárioCarlos RerunCPF do signatári
+[2026-04-20T17:54:29.202Z] CT-02 (rerun3): Seção LGPD/assembleia presente: true
+[2026-04-20T17:54:29.202Z] CT-02 (rerun3): Data correta '15/03/2026' presente: true
+[2026-04-20T17:54:29.202Z] CT-02 (rerun3): Data errada '14/03/2026' presente (deve ser false): false
+[2026-04-20T17:54:29.203Z] CT-02 (rerun3): Trecho com 'assembleia': "timento LGPDData da assembleia15/03/2026Quórum60%SignatárioCarlos RerunCPF do signatário***.982.247-**Data do termo15/03/2026DocumentosNenhum documento anexado.Adicionar "
+[2026-04-20T17:54:29.328Z] --- BROWSER CONSOLE CT-02 rerun3 ---
+[2026-04-20T17:54:29.328Z] [debug] [vite] connecting...
+[2026-04-20T17:54:29.328Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-20T17:54:29.329Z] [debug] [vite] connected.
+[2026-04-20T17:54:29.329Z] [error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T17:54:29.329Z] [error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T17:54:29.329Z] [debug] [vite] connecting...
+[2026-04-20T17:54:29.329Z] [debug] [vite] connected.
+[2026-04-20T17:54:29.329Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-20T17:54:29.467Z] CT-02 (rerun3): PASS — '15/03/2026' exibido, '14/03/2026' ausente

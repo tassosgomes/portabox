@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Npgsql;
 using PortaBox.Application.Abstractions.Events;
@@ -12,6 +13,7 @@ using PortaBox.Application.Abstractions.MagicLinks;
 using PortaBox.Application.Abstractions.MultiTenancy;
 using PortaBox.Application.Abstractions.Observability;
 using PortaBox.Application.Abstractions.Persistence;
+using PortaBox.Infrastructure.Audit;
 using PortaBox.Infrastructure.Email;
 using PortaBox.Infrastructure.Events;
 using PortaBox.Infrastructure.Identity;
@@ -21,7 +23,10 @@ using PortaBox.Infrastructure.Observability;
 using PortaBox.Infrastructure.Persistence;
 using PortaBox.Infrastructure.Repositories;
 using PortaBox.Infrastructure.Storage;
+using PortaBox.Modules.Gestao.Application.Audit;
+using PortaBox.Modules.Gestao.Application.Blocos;
 using PortaBox.Modules.Gestao.Application.Repositories;
+using PortaBox.Modules.Gestao.Application.Unidades;
 
 namespace PortaBox.Infrastructure;
 
@@ -54,6 +59,7 @@ public static class DependencyInjection
         services.AddObjectStorage(configuration);
         services.AddEmailInfrastructure(configuration);
         services.AddHttpContextAccessor();
+        services.TryAddSingleton(TimeProvider.System);
 
         services.AddSingleton(_ => CreateDataSource(connectionString));
 
@@ -107,12 +113,15 @@ public static class DependencyInjection
             .AddSignInManager();
 
         services.AddScoped<IdentitySeeder>();
+        services.AddScoped<IAuditService, AuditService>();
+        services.AddScoped<IBlocoRepository, BlocoRepository>();
         services.AddScoped<ICondominioRepository, CondominioRepository>();
         services.AddScoped<IMagicLinkService, MagicLinkService>();
         services.AddScoped<IOptInDocumentRepository, OptInDocumentRepository>();
         services.AddScoped<IOptInRecordRepository, OptInRecordRepository>();
         services.AddScoped<ISindicoRepository, SindicoRepository>();
         services.AddScoped<ITenantAuditRepository, TenantAuditRepository>();
+        services.AddScoped<IUnidadeRepository, UnidadeRepository>();
 
         return services;
     }

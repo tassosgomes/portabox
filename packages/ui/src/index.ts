@@ -16,9 +16,25 @@ export type { ModalProps } from './modal/Modal'
 export { StepIndicator } from './step-indicator/StepIndicator'
 export type { StepIndicatorProps, Step } from './step-indicator/StepIndicator'
 
+export { Tree } from './tree/Tree'
+export { TreeNode } from './tree/TreeNode'
+export type {
+  TreeProps,
+  TreeItem,
+  TreeNodeProps,
+  TreeNodeRenderProps,
+  TreeRenderNode,
+} from './tree/types'
+
+export { ConfirmModal } from './confirm-modal/ConfirmModal'
+export type { ConfirmModalProps } from './confirm-modal/ConfirmModal'
+
 export {
   Building2,
+  ChevronDown,
+  ChevronRight,
   FileText,
+  Home,
   UserPlus,
   Mail,
   CheckCircle,

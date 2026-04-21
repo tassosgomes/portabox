@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: Extensão TenantAuditEntry.EventKind + StructuralAuditMetadata + IAuditService.RecordStructuralAsync
 type: backend
 complexity: low
@@ -29,12 +29,12 @@ Estende a infraestrutura de auditoria de F01 para cobrir as 7 operações estrut
 </requirements>
 
 ## Subtasks
-- [ ] 02.1 Estender enum `EventKind` com os 7 novos valores
-- [ ] 02.2 Auditar uso existente de `EventKind` em F01 e adicionar `default` clauses onde faltarem
-- [ ] 02.3 Criar `StructuralAuditMetadata` com um método estático por kind, seguindo schema do ADR-008
-- [ ] 02.4 Estender `IAuditService` e a implementação concreta com `RecordStructuralAsync`
-- [ ] 02.5 Escrever unit tests para cada método de `StructuralAuditMetadata` validando chaves presentes
-- [ ] 02.6 Escrever unit test para `RecordStructuralAsync` verificando que adiciona `TenantAuditEntry` ao contexto sem executar commit
+- [x] 02.1 Estender enum `EventKind` com os 7 novos valores
+- [x] 02.2 Auditar uso existente de `EventKind` em F01 e adicionar `default` clauses onde faltarem
+- [x] 02.3 Criar `StructuralAuditMetadata` com um método estático por kind, seguindo schema do ADR-008
+- [x] 02.4 Estender `IAuditService` e a implementação concreta com `RecordStructuralAsync`
+- [x] 02.5 Escrever unit tests para cada método de `StructuralAuditMetadata` validando chaves presentes
+- [x] 02.6 Escrever unit test para `RecordStructuralAsync` verificando que adiciona `TenantAuditEntry` ao contexto sem executar commit
 
 ## Implementation Details
 Schema de `metadata` por kind conforme ADR-008 seção Implementation Notes:
@@ -72,12 +72,12 @@ A coluna Postgres `event_kind` é `smallint` (não muda); a conversão EF via `H
 
 ## Tests
 - Unit tests:
-  - [ ] `StructuralAuditMetadata.ForBlocoCriado(blocoId, nome)` retorna dict com chaves `["blocoId", "nome"]` e valores corretos
-  - [ ] `StructuralAuditMetadata.ForBlocoRenomeado(...)` inclui `nomeAntes` e `nomeDepois`
-  - [ ] `StructuralAuditMetadata.ForUnidadeCriada(...)` inclui `andar` como `int` e `numero` como `string`
-  - [ ] `AuditService.RecordStructuralAsync` adiciona `TenantAuditEntry` ao `DbContext` com `EventKind` correto, `PerformedByUserId` e `MetadataJson` serializado
-  - [ ] `RecordStructuralAsync` não chama `SaveChangesAsync` (caller-controlled commit)
-  - [ ] Switch existentes em F01 com novo `default` clause continuam compilando e cobrem os 11 valores
+  - [x] `StructuralAuditMetadata.ForBlocoCriado(blocoId, nome)` retorna dict com chaves `["blocoId", "nome"]` e valores corretos
+  - [x] `StructuralAuditMetadata.ForBlocoRenomeado(...)` inclui `nomeAntes` e `nomeDepois`
+  - [x] `StructuralAuditMetadata.ForUnidadeCriada(...)` inclui `andar` como `int` e `numero` como `string`
+  - [x] `AuditService.RecordStructuralAsync` adiciona `TenantAuditEntry` ao `DbContext` com `EventKind` correto, `PerformedByUserId` e `MetadataJson` serializado
+  - [x] `RecordStructuralAsync` não chama `SaveChangesAsync` (caller-controlled commit)
+  - [x] Switch existentes em F01 com novo `default` clause continuam compilando e cobrem os 11 valores
 - Integration tests:
   - [ ] N/A — cobertura integrada em task_10 (`AuditIntegrationTests`)
 - Test coverage target: >=80%

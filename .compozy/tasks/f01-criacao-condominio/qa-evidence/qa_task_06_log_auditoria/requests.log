@@ -1,0 +1,195 @@
+========================================
+TC-03: API — endpoint de audit log
+Timestamp: 2026-04-19T01:37:12Z
+========================================
+Auth: cookie-based (portabox.auth)
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/audit-log
+--- RESPONSE ---
+Status: 404
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Not Found","status":404,"instance":"/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/audit-log","traceId":"316f184fde1787aec7e1fa0f27a0e338"}
+
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/auditlog
+--- RESPONSE ---
+Status: 404
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Not Found","status":404,"instance":"/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/auditlog","traceId":"8e92065dc72b6e070021ea8f1782c9f6"}
+
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/audit
+--- RESPONSE ---
+Status: 404
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Not Found","status":404,"instance":"/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/audit","traceId":"9f73c4433ec5c1873273b5f5be7a7cf3"}
+
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/logs
+--- RESPONSE ---
+Status: 404
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Not Found","status":404,"instance":"/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/logs","traceId":"76fe0f46c7c550cf7a5520d0087501b8"}
+
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/history
+--- RESPONSE ---
+Status: 404
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Not Found","status":404,"instance":"/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/history","traceId":"3c4c8c3c4211dc6842ee810d3deae2e8"}
+
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/audit-log?tenantId=f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+--- RESPONSE ---
+Status: 404
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Not Found","status":404,"instance":"/api/v1/admin/audit-log","traceId":"b3f48419401f431b0e7adb9edf31221c"}
+
+========================================
+TC-03 (corrigido): API — audit log via GET /api/v1/admin/condominios/{id}
+Timestamp: 2026-04-19T01:37:26Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+Auth: cookie portabox.auth (HttpOnly)
+--- RESPONSE ---
+Status: 200
+Body (campo auditLog):
+[
+  {
+    "id": 4,
+    "eventKind": 3,
+    "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+    "occurredAt": "2026-04-19T01:28:07.190423+00:00",
+    "note": null,
+    "metadataJson": null
+  },
+  {
+    "id": 3,
+    "eventKind": 2,
+    "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+    "occurredAt": "2026-04-19T01:22:51.638297+00:00",
+    "note": "Ativacao via QA test runner",
+    "metadataJson": null
+  },
+  {
+    "id": 1,
+    "eventKind": 1,
+    "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+    "occurredAt": "2026-04-19T01:13:12.70591+00:00",
+    "note": null,
+    "metadataJson": null
+  }
+]
+--- RESULTADO: PASS ---
+Audit log retornado com 3 entradas: eventKind=1 (criação), eventKind=2 (ativação), eventKind=3 (outro)
+
+========================================
+TC-01: Banco — entrada de criação (event_kind=1)
+Timestamp: 2026-04-19T01:37:45Z
+========================================
+Query: SELECT id, event_kind, occurred_at, note, performed_by_user_id FROM tenant_audit_log WHERE tenant_id='f6d3cc9d-...' AND event_kind=1
+Result: 1|1|2026-04-19 01:13:12.70591+00||0dcbb805-e21e-4db3-a196-e6e456b3ea2d
+--- RESULTADO: PASS ---
+Registro event_kind=1 encontrado: 1|1|2026-04-19 01:13:12.70591+00||0dcbb805-e21e-4db3-a196-e6e456b3ea2d
+========================================
+TC-02: Banco — entrada de ativação (event_kind=2)
+Timestamp: 2026-04-19T01:37:45Z
+========================================
+Query: SELECT ... FROM tenant_audit_log WHERE tenant_id='f6d3cc9d-...' AND event_kind=2
+Result: 3|2|2026-04-19 01:22:51.638297+00|Ativacao via QA test runner|0dcbb805-e21e-4db3-a196-e6e456b3ea2d
+--- RESULTADO: PASS ---
+Registro event_kind=2 encontrado: 3|2|2026-04-19 01:22:51.638297+00|Ativacao via QA test runner|0dcbb805-e21e-4db3-a196-e6e456b3ea2d
+========================================
+TC-05: Imutabilidade — colunas updated_at/deleted_at/is_active
+========================================
+Columns checked: updated_at, deleted_at, is_active, is_deleted, soft_delete
+Result: NONE FOUND (0 rows)
+Triggers on table: apenas FK check triggers (RI_ConstraintTrigger)
+Rules on table: NONE
+Table columns: id, tenant_id, event_kind, performed_by_user_id, occurred_at, note, metadata_json
+Observation: Sem colunas de updated_at/deleted_at. Nao ha trigger custom de bloqueio de UPDATE/DELETE.
+--- RESULTADO: PARTIAL ---
+Estrutura e append-only pelos campos, mas sem constraint de banco bloqueando UPDATE/DELETE explicitamente.
+
+========================================
+TC-04: UI — Log de auditoria no painel de detalhes
+Timestamp: 2026-04-19T01:38:27.712Z
+========================================
+Login status: 200
+Screenshot capturado: tc04_page_load.png
+Body text length: 0
+Body HTML length: 87
+URL atual: http://localhost:5173/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+Tela em branco detectada: true
+Seção de audit log visível: false
+H1 encontrado: NOT FOUND
+Erro visível na página: none
+
+--- BROWSER CONSOLE TC-04 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+[error] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+--- PAGE ERRORS ---
+Cannot read properties of undefined (reading 'replace')
+Cannot read properties of undefined (reading 'replace')
+Cannot read properties of undefined (reading 'replace')
+
+--- RESULTADO OBSERVADO ---
+OBSERVADO: Tela em branco/crash confirmado (body text < 10 chars)
+EXPECTED: Painel com seção de log de auditoria mostrando entradas de criação e ativação
+STATUS: FAIL — Crash da UI impede visualização do audit log (bug conhecido)
+========================================
+TC-04 RERUN: UI — Log de auditoria no painel de detalhes
+Timestamp: 2026-04-20T17:04:49.548Z
+Tenant ID: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+========================================
+Login status: 200
+Screenshot capturado: rerun_tc04_inicio.png
+Screenshot capturado: rerun_tc04_pos_carga.png
+Body text length: 1063
+Body HTML length: 10131
+URL atual: http://localhost:5173/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+Tela em branco detectada: false
+Page errors: NENHUM
+Heading "Histórico de auditoria" visível: true
+Lista de auditoria (aria-label) visível: true
+Registros de auditoria encontrados: 2
+  Item 1: Ativado | 0dcbb805-e21e-4db3-a196-e6e456b3ea2d · 20/04/2026, 13:55
+  Item 2: Criado | 0dcbb805-e21e-4db3-a196-e6e456b3ea2d · 20/04/2026, 13:33
+Texto "Criado" presente na página: true
+Texto "Ativado" presente na página: true
+Screenshot da seção de audit: rerun_tc04_audit_section.png
+
+--- BROWSER CONSOLE TC-04 RERUN ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+
+--- RESULTADO TC-04 RERUN ---
+STATUS: PASS
+Seção visível, 2 registro(s) exibido(s)
+Evento "Criado": PRESENTE
+Evento "Ativado": PRESENTE
+Screenshot final: rerun_tc04_final.png

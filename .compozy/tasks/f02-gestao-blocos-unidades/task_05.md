@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: Migration EF AddBlocoAndUnidade (DDL + FKs + partial unique indexes + enum update)
 type: backend
 complexity: medium
@@ -35,12 +35,12 @@ Materializa no banco de dados o schema resultante das tasks 03 e 04, criando as 
 </requirements>
 
 ## Subtasks
-- [ ] 05.1 Executar `dotnet ef migrations add AddBlocoAndUnidade` e revisar arquivos gerados
-- [ ] 05.2 Conferir que partial unique indexes são emitidos corretamente; ajustar via `migrationBuilder.Sql` se necessário
-- [ ] 05.3 Verificar que FKs (`ON DELETE RESTRICT`) estão presentes em bloco e unidade
-- [ ] 05.4 Executar `dotnet ef database update` em Postgres local; inspecionar via `\d bloco` e `\d unidade`
-- [ ] 05.5 Testar rollback `dotnet ef migrations remove` + `database update` para versão anterior; garantir que `Down` remove tabelas sem deixar lixo
-- [ ] 05.6 Smoke test em Testcontainers: rodar migrations do zero em DB novo e confirmar que fixture do F01 + F02 sobe sem erros
+- [x] 05.1 Executar `dotnet ef migrations add AddBlocoAndUnidade` e revisar arquivos gerados
+- [x] 05.2 Conferir que partial unique indexes são emitidos corretamente; ajustar via `migrationBuilder.Sql` se necessário
+- [x] 05.3 Verificar que FKs (`ON DELETE RESTRICT`) estão presentes em bloco e unidade
+- [x] 05.4 Executar `dotnet ef database update` em Postgres local; inspecionar via `\d bloco` e `\d unidade`
+- [x] 05.5 Testar rollback `dotnet ef migrations remove` + `database update` para versão anterior; garantir que `Down` remove tabelas sem deixar lixo
+- [x] 05.6 Smoke test em Testcontainers: rodar migrations do zero em DB novo e confirmar que fixture do F01 + F02 sobe sem erros
 
 ## Implementation Details
 Ver TechSpec seção **Data Models** para schema detalhado. Partial unique indexes no Postgres:
@@ -85,11 +85,11 @@ Nenhuma alteração de schema para `tenant_audit_entry` — apenas o enum C# exp
 
 ## Tests
 - Unit tests:
-  - [ ] `Up` aplicado em DB vazio cria `bloco` e `unidade` com as colunas e tipos esperados (inspeção via `information_schema`)
-  - [ ] `Down` remove as duas tabelas sem deixar objetos órfãos
-  - [ ] Partial unique indexes aparecem em `pg_indexes.indexdef` com `WHERE ativo = true`
+  - [x] `Up` aplicado em DB vazio cria `bloco` e `unidade` com as colunas e tipos esperados (inspeção via `information_schema`)
+  - [x] `Down` remove as duas tabelas sem deixar objetos órfãos
+  - [x] Partial unique indexes aparecem em `pg_indexes.indexdef` com `WHERE ativo = true`
 - Integration tests:
-  - [ ] Testcontainers sobe DB limpo, aplica migrations de F01+F02, retorna sem erro
+  - [x] Testcontainers sobe DB limpo, aplica migrations de F01+F02, retorna sem erro
   - [ ] Inserção de dois blocos ativos com mesmo `(tenant_id, condominio_id, nome)` → Postgres retorna erro de unique violation (coberto em task_10)
 - Test coverage target: >=80%
 - All tests must pass

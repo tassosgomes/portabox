@@ -423,6 +423,66 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
                     b.ToTable("magic_link", (string)null);
                 });
 
+            modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Blocos.Bloco", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
+
+                    b.Property<Guid>("CondominioId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("condominio_id");
+
+                    b.Property<DateTimeOffset>("CriadoEm")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("criado_em");
+
+                    b.Property<Guid>("CriadoPor")
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
+
+                    b.Property<DateTime?>("InativadoEm")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("inativado_em");
+
+                    b.Property<Guid?>("InativadoPor")
+                        .HasColumnType("uuid")
+                        .HasColumnName("inativado_por");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("nome");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_bloco");
+
+                    b.HasIndex("CondominioId")
+                        .HasDatabaseName("idx_bloco_condominio");
+
+                    b.HasIndex("CriadoPor")
+                        .HasDatabaseName("ix_bloco_criado_por");
+
+                    b.HasIndex("InativadoPor")
+                        .HasDatabaseName("ix_bloco_inativado_por");
+
+                    b.HasIndex("TenantId", "CondominioId", "Nome")
+                        .IsUnique()
+                        .HasDatabaseName("idx_bloco_nome_ativo_unique")
+                        .HasFilter("ativo = true");
+
+                    b.ToTable("bloco", (string)null);
+                });
+
             modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Condominio", b =>
                 {
                     b.Property<Guid>("Id")
@@ -726,6 +786,73 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
                     b.ToTable("tenant_audit_log", (string)null);
                 });
 
+            modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Unidades.Unidade", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("Andar")
+                        .HasColumnType("integer")
+                        .HasColumnName("andar");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
+
+                    b.Property<Guid>("BlocoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("bloco_id");
+
+                    b.Property<DateTimeOffset>("CriadoEm")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("criado_em");
+
+                    b.Property<Guid>("CriadoPor")
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
+
+                    b.Property<DateTime?>("InativadoEm")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("inativado_em");
+
+                    b.Property<Guid?>("InativadoPor")
+                        .HasColumnType("uuid")
+                        .HasColumnName("inativado_por");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar(5)")
+                        .HasColumnName("numero");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_unidade");
+
+                    b.HasIndex("BlocoId")
+                        .HasDatabaseName("idx_unidade_bloco");
+
+                    b.HasIndex("CriadoPor")
+                        .HasDatabaseName("ix_unidade_criado_por");
+
+                    b.HasIndex("InativadoPor")
+                        .HasDatabaseName("ix_unidade_inativado_por");
+
+                    b.HasIndex("TenantId", "BlocoId", "Andar", "Numero")
+                        .IsUnique()
+                        .HasDatabaseName("idx_unidade_canonica_ativa")
+                        .HasFilter("ativo = true");
+
+                    b.ToTable("unidade", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_unidade_andar_non_negative", "andar >= 0");
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("PortaBox.Infrastructure.Identity.AppRole", null)
@@ -802,6 +929,29 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
                         .HasConstraintName("fk_magic_link_asp_net_users_user_id");
                 });
 
+            modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Blocos.Bloco", b =>
+                {
+                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", null)
+                        .WithMany()
+                        .HasForeignKey("CondominioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_bloco_condominios_condominio_id");
+
+                    b.HasOne("PortaBox.Infrastructure.Identity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("CriadoPor")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_bloco_asp_net_users_criado_por");
+
+                    b.HasOne("PortaBox.Infrastructure.Identity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("InativadoPor")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_bloco_asp_net_users_inativado_por");
+                });
+
             modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Condominio", b =>
                 {
                     b.HasOne("PortaBox.Infrastructure.Identity.AppUser", null)
@@ -820,8 +970,8 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.OptInDocument", b =>
                 {
-                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", null)
-                        .WithMany()
+                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", "Condominio")
+                        .WithMany("OptInDocuments")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -833,6 +983,8 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_opt_in_document_asp_net_users_uploaded_by_user_id");
+
+                    b.Navigation("Condominio");
                 });
 
             modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.OptInRecord", b =>
@@ -844,18 +996,20 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_opt_in_record_asp_net_users_registered_by_user_id");
 
-                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", null)
-                        .WithMany()
-                        .HasForeignKey("TenantId")
+                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", "Condominio")
+                        .WithOne("OptInRecord")
+                        .HasForeignKey("PortaBox.Modules.Gestao.Domain.OptInRecord", "TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_opt_in_record_condominio_tenant_id");
+
+                    b.Navigation("Condominio");
                 });
 
             modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Sindico", b =>
                 {
-                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", null)
-                        .WithMany()
+                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", "Condominio")
+                        .WithMany("Sindicos")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -867,6 +1021,8 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_sindico_asp_net_users_user_id");
+
+                    b.Navigation("Condominio");
                 });
 
             modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.TenantAuditEntry", b =>
@@ -878,12 +1034,48 @@ namespace PortaBox.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_tenant_audit_log_asp_net_users_performed_by_user_id");
 
-                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", null)
-                        .WithMany()
+                    b.HasOne("PortaBox.Modules.Gestao.Domain.Condominio", "Condominio")
+                        .WithMany("TenantAuditEntries")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_tenant_audit_log_condominio_tenant_id");
+
+                    b.Navigation("Condominio");
+                });
+
+            modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Unidades.Unidade", b =>
+                {
+                    b.HasOne("PortaBox.Modules.Gestao.Domain.Blocos.Bloco", null)
+                        .WithMany()
+                        .HasForeignKey("BlocoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_unidade_bloco_bloco_id");
+
+                    b.HasOne("PortaBox.Infrastructure.Identity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("CriadoPor")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_unidade_asp_net_users_criado_por");
+
+                    b.HasOne("PortaBox.Infrastructure.Identity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("InativadoPor")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_unidade_asp_net_users_inativado_por");
+                });
+
+            modelBuilder.Entity("PortaBox.Modules.Gestao.Domain.Condominio", b =>
+                {
+                    b.Navigation("OptInDocuments");
+
+                    b.Navigation("OptInRecord");
+
+                    b.Navigation("Sindicos");
+
+                    b.Navigation("TenantAuditEntries");
                 });
 #pragma warning restore 612, 618
         }

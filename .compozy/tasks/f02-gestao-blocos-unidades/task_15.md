@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: apps/sindico mutações de Bloco (hooks + BlocoForm + modais)
 type: frontend
 complexity: medium
@@ -11,6 +11,8 @@ dependencies:
 
 ## Overview
 Adiciona à `<EstruturaPage>` as 4 mutações de Bloco: criar (form), renomear (form), inativar (confirm modal) e reativar (confirm modal). Cada mutação usa `useMutation` do TanStack Query com optimistic update + invalidação da query `['estrutura', condominioId]` após sucesso, e mapeia erros de API (`ApiError` 409/422) em mensagens acionáveis.
+
+> **Contrato:** requests (`CreateBlocoRequest`, `RenameBlocoRequest`) e response (`Bloco`) vêm tipados de `@portabox/api-client` — derivados do [`api-contract.yaml`](../api-contract.yaml). Valida o contrato mental da mutação: a regex de validação do `nome` (1–50 chars) já está no schema do contrato e no validator backend (task_06); o zod schema no form deve refletir as mesmas restrições.
 
 <critical>
 - ALWAYS READ the PRD and TechSpec before starting
@@ -31,12 +33,12 @@ Adiciona à `<EstruturaPage>` as 4 mutações de Bloco: criar (form), renomear (
 </requirements>
 
 ## Subtasks
-- [ ] 15.1 Criar 4 hooks (`useCriarBloco`, `useRenomearBloco`, `useInativarBloco`, `useReativarBloco`) com optimistic update onde aplicável
-- [ ] 15.2 Criar `<BlocoForm>` reutilizável (create/rename) com react-hook-form + zod
-- [ ] 15.3 Integrar CTA "Novo bloco" na `<EstruturaPage>` + menu de ações por bloco
-- [ ] 15.4 Implementar modais de inativar/reativar consumindo `<ConfirmModal>`
-- [ ] 15.5 Mapear erros `ApiError` (409/422) em copy acionável
-- [ ] 15.6 Escrever testes Vitest + Testing Library dos fluxos
+- [x] 15.1 Criar 4 hooks (`useCriarBloco`, `useRenomearBloco`, `useInativarBloco`, `useReativarBloco`) com optimistic update onde aplicável
+- [x] 15.2 Criar `<BlocoForm>` reutilizável (create/rename) com react-hook-form + zod
+- [x] 15.3 Integrar CTA "Novo bloco" na `<EstruturaPage>` + menu de ações por bloco
+- [x] 15.4 Implementar modais de inativar/reativar consumindo `<ConfirmModal>`
+- [x] 15.5 Mapear erros `ApiError` (409/422) em copy acionável
+- [x] 15.6 Escrever testes Vitest + Testing Library dos fluxos
 
 ## Implementation Details
 Ver TechSpec seção **Data Flow C1, C3, C4, C5** para comportamento esperado; ADR-010 para padrões de `useMutation`.
@@ -92,18 +94,18 @@ const blocoSchema = z.object({
 
 ## Tests
 - Unit tests:
-  - [ ] `useCriarBloco` chama `criarBloco` com payload correto e invalida `queryKeys.estrutura(id)` após sucesso
-  - [ ] `useCriarBloco` aplica optimistic update (nó temporário aparece na árvore) e reverte em erro
-  - [ ] `useRenomearBloco` chama `renomearBloco` e invalida query
-  - [ ] `useInativarBloco` chama `inativarBloco` e invalida query
-  - [ ] `useReativarBloco` trata erro 409 "conflito canônico" com mensagem clara
-  - [ ] `<BlocoForm>` valida nome vazio (erro inline), > 50 chars (erro inline), submit com sucesso (chama `onSubmit`)
-  - [ ] Modais de inativar/reativar: cancel fecha sem chamar mutation; confirm chama mutation
+  - [x] `useCriarBloco` chama `criarBloco` com payload correto e invalida `queryKeys.estrutura(id)` após sucesso
+  - [x] `useCriarBloco` aplica optimistic update (nó temporário aparece na árvore) e reverte em erro
+  - [x] `useRenomearBloco` chama `renomearBloco` e invalida query
+  - [x] `useInativarBloco` chama `inativarBloco` e invalida query
+  - [x] `useReativarBloco` trata erro 409 "conflito canônico" com mensagem clara
+  - [x] `<BlocoForm>` valida nome vazio (erro inline), > 50 chars (erro inline), submit com sucesso (chama `onSubmit`)
+  - [x] Modais de inativar/reativar: cancel fecha sem chamar mutation; confirm chama mutation
 - Integration tests:
-  - [ ] MSW simula fluxo: user clica "Novo bloco" → preenche form → submit → bloco aparece na árvore
-  - [ ] MSW simula 409 em create (nome duplicado) → toast explica erro; form fica aberto para edição
-  - [ ] MSW simula fluxo de rename → nome atualiza na árvore
-  - [ ] MSW simula fluxo de inativar → bloco some (com toggle inativos off) e reaparece (com toggle on, descontrast)
+  - [x] MSW simula fluxo: user clica "Novo bloco" → preenche form → submit → bloco aparece na árvore
+  - [x] MSW simula 409 em create (nome duplicado) → toast explica erro; form fica aberto para edição
+  - [x] MSW simula fluxo de rename → nome atualiza na árvore
+  - [x] MSW simula fluxo de inativar → bloco some (com toggle inativos off) e reaparece (com toggle on, descontrast)
 - Test coverage target: >=80%
 - All tests must pass
 

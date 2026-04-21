@@ -1,0 +1,34 @@
+.root {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + var(--sp-2));
+  right: 0;
+  display: grid;
+  min-width: 160px;
+  padding: var(--sp-2);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--r-md);
+  background: var(--surface, #ffffff);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.14);
+  z-index: 2;
+}
+
+.item {
+  border: 0;
+  background: transparent;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  text-align: left;
+  color: var(--pb-navy-900);
+  font: inherit;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus-visible {
+  background: rgba(30, 58, 138, 0.08);
+  outline: none;
+}

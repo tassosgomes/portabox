@@ -1,0 +1,25 @@
+========================================
+CT-11: Audit entry check
+========================================
+6|{"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02", "nomeDepois": "Bloco QA-02 Renomeado"}|2026-04-21 00:00:24.350915+00
+========================================
+CT-12: Audit after second rename
+Total rename audit entries for QA-02: 2
+Latest audit entry: {"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02 Renomeado", "nomeDepois": "Bloco QA-02 V3"}
+========================================
+FINAL DB STATE — 2026-04-21T00:46:53Z
+========================================
+All blocos for Tenant A:
+88037273-d560-4415-a1e2-b45a00dc5be4|Bloco QA-01|t
+4c936a72-fc12-4f32-809f-3f290c4bc8ae|Bloco QA-02 V3|t
+ff2ed42b-e9d9-426e-81fa-6bd51b767174|Bloco QA-03|f
+9aab2b47-1672-4686-ac12-6ce39b4c0f50|Bloco UI-QA-01 Editado|t
+54d4fbe9-e749-4ee4-8dc4-442355762b6c|Bloco Temp Inativo QA|f
+ac7b8af5-4bfe-47f0-84b1-c03bc3160895|Bloco Temp Cascata QA|f
+e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907|Bloco UI Inativar QA|f
+e6451b5b-bc1d-47e1-9300-2c5a50244273|Bloco Temp Rename QA|f
+
+All rename audit entries (event_kind=6):
+6|{"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02", "nomeDepois": "Bloco QA-02 Renomeado"}|2026-04-21 00:00:24.350915+00
+6|{"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02 Renomeado", "nomeDepois": "Bloco QA-02 V3"}|2026-04-21 00:44:08.110544+00
+6|{"blocoId": "9aab2b47-1672-4686-ac12-6ce39b4c0f50", "nomeAntes": "Bloco UI-QA-01", "nomeDepois": "Bloco UI-QA-01 Editado"}|2026-04-21 00:45:58.31952+00

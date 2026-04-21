@@ -1,0 +1,487 @@
+========================================
+AUTH SINDICO A
+Timestamp: 2026-04-21T00:43:04Z
+Status: 404
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Recurso não encontrado","status":404,"detail":"O recurso solicitado não foi encontrado","instance":"/auth/login","traceId":"f200a8b9d490df4d4d24124253689785"}
+========================================
+========================================
+AUTH SINDICO A
+Timestamp: 2026-04-21T00:43:18Z
+Status: 200
+Body: {
+  "userId": "9ae7217c-7c68-43ba-b663-63bb9f235d97",
+  "role": "Sindico",
+  "tenantId": "4cce551d-4f18-474b-a42a-2deb6c2a0451"
+}
+========================================
+========================================
+PRE-CT-01: Criar unidade 701 para CT-01
+Timestamp: 2026-04-21T00:43:29Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":7,"numero":"701"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+  "id": "d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee",
+  "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+  "andar": 7,
+  "numero": "701",
+  "ativo": true,
+  "inativadoEm": null
+}
+========================================
+CT-01: Happy Path — Inativar unidade 701
+Timestamp: 2026-04-21T00:43:37Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee:inativar
+Body: (sem body)
+--- RESPONSE ---
+Status: 200
+Body:
+{
+  "id": "d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee",
+  "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+  "andar": 7,
+  "numero": "701",
+  "ativo": false,
+  "inativadoEm": "2026-04-21T00:43:37.7849393Z"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-02: Unidade ja inativa — nova tentativa de inativacao
+Timestamp: 2026-04-21T00:43:46Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee:inativar
+Body: (sem body)
+--- RESPONSE ---
+Status: 422
+Body:
+{
+  "type": "https://portabox.app/problems/invalid-transition",
+  "title": "Transição inválida",
+  "status": 422,
+  "detail": "A entidade ja esta inativa.",
+  "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee:inativar",
+  "traceId": "cdde06292057d79908fddaa929e1865a"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-03: Unidade inexistente (GUID aleatorio)
+Timestamp: 2026-04-21T00:43:53Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/a1b2c3d4-e5f6-7890-abcd-ef1234567890:inativar
+Body: (sem body)
+--- RESPONSE ---
+Status: 400
+Body:
+{
+  "type": "https://portabox.app/problems/validation-error",
+  "title": "Falha de validação",
+  "status": 400,
+  "detail": "Unidade nao encontrada",
+  "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/a1b2c3d4-e5f6-7890-abcd-ef1234567890:inativar",
+  "traceId": "e1028e413d5dc7fc20ed34ead1c25085"
+}
+--- RESULTADO: FAIL ---
+Expected: 404
+Actual: status=400
+
+--- CT-03 RETRY com GUID valido: 76e4f30e-49c9-485a-a80e-05d9bb928a89 ---
+Status: 400
+Body: {
+  "type": "https://portabox.app/problems/validation-error",
+  "title": "Falha de validação",
+  "status": 400,
+  "detail": "Unidade nao encontrada",
+  "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/76e4f30e-49c9-485a-a80e-05d9bb928a89:inativar",
+  "traceId": "10259f8c4518b62dc7cacce14e67674a"
+}
+--- RESULTADO REVISADO: FAIL ---
+Expected: 404, Actual: 400
+========================================
+CT-03: (GUID RFC-4122 valido — unidade inexistente)
+Timestamp: 2026-04-21T00:44:09Z
+GUID usado: 2456ce1b-b6f7-419a-94af-6c2873946429
+Status: 400
+Body:
+{
+  "type": "https://portabox.app/problems/validation-error",
+  "title": "Falha de validação",
+  "status": 400,
+  "detail": "Unidade nao encontrada",
+  "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/2456ce1b-b6f7-419a-94af-6c2873946429:inativar",
+  "traceId": "332004b2042973ae66d7033b13433d5b"
+}
+--- RESULTADO: FAIL ---
+Expected: 404 (unidade nao encontrada)
+Actual: 400 — 'Unidade nao encontrada' retornado como validation-error em vez de 404
+Nota: Divergencia de contrato. O servidor usa 400+validation-error para recurso nao encontrado.
+========================================
+========================================
+CT-04: BlocoId errado no path (unidade real do QA-01)
+Timestamp: 2026-04-21T00:44:23Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/54d4fbe9-e749-4ee4-8dc4-442355762b6c/unidades/d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee:inativar
+Nota: CT01_UNIDADE_ID pertence ao Bloco QA-01, mas path usa blocoId do Bloco Temp Inativo
+--- RESPONSE ---
+Status: 400
+Body:
+{
+  "type": "https://portabox.app/problems/validation-error",
+  "title": "Falha de validação",
+  "status": 400,
+  "detail": "Unidade nao encontrada",
+  "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/54d4fbe9-e749-4ee4-8dc4-442355762b6c/unidades/d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee:inativar",
+  "traceId": "3ec4effd6985741f31c91f955d998fb0"
+}
+--- RESULTADO: PASS ---
+Status retornado: 400 — adequado para path inconsistente
+========================================
+CT-05: Sem autenticacao
+Timestamp: 2026-04-21T00:44:27Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee:inativar
+Auth: nenhuma (sem cookie)
+--- RESPONSE ---
+Status: 401
+Body:
+{
+  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+  "title": "Não autorizado",
+  "status": 401,
+  "detail": "Token de autenticação inválido ou expirado",
+  "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee:inativar",
+  "traceId": "36e4a4e3c14d83a1fb5f12a071d95527"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-06: Cross-tenant — sindico A tenta inativar unidade de tenant B
+Timestamp: 2026-04-21T00:44:48Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/849b6750-0cca-4cef-a798-5d90d04246ff/unidades/ea741ce2-4d63-4580-a11f-89176e5341d3:inativar
+Auth: cookie sindico A (tenant A)
+--- RESPONSE ---
+Status: 403
+Body:
+{
+  "type": "https://portabox.app/problems/forbidden",
+  "title": "Acesso negado",
+  "status": 403,
+  "detail": "Você não tem permissão para executar esta operação",
+  "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/849b6750-0cca-4cef-a798-5d90d04246ff/unidades/ea741ce2-4d63-4580-a11f-89176e5341d3:inativar",
+  "traceId": "9cb994b51cf5d5b68a4b4f8069d73ba8"
+}
+--- RESULTADO: PASS ---
+Sindico A corretamente bloqueado de inativar unidade de tenant B (status=403)
+========================================
+CT-09: GET estrutura sem includeInactive — unidade inativa oculta
+Timestamp: 2026-04-21T00:45:24Z
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+--- RESPONSE ---
+Status: 200
+Body:
+{
+  "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+  "nomeFantasia": "QA Teste A - 1776724904",
+  "blocos": [
+    {
+      "id": "88037273-d560-4415-a1e2-b45a00dc5be4",
+      "nome": "Bloco QA-01",
+      "ativo": true,
+      "andares": [
+        {
+          "andar": 0,
+          "unidades": [
+            {
+              "id": "0608df78-27c8-439f-a0a5-b6511107fcad",
+              "numero": "01",
+              "ativo": true
+            }
+          ]
+        },
+        {
+          "andar": 1,
+          "unidades": [
+            {
+              "id": "f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33",
+              "numero": "101",
+              "ativo": true
+            },
+            {
+              "id": "c010da4e-b74e-4476-b2e2-2b0747b3bfbc",
+              "numero": "101A",
+              "ativo": true
+            },
+            {
+              "id": "d06623f6-1c32-41f9-b681-bf23070249b0",
+              "numero": "102B",
+              "ativo": true
+            }
+          ]
+        },
+        {
+          "andar": 5,
+          "unidades": [
+            {
+              "id": "368496a7-8296-41de-a908-9e03b83d4184",
+              "numero": "501",
+              "ativo": true
+            }
+          ]
+        },
+        {
+          "andar": 10,
+          "unidades": [
+            {
+              "id": "45f39d2b-56ba-48bf-b36d-fc231b1013c0",
+              "numero": "1001",
+              "ativo": true
+            },
+            {
+              "id": "37bc9e13-78fb-440e-9b99-23f7b19f6c60",
+              "numero": "1002A",
+              "ativo": true
+            }
+          ]
+        },
+        {
+          "andar": 11,
+          "unidades": [
+            {
+              "id": "fed9b09a-e5e6-4b84-bc70-37e88412f698",
+              "numero": "1101",
+              "ativo": true
+            },
+            {
+              "id": "daa2350c-d8ec-4b77-ad60-f6a1ee529842",
+              "numero": "1102A",
+              "ativo": true
+            }
+          ]
+        },
+        {
+--- RESULTADO: PASS ---
+Unidade inativa d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee nao aparece na estrutura padrao
+========================================
+CT-10: GET estrutura com includeInactive=true — unidade inativa visivel
+Timestamp: 2026-04-21T00:45:36Z
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=true
+--- RESPONSE ---
+Status: 200
+Body (primeiros 100 chars da unidade buscada):
+{
+  "id": "d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee",
+  "numero": "701",
+  "ativo": false
+}
+--- RESULTADO: PASS ---
+Unidade d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee aparece com ativo=false quando includeInactive=true
+========================================
+CT-12: Inativacao nao afeta outras unidades do bloco
+Timestamp: 2026-04-21T00:45:51Z
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+--- RESPONSE ---
+Status: 200
+Total unidades ativas visiveis: 12
+Unidade 101 (f2a0b7cc) presente: 1
+Bloco QA-01 andares:
+[
+  {
+    "andar": 0,
+    "unidades": [
+      {
+        "id": "0608df78-27c8-439f-a0a5-b6511107fcad",
+        "numero": "01",
+        "ativo": true
+      }
+    ]
+  },
+  {
+    "andar": 1,
+    "unidades": [
+      {
+        "id": "f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33",
+        "numero": "101",
+        "ativo": true
+      },
+      {
+        "id": "c010da4e-b74e-4476-b2e2-2b0747b3bfbc",
+        "numero": "101A",
+        "ativo": true
+      },
+      {
+        "id": "d06623f6-1c32-41f9-b681-bf23070249b0",
+        "numero": "102B",
+        "ativo": true
+      }
+    ]
+  },
+  {
+    "andar": 5,
+    "unidades": [
+      {
+        "id": "368496a7-8296-41de-a908-9e03b83d4184",
+        "numero": "501",
+        "ativo": true
+      }
+    ]
+  },
+  {
+    "andar": 10,
+    "unidades": [
+      {
+        "id": "45f39d2b-56ba-48bf-b36d-fc231b1013c0",
+        "numero": "1001",
+        "ativo": true
+      },
+      {
+        "id": "37bc9e13-78fb-440e-9b99-23f7b19f6c60",
+        "numero": "1002A",
+        "ativo": true
+      }
+    ]
+  },
+  {
+    "andar": 11,
+    "unidades": [
+      {
+        "id": "fed9b09a-e5e6-4b84-bc70-37e88412f698",
+        "numero": "1101",
+        "ativo": true
+      },
+      {
+        "id": "daa2350c-d8ec-4b77-ad60-f6a1ee529842",
+        "numero": "1102A",
+        "ativo": true
+      }
+    ]
+  },
+  {
+    "andar": 20,
+    "unidades": [
+      {
+        "id": "c0d95956-97a9-418b-8f8e-3d53bdcc5d3b",
+        "numero": "2001",
+        "ativo": true
+      }
+    ]
+  },
+  {
+    "andar": 99,
+    "unidades": [
+      {
+        "id": "97e8872b-aa59-4379-9f82-1838b546a6dc",
+        "numero": "9901",
+        "ativo": true
+      },
+      {
+        "id": "2bf3daaa-38e3-4187-ae12-7131935e848b",
+        "numero": "9902A",
+        "ativo": true
+      }
+    ]
+  }
+]
+--- RESULTADO: PASS ---
+========================================
+CT-11: Moradores associados continuam ligados
+Timestamp: 2026-04-21T00:45:56Z
+--- RESULTADO: BLOCKED ---
+Motivo: Feature F03 (Morador) ainda nao implementada.
+Nao e possivel criar moradores associados nem verificar vinculo apos inativacao.
+Dependencia: qa_task_XX para F03 — fora do escopo desta sessao QA.
+========================================
+
+--- UT-01 PRE-STEP: Criou unidade andar=8 numero=801 id=44be8a2a-a722-43b5-b9c4-e2f4fc6594e3 ---
+
+--- UT-01: Unidade 801 visivel antes de inativar: false ---
+
+--- UT-01: Unidade 801 nao visivel. Procurando botao de acoes pelo ID=44be8a2a-a722-43b5-b9c4-e2f4fc6594e3 ---
+Body excerpt: 
+    qa-sindico-a-1776724904SairEstrutura do condomínioConsulte blocos, andares e unidades em uma única árvore operacional.Novo blocoMostrar inativosQA Teste A - 17767249043 blocos cadastradosBloco selecionado: Bloco QA-01Use este contexto para cadastrar unidades novas ou continuar o preenchimento em rajada.Adicionar unidadeAdicionar próxima unidadeQA Teste A - 1776724904Bloco QA-01 · 13 unidades ativasInfoAçõesRenomearInativarBloco QA-02 V3 · 0 unidades ativasAçõesBloco UI-QA-01 Editado · 0 uni
+
+--- UT-01: Botao Acoes da unidade nao encontrado. Botoes disponiveis:
+Sair
+Novo bloco
+Adicionar unidade
+Adicionar próxima unidade
+Ações do bloco Bloco QA-01
+Ações do bloco Bloco QA-02 V3
+Ações do bloco Bloco UI-QA-01 Editado
+
+--- UT-02: Toggle visivel=false, Unidade 701 antes toggle=false ---
+
+--- UT-02: Toggle nao encontrado. Labels/checkboxes: Mostrar inativos ---
+
+--- UT-03: Botao Acoes da unidade nao encontrado. Botoes: Sair | Novo bloco | Adicionar unidade | Adicionar próxima unidade | Ações do bloco Bloco QA-01 | Ações do bloco Bloco QA-02 V3 | Ações do bloco Bloco UI-QA-01 Editado ---
+
+--- UT-01 PRE-STEP FAIL: status=409 body={"type":"https://portabox.app/problems/canonical-conflict","title":"Conflito canônico","status":409,"detail":"Unidade ja existe","instance":"/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades","traceId":"f00e52789221bdd091a993a8672d09bc"} ---
+
+--- UT-01 PRE-STEP: Criou unidade andar=8 numero=801 id= ---
+
+--- UT-01: "Unidade 801" visivel na arvore: false ---
+
+--- UT-01: Body text (primeiros 800 chars): 
+    qa-sindico-a-1776724904SairEstrutura do condomínioConsulte blocos, andares e unidades em uma única árvore operacional.Novo blocoMostrar inativosQA Teste A - 17767249043 blocos cadastradosBloco selecionado: Bloco QA-01Use este contexto para cadastrar unidades novas ou continuar o preenchimento em rajada.Adicionar unidadeAdicionar próxima unidadeQA Teste A - 1776724904Bloco QA-01 · 13 unidades ativasInfoAçõesBloco QA-02 V3 · 0 unidades ativasAçõesBloco UI-QA-01 Editado · 0 unidades ativasAções
+    
+  
+
+ ---
+
+--- UT-02: Toggle "Mostrar inativos" visivel: true
+Unidade 701 antes toggle: false ---
+
+--- BROWSER CONSOLE UT-02 ---
+Unidade 701 visivel apos toggle (esperado true): false
+Body tem texto "inati": true
+
+
+--- UT-03: Unidade 101 visivel antes: false ---
+
+--- UT-03: Unidade 101 nao visivel. Body: 
+    qa-sindico-a-1776724904SairEstrutura do condomínioConsulte blocos, andares e unidades em uma única árvore operacional.Novo blocoMostrar inativosQA Teste A - 17767249043 blocos cadastradosBloco selecionado: Bloco QA-01Use este contexto para cadastrar unidades novas ou continuar o preenchimento em rajada.Adicionar unidadeAdicionar próxima unidadeQA Teste A - 1776724904Bloco QA-01 · 13 unidades ativasInfoAçõesBloco QA-02 V3 · 0 unidades ativasAçõesBloco UI-QA-01 Editado · 0 unidades ativasAçõe ---
+
+--- UT-01 PRE-STEP: Criou unidade andar=8 numero=802 id=c4c0af70-e2be-4d21-a8fa-d1521791cc56 ---
+
+--- UT-01: Unidade "Unidade 802" (id=c4c0af70-e2be-4d21-a8fa-d1521791cc56) visivel: true ---
+
+--- UT-01: Modal visivel=true, texto: "Inativar unidade✕Inativar a unidade 802 em Bloco QA-01 retira-a dos cadastros ativos. Moradores associados permanecem vinculados; inative-os separadamente em F03 se necessario.CancelarInativar unidade"
+Has moradores copy: true ---
+
+--- BROWSER CONSOLE UT-01 ---
+Unidade visivel apos inativacao (esperado false): false
+Modal menciona moradores: true
+ID unidade: c4c0af70-e2be-4d21-a8fa-d1521791cc56
+
+
+--- UT-02: Andar 7 visivel antes toggle: false
+Unidade 701 visivel antes toggle (esperado false): false ---
+
+--- BROWSER CONSOLE UT-02 ---
+Andar 7 visivel apos toggle: true
+Unidade 701 (d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee) visivel apos toggle (esperado true): true
+
+
+--- UT-03: Unidade 101 visivel antes: true ---
+
+--- UT-03: Unidade 101 visivel antes: true ---
+
+--- BROWSER CONSOLE UT-03 ---
+Unidade 101 antes: true, apos cancelar: true
+Modal apos cancelar (esperado false): false
+

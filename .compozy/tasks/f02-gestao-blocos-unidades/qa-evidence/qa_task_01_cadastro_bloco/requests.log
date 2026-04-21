@@ -1,0 +1,682 @@
+========================================
+AUTENTICACAO — Login Fresco Sindico A
+Timestamp: 2026-04-20T23:39:32Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/login
+Body: {"email":"[REDACTED]","password":"[REDACTED]"}
+--- RESPONSE ---
+Status: 200
+Body: {"userId":"9ae7217c-7c68-43ba-b663-63bb9f235d97","role":"Sindico","tenantId":"4cce551d-4f18-474b-a42a-2deb6c2a0451"}
+--- RESULTADO: PASS --- Login OK
+
+========================================
+CT-01: Happy Path — Criar Bloco QA-01
+Timestamp: 2026-04-20T23:39:43Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {"nome":"Bloco QA-01"}
+--- RESPONSE ---
+Status: 201
+Location header: Location: /api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4
+Body:
+
+--- RESULTADO: PASS ---
+
+--- CT-01 RETROSPECTIVO: ID extraido do banco ---
+BLOCO_QA01_ID: 88037273-d560-4415-a1e2-b45a00dc5be4
+Response body da primeira chamada (201) nao foi capturado integralmente.
+ID confirmado via SELECT no banco: 88037273-d560-4415-a1e2-b45a00dc5be4
+Location header esperado: /api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4
+Segunda chamada com mesmo nome retornou 409 — confirmando que CT-01 criou o bloco.
+--- CT-01: PASS ---
+
+========================================
+CT-01: Happy Path REVISADO — Bloco QA-03 (mesmo shape de QA-01)
+========================================
+Nota: QA-01 foi criado mas response nao capturado; QA-02 e QA-03 criados para verificar shape.
+ID QA-01: 88037273-d560-4415-a1e2-b45a00dc5be4 (confirmado via DB)
+ID QA-02: 4c936a72-fc12-4f32-809f-3f290c4bc8ae (Location header)
+ID QA-03: ff2ed42b-e9d9-426e-81fa-6bd51b767174
+
+Response body shape (QA-03):
+{"id":"ff2ed42b-e9d9-426e-81fa-6bd51b767174","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Bloco QA-03","ativo":true,"inativadoEm":null}
+Location header (QA-02): Location: /api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+--- RESULTADO: PASS ---
+
+========================================
+CT-02: Nome vazio → 400
+Timestamp: 2026-04-20T23:40:30Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {"nome":""}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos",
+    "errors": {
+        "nome": [
+            "O nome do bloco deve ter entre 1 e 50 caracteres."
+        ]
+    },
+    "traceId": "fe3669d314b6f5ba1c1e756dd9520020"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-03: Nome whitespace only → 400
+Timestamp: 2026-04-20T23:40:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {"nome":"   "}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos",
+    "errors": {
+        "nome": [
+            "O nome do bloco deve ter entre 1 e 50 caracteres."
+        ]
+    },
+    "traceId": "15b9acb621430647d1bb8de816e1e5fd"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-04: Nome > 50 chars → 400
+Timestamp: 2026-04-20T23:40:49Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {"nome":"AAAAAAAAAABBBBBBBBBBCCCCCCCCCCDDDDDDDDDDEEEEEEEEEEX"} (51 chars)
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos",
+    "errors": {
+        "nome": [
+            "O nome do bloco deve ter entre 1 e 50 caracteres."
+        ]
+    },
+    "traceId": "88603e2e5db8e9b566f0fdbd1dd4c90d"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-05: Nome duplicado (Bloco QA-01 2a vez) → 409
+Timestamp: 2026-04-20T23:41:00Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {"nome":"Bloco QA-01"} (já existe)
+--- RESPONSE ---
+Status: 409
+Body:
+{
+    "type": "https://portabox.app/problems/canonical-conflict",
+    "title": "Conflito can\u00f4nico",
+    "status": 409,
+    "detail": "Ja existe bloco ativo com este nome",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos",
+    "traceId": "2520b76f56fd503af56beabd55fabf17"
+}
+--- RESULTADO: PASS --- type=https://portabox.app/problems/canonical-conflict
+
+========================================
+CT-06: Body JSON inválido → 400
+Timestamp: 2026-04-20T23:41:08Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {nome: sem-aspas}
+--- RESPONSE ---
+Status: 500
+Body: {"type":"https://portabox.app/problems/internal-error","title":"Erro interno do servidor","status":500,"detail":"Failed to read parameter \"CreateBlocoRequest request\" from the request body as JSON.","instance":"/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos","traceId":"1c50ca502b7c6c5525930c50309b0f4a"}
+--- RESULTADO: FAIL --- Expected 400 / Actual 500
+
+========================================
+CT-07: Sem cookie de auth → 401
+Timestamp: 2026-04-20T23:41:17Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Headers: SEM cookie
+Body: {"nome":"Bloco SemAuth"}
+--- RESPONSE ---
+Status: 401
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+    "title": "N\u00e3o autorizado",
+    "status": 401,
+    "detail": "Token de autentica\u00e7\u00e3o inv\u00e1lido ou expirado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos",
+    "traceId": "1c45b967d0e407c7ef3f626b57b360f3"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-08: CondominioId inexistente → 404
+Timestamp: 2026-04-20T23:41:41Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/aaaabbbb-cccc-dddd-eeee-ffff00001111/blocos
+Body: {"nome":"Bloco Inexistente"}
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/aaaabbbb-cccc-dddd-eeee-ffff00001111/blocos",
+    "traceId": "1f450742ffdc826df2c2dba6249e9bd8"
+}
+--- RESULTADO: FAIL --- Expected 404 / Actual 403
+
+========================================
+CT-09: Sindico A em Tenant B → 403 ou 404
+Timestamp: 2026-04-20T23:41:41Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos
+Cookie: cookies_sindico_a.txt (Sindico A — tenant A)
+Body: {"nome":"Bloco Cross-Tenant"}
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos",
+    "traceId": "1190305ef6848a4925894ac517057391"
+}
+--- RESULTADO: PASS --- status=403 (403 ou 404 ambos aceitos para cross-tenant), type=https://portabox.app/problems/forbidden
+
+--- DEBUG LOGIN NETWORK ---
+REQUEST: GET http://localhost:5174/login
+RESPONSE: 200 http://localhost:5174/login
+REQUEST: GET http://localhost:5174/@vite/client
+REQUEST: GET https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap
+REQUEST: GET http://localhost:5174/src/main.tsx
+REQUEST: GET http://localhost:5174/@react-refresh
+RESPONSE: 200 http://localhost:5174/src/main.tsx
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react-dom_client.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react-router-dom.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/bootstrap.ts
+REQUEST: GET http://localhost:5174/src/features/auth/AuthContext.tsx
+REQUEST: GET http://localhost:5174/src/providers/QueryProvider.tsx
+REQUEST: GET http://localhost:5174/src/styles/tokens.css
+REQUEST: GET http://localhost:5174/src/App.tsx
+RESPONSE: 200 http://localhost:5174/@react-refresh
+RESPONSE: 200 http://localhost:5174/@vite/client
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/node_modules/.pnpm/vite@6.4.2_@types+node@25.6.0/node_modules/vite/dist/client/env.mjs
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-6HVYKXQA.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-WOOG5QLI.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react-dom_client.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-P4WKW7M7.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/providers/QueryProvider.tsx
+RESPONSE: 200 http://localhost:5174/src/bootstrap.ts
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/@tanstack_react-query.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/lib/queryClient.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/index.ts
+RESPONSE: 200 http://localhost:5174/src/features/auth/AuthContext.tsx
+RESPONSE: 200 http://localhost:5174/src/App.tsx
+REQUEST: GET http://localhost:5174/src/shared/api/client.ts
+REQUEST: GET http://localhost:5174/src/features/auth/context.ts
+REQUEST: GET http://localhost:5174/src/app/routes.tsx
+RESPONSE: 200 http://localhost:5174/src/styles/tokens.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/node_modules/.pnpm/vite@6.4.2_@types+node@25.6.0/node_modules/vite/dist/client/env.mjs
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-WOOG5QLI.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-6HVYKXQA.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react-router-dom.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/index.ts
+RESPONSE: 200 http://localhost:5174/src/lib/queryClient.ts
+RESPONSE: 200 http://localhost:5174/src/features/auth/context.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/errors.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/http.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/queryKeys.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/blocos.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/estrutura.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/unidades.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/types.ts
+RESPONSE: 200 http://localhost:5174/src/shared/api/client.ts
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/@tanstack_react-query.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-6BNHXIRI.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/queryKeys.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/blocos.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/errors.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/http.ts
+RESPONSE: 200 http://localhost:5174/src/app/routes.tsx
+REQUEST: GET http://localhost:5174/src/features/auth/pages/LoginPage.tsx
+REQUEST: GET http://localhost:5174/src/features/auth/pages/SetupPasswordPage.tsx
+REQUEST: GET http://localhost:5174/src/features/home/HomePage.tsx
+REQUEST: GET http://localhost:5174/src/routes/estrutura.tsx
+REQUEST: GET http://localhost:5174/src/shared/auth/RequireSindico.tsx
+REQUEST: GET http://localhost:5174/src/shared/layouts/PublicLayout.tsx
+REQUEST: GET http://localhost:5174/src/shared/layouts/PrivateLayout.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/types.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/estrutura.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/unidades.ts
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-6BNHXIRI.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/LoginPage.tsx
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-P4WKW7M7.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/index.ts
+REQUEST: GET http://localhost:5174/src/features/auth/hooks/useAuth.ts
+REQUEST: GET http://localhost:5174/src/features/auth/pages/LoginPage.module.css
+RESPONSE: 200 http://localhost:5174/src/routes/estrutura.tsx
+RESPONSE: 200 http://localhost:5174/src/features/home/HomePage.tsx
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/SetupPasswordPage.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/EstruturaPage.tsx
+REQUEST: GET http://localhost:5174/src/features/home/HomePage.module.css
+REQUEST: GET http://localhost:5174/src/features/auth/pages/SetupPasswordPage.module.css
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PublicLayout.tsx
+RESPONSE: 200 http://localhost:5174/src/shared/auth/RequireSindico.tsx
+REQUEST: GET http://localhost:5174/src/shared/layouts/PublicLayout.module.css
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PrivateLayout.tsx
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/lucide-react.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/shared/layouts/PrivateLayout.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/index.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/icons/index.ts
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/LoginPage.module.css
+RESPONSE: 200 http://localhost:5174/src/features/auth/hooks/useAuth.ts
+REQUEST: GET http://localhost:5174/src/features/auth/useAuthContext.ts
+RESPONSE: 200 http://localhost:5174/src/features/home/HomePage.module.css
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/SetupPasswordPage.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/EstruturaPage.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoForm.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/EmptyState.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/UnidadeForm.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useCriarBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useCriarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useInativarBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useInativarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useReativarBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useReativarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useRenomearBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useEstrutura.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/mappers/toTreeItems.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/EstruturaPage.module.css
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PublicLayout.module.css
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PrivateLayout.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/icons/index.ts
+RESPONSE: 200 http://localhost:5174/src/features/auth/useAuthContext.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoForm.tsx
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/@hookform_resolvers_zod.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react-hook-form.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoForm.module.css
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/blocoFormSchema.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/EmptyState.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/EmptyState.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/UnidadeForm.tsx
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useCriarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/UnidadeForm.module.css
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/unidadeFormSchema.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/cache.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useCriarBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useInativarBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useReativarBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useInativarUnidade.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useReativarUnidade.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useRenomearBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useEstrutura.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/mappers/toTreeItems.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/EstruturaPage.module.css
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/UnidadeActionsMenu.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoForm.module.css
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/@hookform_resolvers_zod.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/EmptyState.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/blocoFormSchema.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/UnidadeForm.module.css
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react-hook-form.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-S42QSCXO.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-RFIZQ7OT.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/lucide-react.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/zod.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/unidadeFormSchema.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/cache.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/UnidadeActionsMenu.tsx
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-S42QSCXO.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.module.css
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/zod.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-RFIZQ7OT.js?v=13b31c6b
+RESPONSE: 200 https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap
+REQUEST: GET http://localhost:5174/logo-portabox.png
+REQUEST: GET https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2
+REQUEST: GET https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2
+RESPONSE: 200 http://localhost:5174/logo-portabox.png
+REQUEST: GET http://localhost:5174/api/v1/auth/me
+REQUEST: GET http://localhost:5174/api/v1/auth/me
+RESPONSE: 200 http://localhost:5174/api/v1/auth/me
+RESPONSE: 200 http://localhost:5174/api/v1/auth/me
+RESPONSE: 200 https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2
+RESPONSE: 200 https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2
+REQUEST: POST http://localhost:5174/api/v1/auth/login
+RESPONSE: 404 http://localhost:5174/api/v1/auth/login
+
+--- DEBUG LOGIN NETWORK ---
+REQUEST: GET http://localhost:5174/login
+RESPONSE: 200 http://localhost:5174/login
+REQUEST: GET http://localhost:5174/@vite/client
+REQUEST: GET https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap
+REQUEST: GET http://localhost:5174/src/main.tsx
+REQUEST: GET http://localhost:5174/@react-refresh
+RESPONSE: 200 http://localhost:5174/src/main.tsx
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react-dom_client.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react-router-dom.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/bootstrap.ts
+REQUEST: GET http://localhost:5174/src/features/auth/AuthContext.tsx
+REQUEST: GET http://localhost:5174/src/providers/QueryProvider.tsx
+REQUEST: GET http://localhost:5174/src/styles/tokens.css
+REQUEST: GET http://localhost:5174/src/App.tsx
+RESPONSE: 200 http://localhost:5174/@vite/client
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/node_modules/.pnpm/vite@6.4.2_@types+node@25.6.0/node_modules/vite/dist/client/env.mjs
+RESPONSE: 200 http://localhost:5174/@react-refresh
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react-dom_client.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-6HVYKXQA.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-WOOG5QLI.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-P4WKW7M7.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/bootstrap.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/index.ts
+RESPONSE: 200 http://localhost:5174/src/providers/QueryProvider.tsx
+RESPONSE: 200 http://localhost:5174/src/App.tsx
+RESPONSE: 200 http://localhost:5174/src/features/auth/AuthContext.tsx
+RESPONSE: 200 http://localhost:5174/src/styles/tokens.css
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/@tanstack_react-query.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/lib/queryClient.ts
+REQUEST: GET http://localhost:5174/src/app/routes.tsx
+REQUEST: GET http://localhost:5174/src/shared/api/client.ts
+REQUEST: GET http://localhost:5174/src/features/auth/context.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/node_modules/.pnpm/vite@6.4.2_@types+node@25.6.0/node_modules/vite/dist/client/env.mjs
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react-router-dom.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/lib/queryClient.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/index.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/errors.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/http.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/queryKeys.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/blocos.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/estrutura.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/unidades.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/types.ts
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-WOOG5QLI.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-6HVYKXQA.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/@tanstack_react-query.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-6BNHXIRI.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/auth/context.ts
+RESPONSE: 200 http://localhost:5174/src/app/routes.tsx
+REQUEST: GET http://localhost:5174/src/features/auth/pages/LoginPage.tsx
+REQUEST: GET http://localhost:5174/src/features/auth/pages/SetupPasswordPage.tsx
+REQUEST: GET http://localhost:5174/src/features/home/HomePage.tsx
+REQUEST: GET http://localhost:5174/src/routes/estrutura.tsx
+REQUEST: GET http://localhost:5174/src/shared/auth/RequireSindico.tsx
+REQUEST: GET http://localhost:5174/src/shared/layouts/PublicLayout.tsx
+REQUEST: GET http://localhost:5174/src/shared/layouts/PrivateLayout.tsx
+RESPONSE: 200 http://localhost:5174/src/shared/api/client.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/errors.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/http.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/queryKeys.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/blocos.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/estrutura.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/types.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/api-client/src/modules/unidades.ts
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/LoginPage.tsx
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-6BNHXIRI.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/SetupPasswordPage.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/index.ts
+REQUEST: GET http://localhost:5174/src/features/auth/hooks/useAuth.ts
+REQUEST: GET http://localhost:5174/src/features/auth/pages/LoginPage.module.css
+REQUEST: GET http://localhost:5174/src/features/auth/pages/SetupPasswordPage.module.css
+RESPONSE: 200 http://localhost:5174/src/routes/estrutura.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/EstruturaPage.tsx
+RESPONSE: 200 http://localhost:5174/src/features/home/HomePage.tsx
+REQUEST: GET http://localhost:5174/src/features/home/HomePage.module.css
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-P4WKW7M7.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PublicLayout.tsx
+REQUEST: GET http://localhost:5174/src/shared/layouts/PublicLayout.module.css
+RESPONSE: 200 http://localhost:5174/src/shared/auth/RequireSindico.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/index.ts
+RESPONSE: 200 http://localhost:5174/src/features/auth/hooks/useAuth.ts
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/LoginPage.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/icons/index.ts
+REQUEST: GET http://localhost:5174/src/features/auth/useAuthContext.ts
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PrivateLayout.tsx
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/lucide-react.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/shared/layouts/PrivateLayout.module.css
+RESPONSE: 200 http://localhost:5174/src/features/auth/pages/SetupPasswordPage.module.css
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PublicLayout.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.tsx
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/EstruturaPage.tsx
+RESPONSE: 200 http://localhost:5174/src/features/home/HomePage.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.module.css
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoForm.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/EmptyState.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/UnidadeForm.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useCriarBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useCriarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useInativarBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useInativarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useReativarBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useReativarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useRenomearBloco.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/useEstrutura.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/mappers/toTreeItems.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/EstruturaPage.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.tsx
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.module.css
+RESPONSE: 200 http://localhost:5174/src/features/auth/useAuthContext.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.tsx
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/icons/index.ts
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.module.css
+REQUEST: GET http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.module.css
+RESPONSE: 200 http://localhost:5174/src/shared/layouts/PrivateLayout.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/button/Button.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/EmptyState.tsx
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoForm.tsx
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/UnidadeForm.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/EmptyState.module.css
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/@hookform_resolvers_zod.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/react-hook-form.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoForm.module.css
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/blocoFormSchema.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/UnidadeForm.module.css
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/unidadeFormSchema.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useCriarBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useCriarUnidade.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/hooks/cache.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useReativarBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useReativarUnidade.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useInativarBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useRenomearBloco.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useInativarUnidade.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/useEstrutura.ts
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/input/Input.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/card/Card.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/mappers/toTreeItems.ts
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.tsx
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/UnidadeActionsMenu.tsx
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/EstruturaPage.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/badge/Badge.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/modal/Modal.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/confirm-modal/ConfirmModal.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/step-indicator/StepIndicator.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/Tree.module.css
+RESPONSE: 200 http://localhost:5174/@fs/home/tsgomes/log-portaria/packages/ui/src/tree/TreeNode.module.css
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/react-hook-form.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-S42QSCXO.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoForm.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/EmptyState.module.css
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/blocoFormSchema.ts
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/@hookform_resolvers_zod.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/UnidadeForm.module.css
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/zod.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/node_modules/.vite/deps/chunk-RFIZQ7OT.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/unidadeFormSchema.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/hooks/cache.ts
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.tsx
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/UnidadeActionsMenu.tsx
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/lucide-react.js?v=13b31c6b
+REQUEST: GET http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.module.css
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-S42QSCXO.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/zod.js?v=13b31c6b
+RESPONSE: 200 http://localhost:5174/src/features/estrutura/components/BlocoActionsMenu.module.css
+RESPONSE: 200 http://localhost:5174/node_modules/.vite/deps/chunk-RFIZQ7OT.js?v=13b31c6b
+RESPONSE: 200 https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap
+REQUEST: GET http://localhost:5174/logo-portabox.png
+REQUEST: GET https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2
+REQUEST: GET https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2
+RESPONSE: 200 http://localhost:5174/logo-portabox.png
+REQUEST: GET http://localhost:5174/api/v1/auth/me
+REQUEST: GET http://localhost:5174/api/v1/auth/me
+RESPONSE: 200 http://localhost:5174/api/v1/auth/me
+RESPONSE: 200 http://localhost:5174/api/v1/auth/me
+RESPONSE: 200 https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2
+RESPONSE: 200 https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2
+REQUEST: POST http://localhost:5174/api/v1/auth/login
+RESPONSE: 404 http://localhost:5174/api/v1/auth/login
+
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+
+========================================
+CT-08: CondominioId inexistente
+========================================
+NOTA: CT-08 retornou 403 (não 404).
+Expected: 404 — condomínio inexistente
+Actual: 403 — middleware verifica tenant_id do claim antes de buscar no banco
+Tipo: https://portabox.app/problems/forbidden
+Analise: O middleware de tenant compara condominioId da rota com tenant_id do claim.
+Se divergirem (GUID random vs tenant_id do sindico A), retorna 403 imediatamente,
+sem consultar se o condomínio existe. Comportamento diferente do contrato (que indica 404 para não-encontrado).
+--- RESULTADO: FAIL (desvio vs contrato) ---
+
+========================================
+CT-09: Sindico A em Tenant B
+========================================
+Actual: 403 — tipo https://portabox.app/problems/forbidden
+Contrato aceita 403 ou 404 para cross-tenant. Resultado dentro do esperado.
+--- RESULTADO: PASS ---

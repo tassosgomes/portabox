@@ -1,4 +1,6 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
+import { getRuntimeEnv } from '@portabox/api-client'
+
+const API_BASE = getRuntimeEnv('VITE_API_BASE_URL') ?? '/api'
 
 function getXsrfToken(): string | undefined {
   const match = document.cookie

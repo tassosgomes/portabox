@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: apps/backoffice estrutura read-only cross-tenant + seletor de tenant + log de acesso
 type: frontend
 complexity: medium
@@ -12,7 +12,9 @@ dependencies:
 # Task 17: apps/backoffice estrutura read-only cross-tenant + seletor de tenant + log de acesso
 
 ## Overview
-Entrega a visualização de estrutura no `apps/backoffice` em modo **read-only** para operadores da plataforma, consumindo o endpoint `GET /api/v1/admin/condominios/{id}/estrutura`. A tela reutiliza o `<Tree>` de `packages/ui` sem controles de ação, adiciona um seletor de tenant no topo e dispara um log de auditoria local quando o operador acessa a estrutura de um tenant.
+Entrega a visualização de estrutura no `apps/backoffice` em modo **read-only** para operadores da plataforma, consumindo o endpoint `GET /api/v1/admin/condominios/{condominioId}/estrutura` (mesmo shape de response `Estrutura` do endpoint do síndico — ver [`api-contract.yaml`](../api-contract.yaml)). A tela reutiliza o `<Tree>` de `packages/ui` sem controles de ação, adiciona um seletor de tenant no topo e dispara um log de auditoria local quando o operador acessa a estrutura de um tenant.
+
+> **Sem query param extra:** o endpoint admin aceita apenas `includeInactive` como query; o `condominioId` vai no path e **já representa o tenant**. Não inventar `?tenantId=...` ou similar — o contrato é autoritativo.
 
 <critical>
 - ALWAYS READ the PRD and TechSpec before starting
@@ -34,12 +36,12 @@ Entrega a visualização de estrutura no `apps/backoffice` em modo **read-only**
 </requirements>
 
 ## Subtasks
-- [ ] 17.1 Estender `@portabox/api-client` com `getEstruturaAdmin(condominioId, includeInactive)`
-- [ ] 17.2 Criar hook `useEstruturaAdmin` com query key `estruturaAdmin`
-- [ ] 17.3 Criar `<TenantSelector>` consumindo endpoint de listagem de tenants de F01
-- [ ] 17.4 Criar `<EstruturaReadOnlyPage>` reusando `<Tree>` sem ações
-- [ ] 17.5 Exibir contadores (blocos ativos, unidades ativas) calculados em memória
-- [ ] 17.6 Instrumentar log de auditoria de acesso (ou documentar TODO se deferido) + testes
+- [x] 17.1 Estender `@portabox/api-client` com `getEstruturaAdmin(condominioId, includeInactive)`
+- [x] 17.2 Criar hook `useEstruturaAdmin` com query key `estruturaAdmin`
+- [x] 17.3 Criar `<TenantSelector>` consumindo endpoint de listagem de tenants de F01
+- [x] 17.4 Criar `<EstruturaReadOnlyPage>` reusando `<Tree>` sem ações
+- [x] 17.5 Exibir contadores (blocos ativos, unidades ativas) calculados em memória
+- [x] 17.6 Instrumentar log de auditoria de acesso (ou documentar TODO se deferido) + testes
 
 ## Implementation Details
 Ver TechSpec seção **Data Flow C6** para comportamento esperado. Reutilizar mapper `toTreeItems` via import cruzado entre apps (se os workspaces permitirem) ou mover para `packages/api-client` (mais correto arquiteturalmente — o mapper só depende dos types do api-client).
@@ -80,15 +82,15 @@ Recomendação: **opção 2** — documentar TODO no `<EstruturaReadOnlyPage>` e
 
 ## Tests
 - Unit tests:
-  - [ ] `useEstruturaAdmin` chama `getEstruturaAdmin` com `condominioId` e `includeInactive` corretos; key `estruturaAdmin` diferente de `estrutura` (isolamento de cache)
-  - [ ] `<TenantSelector>` lista tenants e navega para `/tenants/:id/estrutura` na seleção
-  - [ ] `<EstruturaReadOnlyPage>` não renderiza botões de ação (CTA "Novo bloco" ausente; menu de ações ausente)
-  - [ ] Contadores: "Blocos ativos" e "Unidades ativas" calculam corretamente a partir da response
-  - [ ] Toggle "Mostrar inativos" funciona (refetch com `includeInactive=true`)
+  - [x] `useEstruturaAdmin` chama `getEstruturaAdmin` com `condominioId` e `includeInactive` corretos; key `estruturaAdmin` diferente de `estrutura` (isolamento de cache)
+  - [x] `<TenantSelector>` lista tenants e navega para `/tenants/:id/estrutura` na seleção
+  - [x] `<EstruturaReadOnlyPage>` não renderiza botões de ação (CTA "Novo bloco" ausente; menu de ações ausente)
+  - [x] Contadores: "Blocos ativos" e "Unidades ativas" calculam corretamente a partir da response
+  - [x] Toggle "Mostrar inativos" funciona (refetch com `includeInactive=true`)
 - Integration tests:
-  - [ ] MSW simula `GET /admin/condominios` + `GET /admin/condominios/:id/estrutura` → tela renderiza árvore
-  - [ ] MSW simula 403 (operador sem role) → redireciona para página de erro
-  - [ ] Mudança de tenant via seletor → nova query dispara com nova key
+  - [x] MSW simula `GET /admin/condominios` + `GET /admin/condominios/:id/estrutura` → tela renderiza árvore
+  - [x] MSW simula 403 (operador sem role) → redireciona para página de erro
+  - [x] Mudança de tenant via seletor → nova query dispara com nova key
 - Test coverage target: >=80%
 - All tests must pass
 

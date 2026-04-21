@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: Bloco — Commands + Handlers + Validators (Create/Rename/Inativar/Reativar)
 type: backend
 complexity: medium
@@ -12,6 +12,8 @@ dependencies:
 
 ## Overview
 Implementa os 4 Commands da camada de aplicação que orquestram o ciclo de vida de `Bloco`: criar, renomear, inativar, reativar. Cada handler valida input via FluentValidation, coordena `IBlocoRepository`, chama a entidade, registra auditoria via `IAuditService.RecordStructuralAsync` e deixa o commit para o EF Core (que aciona o `DomainEventOutboxInterceptor`).
+
+> **Alinhamento com contrato:** os records C# `CreateBlocoRequest`, `RenameBlocoRequest` e `BlocoDto` produzem JSON que DEVE bater exatamente com os schemas `CreateBlocoRequest`, `RenameBlocoRequest` e `Bloco` de [`api-contract.yaml`](../api-contract.yaml) (campos, tipos, nullable, regra de `camelCase` aplicada pelo System.Text.Json). Os nomes das classes C# podem diferir dos nomes dos schemas OpenAPI (ex.: `BlocoDto` vs schema `Bloco`), mas o **shape serializado em JSON** é autoritativo pelo contrato.
 
 <critical>
 - ALWAYS READ the PRD and TechSpec before starting
@@ -38,12 +40,12 @@ Implementa os 4 Commands da camada de aplicação que orquestram o ciclo de vida
 </requirements>
 
 ## Subtasks
-- [ ] 06.1 Criar commands + request/response DTOs + validators de Bloco
-- [ ] 06.2 Implementar `CreateBlocoCommandHandler` (check duplicado ativo → factory → add → audit → save)
-- [ ] 06.3 Implementar `RenameBlocoCommandHandler` (load → rename → audit → save; validar nome distinto)
-- [ ] 06.4 Implementar `InativarBlocoCommandHandler` e `ReativarBlocoCommandHandler` (load inclusive inativos no reativar → transição → audit → save)
-- [ ] 06.5 Tratar `DbUpdateException` em Create e Reativar para converter em 409 limpo
-- [ ] 06.6 Escrever unit tests cobrindo caminhos feliz e todos os erros
+- [x] 06.1 Criar commands + request/response DTOs + validators de Bloco
+- [x] 06.2 Implementar `CreateBlocoCommandHandler` (check duplicado ativo → factory → add → audit → save)
+- [x] 06.3 Implementar `RenameBlocoCommandHandler` (load → rename → audit → save; validar nome distinto)
+- [x] 06.4 Implementar `InativarBlocoCommandHandler` e `ReativarBlocoCommandHandler` (load inclusive inativos no reativar → transição → audit → save)
+- [x] 06.5 Tratar `DbUpdateException` em Create e Reativar para converter em 409 limpo
+- [x] 06.6 Escrever unit tests cobrindo caminhos feliz e todos os erros
 
 ## Implementation Details
 Ver TechSpec seções **Core Interfaces** (signature de Command/Handler) e **Data Flow** cenários C1 (criar) e C3 (renomear) e C5 (reativação com conflito canônico). Validators seguem padrão já estabelecido em F01 (ex.: `CreateCondominioCommandValidator`).

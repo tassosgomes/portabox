@@ -1,0 +1,342 @@
+========================================
+QA Task 09 — Isolamento Multi-tenant
+Timestamp: 2026-04-21T01:56:50Z
+Tenant A: 4cce551d-4f18-474b-a42a-2deb6c2a0451
+Tenant B: 23fb219d-460a-4eee-a9e7-308d7665350b
+========================================
+========================================
+CT-00: Re-login Sindico A
+Timestamp: 2026-04-21T01:56:50Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/login
+Body: {"email":"qa-sindico-a-1776724904@portabox.test","password":"[REDACTED]"}
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "userId": "9ae7217c-7c68-43ba-b663-63bb9f235d97",
+    "role": "Sindico",
+    "tenantId": "4cce551d-4f18-474b-a42a-2deb6c2a0451"
+}
+--- RESULTADO: PASS ---
+Sindico A autenticado com sucesso
+========================================
+CT-00B: Re-login Sindico B
+Timestamp: 2026-04-21T01:56:59Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/login
+Body: {"email":"qa-sindico-b-1776724968@portabox.test","password":"[REDACTED]"}
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "userId": "de785ac5-f834-47f2-8bbe-cf7ee3be24d9",
+    "role": "Sindico",
+    "tenantId": "23fb219d-460a-4eee-a9e7-308d7665350b"
+}
+--- RESULTADO: PASS ---
+Sindico B autenticado com sucesso
+========================================
+CT-SETUP-B: Criar bloco em Tenant B (via Sindico B)
+Timestamp: 2026-04-21T01:57:11Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos
+Body: {"nome":"Bloco B-QA-01"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "id": "7a600791-d5ac-4f70-9741-c7c86ea49ca5",
+    "condominioId": "23fb219d-460a-4eee-a9e7-308d7665350b",
+    "nome": "Bloco B-QA-01",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS ---
+BLOCO_B_ID: 7a600791-d5ac-4f70-9741-c7c86ea49ca5
+========================================
+CT-SETUP-B2: Criar unidade em Tenant B (via Sindico B)
+Timestamp: 2026-04-21T01:57:20Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades
+Body: {"andar":1,"numero":"101"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "id": "f24e0bdf-22fd-4300-9919-94da8618672e",
+    "blocoId": "7a600791-d5ac-4f70-9741-c7c86ea49ca5",
+    "andar": 1,
+    "numero": "101",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS ---
+UNIDADE_B_ID: f24e0bdf-22fd-4300-9919-94da8618672e
+========================================
+CT-01: GET estrutura cross-tenant — Sindico A tenta acessar Tenant B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/estrutura
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/estrutura",
+    "traceId": "977a877d21f8d17f2ebb3c49b1e4b3fc"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-02: GET estrutura cross-tenant — Sindico B tenta acessar Tenant A
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura",
+    "traceId": "e6565ea80622e8772416259e0b030e43"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-03: POST bloco cross-tenant (A->B) — CENARIO CRITICO
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos
+Body: {"nome":"Bloco Invasor"}
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos",
+    "traceId": "c66574f70e6e5ab5e464cc041cd7ba47"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-04: PATCH bloco cross-tenant — Sindico A tenta editar bloco de Tenant B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5
+Body: {"nome":"Bloco Invasao Edit"}
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5",
+    "traceId": "002e16bf99355e2e9a6917b7c4125c22"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-05: POST :inativar bloco cross-tenant — Sindico A tenta inativar bloco de Tenant B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5:inativar
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5:inativar",
+    "traceId": "2e13c678ea9690de7ffc69ffbb93ac1e"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-06: POST :reativar bloco cross-tenant — Sindico A tenta reativar bloco de Tenant B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5:reativar
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5:reativar",
+    "traceId": "3f5c7390c607401642af20d8b42f0677"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-07: POST unidade cross-tenant — Sindico A tenta criar unidade em Tenant B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades
+Body: {"andar":9,"numero":"901"}
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades",
+    "traceId": "020ac69fb6c77f0b7ae4791b2c11fc27"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-08: POST :inativar unidade cross-tenant — Sindico A tenta inativar unidade de Tenant B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades/f24e0bdf-22fd-4300-9919-94da8618672e:inativar
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades/f24e0bdf-22fd-4300-9919-94da8618672e:inativar",
+    "traceId": "c04b5e9d25d6f9c84804cd2879c16df3"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-09: POST :reativar unidade cross-tenant — Sindico A tenta reativar unidade de Tenant B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades/f24e0bdf-22fd-4300-9919-94da8618672e:reativar
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades/f24e0bdf-22fd-4300-9919-94da8618672e:reativar",
+    "traceId": "98d06bda3eccf24cdcccb5b21e857438"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-10: Path mix — Sindico A, condominioId=A, blocoId=B
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades
+Body: {"andar":8,"numero":"801"}
+Cenario cirurgico: condominio do proprio sindico A mas bloco pertencente ao tenant B
+--- RESPONSE ---
+Status: 404
+Body:
+{
+    "type": "https://portabox.app/problems/not-found",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "Bloco nao encontrado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/7a600791-d5ac-4f70-9741-c7c86ea49ca5/unidades",
+    "traceId": "41b1507d8e9eab62b4674944055454d3"
+}
+--- RESULTADO: PASS ---
+Expected: 404
+Actual: 404 — bloco de outro tenant nao encontrado no escopo do condominio A
+========================================
+CT-11: Path mix inverso — Sindico A, condominioId=B, blocoId=A
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":7,"numero":"701"}
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "traceId": "72d53a36252bd5534be64889f017ae8d"
+}
+--- RESULTADO: PASS ---
+Expected one of: 403 404
+Actual status:   403
+========================================
+CT-12: Admin endpoint — Sindico A tentando acessar /admin/condominios/{A}/estrutura
+Timestamp: 2026-04-21T01:58:40Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+Note: Sindico A usa seu proprio tenant mas endpoint e admin-only (role=Operator)
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.4",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/admin/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura",
+    "traceId": "73f0d6d9c999751752d080b1f4eda05e"
+}
+--- RESULTADO: PASS ---
+Expected: 403 (Sindico nao tem role de Operator)
+Actual: 403

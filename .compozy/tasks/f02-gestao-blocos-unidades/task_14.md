@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: apps/sindico EstruturaPage + hook useEstrutura (leitura da árvore)
 type: frontend
 complexity: medium
@@ -13,6 +13,8 @@ dependencies:
 
 ## Overview
 Entrega a página de estrutura do síndico em `apps/sindico` com leitura da árvore via TanStack Query: `<EstruturaPage>` consumindo `<Tree>` de `packages/ui` e `<EmptyState>` quando o condomínio não tem bloco. A tela ainda não tem mutações (virão em task_15/16); seu foco é estabelecer a estrutura de rotas, layout, estado de loading/erro e o hook `useEstrutura` reutilizado por task_15/16.
+
+> **Types via contrato:** todos os tipos de resposta (`Estrutura`, `BlocoNode`, `AndarNode`, `UnidadeLeaf`) vêm de `@portabox/api-client` que os deriva automaticamente do [`api-contract.yaml`](../api-contract.yaml) via `openapi-typescript` (task_11). **Nunca** redeclarar types localmente.
 
 <critical>
 - ALWAYS READ the PRD and TechSpec before starting
@@ -31,18 +33,18 @@ Entrega a página de estrutura do síndico em `apps/sindico` com leitura da árv
   - Estado de loading (skeleton/spinner), erro (mensagem + retry), vazio (empty state com CTA "Cadastrar primeiro bloco")
   - Renderização via `<Tree>` transformando `Estrutura` em `TreeItem[]`
 - MUST criar `src/features/estrutura/components/EmptyState.tsx` com copy didático e botão que chamará (via callback exposto) a criação do primeiro bloco (mutação real vem em task_15)
-- MUST criar helper `src/features/estrutura/mappers/toTreeItems.ts` que converte `EstruturaDto` em `TreeItem[]` com labels e badges corretos (ex.: "Bloco A · 24 unidades")
+- MUST criar helper `src/features/estrutura/mappers/toTreeItems.ts` que converte `Estrutura` (type importado de `@portabox/api-client`) em `TreeItem[]` com labels e badges corretos (ex.: "Bloco A · 24 unidades")
 - MUST lidar com erros da API (401 → redirect login; 404 → página dedicada; outros → toast)
 - SHOULD lazy-load a rota via `React.lazy` se o padrão estabelecido por F01 for esse
 </requirements>
 
 ## Subtasks
-- [ ] 14.1 Criar hook `useEstrutura` com TanStack Query e query key hierárquica
-- [ ] 14.2 Criar mapper `toTreeItems` transformando `Estrutura` → `TreeItem[]`
-- [ ] 14.3 Implementar `<EstruturaPage>` com loading/erro/empty/success states
-- [ ] 14.4 Implementar `<EmptyState>` com copy didático e CTA
-- [ ] 14.5 Registrar rota `/estrutura` no router de `apps/sindico`
-- [ ] 14.6 Escrever testes Vitest + React Testing Library cobrindo os 4 estados
+- [x] 14.1 Criar hook `useEstrutura` com TanStack Query e query key hierárquica
+- [x] 14.2 Criar mapper `toTreeItems` transformando `Estrutura` → `TreeItem[]`
+- [x] 14.3 Implementar `<EstruturaPage>` com loading/erro/empty/success states
+- [x] 14.4 Implementar `<EmptyState>` com copy didático e CTA
+- [x] 14.5 Registrar rota `/estrutura` no router de `apps/sindico`
+- [x] 14.6 Escrever testes Vitest + React Testing Library cobrindo os 4 estados
 
 ## Implementation Details
 Ver TechSpec seção **User Experience → Jornada do Síndico** para comportamento esperado dos estados. A rotina de criar primeiro bloco (tocada pelo CTA do empty state) fica como *prop callback* no `<EmptyState>` — task_15 injeta a mutação real.
@@ -84,19 +86,19 @@ Badge de contagem: calcular em memória `blocoAtivo.unidades.length` e exibir no
 
 ## Tests
 - Unit tests:
-  - [ ] `useEstrutura` chama `getEstrutura` com `includeInactive` correto e usa query key `queryKeys.estrutura(id)`
-  - [ ] `toTreeItems` converte uma `Estrutura` com 2 blocos (1 ativo, 1 inativo) em `TreeItem[]` com `state` correto
-  - [ ] `toTreeItems` calcula badge "N unidades ativas" corretamente
-  - [ ] `<EstruturaPage>` renderiza skeleton enquanto query está pending
-  - [ ] `<EstruturaPage>` renderiza `<EmptyState>` quando tree.blocos.length === 0
-  - [ ] `<EstruturaPage>` renderiza `<Tree>` com items corretos no estado success
-  - [ ] Toggle "Mostrar inativos" altera `includeInactive` e dispara refetch
-  - [ ] Erro 401 redireciona para login (mock do auth guard)
-  - [ ] Erro 404 renderiza página dedicada com copy amigável
+  - [x] `useEstrutura` chama `getEstrutura` com `includeInactive` correto e usa query key `queryKeys.estrutura(id)`
+  - [x] `toTreeItems` converte uma `Estrutura` com 2 blocos (1 ativo, 1 inativo) em `TreeItem[]` com `state` correto
+  - [x] `toTreeItems` calcula badge "N unidades ativas" corretamente
+  - [x] `<EstruturaPage>` renderiza skeleton enquanto query está pending
+  - [x] `<EstruturaPage>` renderiza `<EmptyState>` quando tree.blocos.length === 0
+  - [x] `<EstruturaPage>` renderiza `<Tree>` com items corretos no estado success
+  - [x] Toggle "Mostrar inativos" altera `includeInactive` e dispara refetch
+  - [x] Erro 401 redireciona para login (mock do auth guard)
+  - [x] Erro 404 renderiza página dedicada com copy amigável
 - Integration tests:
-  - [ ] MSW simula `GET /estrutura` com 201 sucesso → UI renderiza árvore
-  - [ ] MSW simula `GET /estrutura` com 500 → UI mostra erro + botão retry
-  - [ ] Retry button dispara novo fetch e limpa erro
+  - [x] MSW simula `GET /estrutura` com 201 sucesso → UI renderiza árvore
+  - [x] MSW simula `GET /estrutura` com 500 → UI mostra erro + botão retry
+  - [x] Retry button dispara novo fetch e limpa erro
 - Test coverage target: >=80%
 - All tests must pass
 

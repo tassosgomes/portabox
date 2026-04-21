@@ -24,6 +24,12 @@ function formatCnpjMasked(cnpj: string): string {
 
 function formatDate(iso: string | null | undefined): string {
   if (!iso) return '—'
+  // Date-only strings (YYYY-MM-DD) would be parsed as UTC midnight by new Date(),
+  // shifting the display by one day in negative-offset timezones.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+    const [y, m, d] = iso.split('-').map(Number)
+    return new Date(y, m - 1, d).toLocaleDateString('pt-BR')
+  }
   return new Date(iso).toLocaleDateString('pt-BR')
 }
 
@@ -110,7 +116,7 @@ export function DetalhesCondominioPage() {
 
   const canActivate = details.status === 1
   const sindico = details.sindico
-  const canResend = sindico != null && !sindico.passwordDefined
+  const canResend = sindico != null && !details.sindicoSenhaDefinida
 
   return (
     <div className={styles.page}>
@@ -126,9 +132,12 @@ export function DetalhesCondominioPage() {
       <div className={styles.pageHeader}>
         <div>
           <h2 className={styles.name}>{details.nomeFantasia}</h2>
-          <p className={styles.cnpj}>{formatCnpjMasked(details.cnpj)}</p>
+          <p className={styles.cnpj}>{formatCnpjMasked(details.cnpjMasked)}</p>
         </div>
         <div className={styles.headerMeta}>
+          <Link to={`/tenants/${details.id}/estrutura`} className={styles.structureLink}>
+            Ver estrutura
+          </Link>
           <StatusBadge status={details.status} />
           <span className={styles.metaItem}>Criado em {formatDate(details.createdAt)}</span>
           {details.activatedAt && (
@@ -179,16 +188,16 @@ export function DetalhesCondominioPage() {
             <Field label="Data da assembleia" value={formatDate(details.optIn.dataAssembleia)} />
             <Field label="Quórum" value={details.optIn.quorumDescricao} />
             <Field label="Signatário" value={details.optIn.signatarioNome} />
-            <Field label="CPF do signatário" value={<span className={styles.mono}>{details.optIn.signatarioCpf}</span>} />
+            <Field label="CPF do signatário" value={<span className={styles.mono}>{details.optIn.signatarioCpfMasked}</span>} />
             <Field label="Data do termo" value={formatDate(details.optIn.dataTermo)} />
           </dl>
 
           <h4 className={styles.subTitle}>Documentos</h4>
-          {details.optInDocuments.length === 0 ? (
+          {details.documentos.length === 0 ? (
             <p className={styles.subtle}>Nenhum documento anexado.</p>
           ) : (
             <ul className={styles.docList}>
-              {details.optInDocuments.map((doc) => (
+              {details.documentos.map((doc) => (
                 <li key={doc.id} className={styles.docItem}>
                   <span className={styles.docName}>
                     {DOC_KIND_LABELS[doc.kind] ?? 'Documento'}
@@ -220,8 +229,8 @@ export function DetalhesCondominioPage() {
           <dl className={styles.fieldGrid}>
             <Field label="Nome" value={sindico.nomeCompleto} />
             <Field label="E-mail" value={sindico.email} />
-            <Field label="Celular" value={<span className={styles.mono}>{sindico.celularE164}</span>} />
-            <Field label="Senha definida" value={sindico.passwordDefined ? 'Sim' : 'Não'} />
+            <Field label="Celular" value={<span className={styles.mono}>{sindico.celularMasked}</span>} />
+            <Field label="Senha definida" value={details.sindicoSenhaDefinida ? 'Sim' : 'Não'} />
           </dl>
         </Section>
       )}

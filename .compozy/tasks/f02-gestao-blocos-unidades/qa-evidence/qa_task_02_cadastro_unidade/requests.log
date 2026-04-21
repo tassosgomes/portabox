@@ -1,0 +1,701 @@
+QA Task 02 — Cadastro de Unidade
+Iniciado em: 2026-04-20T23:59:41Z
+
+========================================
+CT-01: Happy Path — andar=1 numero=101
+Timestamp: 2026-04-20T23:59:41Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":1,"numero":"101"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "id": "f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 1,
+    "numero": "101",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS --- (ID: f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33)
+
+========================================
+CT-02: Andar 0 (terreo) — andar=0 numero=01
+Timestamp: 2026-04-20T23:59:49Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":0,"numero":"01"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "id": "0608df78-27c8-439f-a0a5-b6511107fcad",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 0,
+    "numero": "01",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS --- (ID: 0608df78-27c8-439f-a0a5-b6511107fcad)
+
+========================================
+CT-03: Numero com sufixo minusculo — andar=1 numero=101a
+Timestamp: 2026-04-20T23:59:56Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":1,"numero":"101a"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "id": "c010da4e-b74e-4476-b2e2-2b0747b3bfbc",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 1,
+    "numero": "101A",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS --- (numero=101A, ID: c010da4e-b74e-4476-b2e2-2b0747b3bfbc)
+
+========================================
+CT-04: Numero com sufixo maiusculo — andar=1 numero=102B
+Timestamp: 2026-04-21T00:00:08Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":1,"numero":"102B"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "id": "d06623f6-1c32-41f9-b681-bf23070249b0",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 1,
+    "numero": "102B",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS --- (ID: d06623f6-1c32-41f9-b681-bf23070249b0)
+
+========================================
+CT-05: Numero 4 digitos — andar=20 numero=2001
+Timestamp: 2026-04-21T00:00:08Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":20,"numero":"2001"}
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "id": "c0d95956-97a9-418b-8f8e-3d53bdcc5d3b",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 20,
+    "numero": "2001",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS --- (ID: c0d95956-97a9-418b-8f8e-3d53bdcc5d3b)
+
+========================================
+CT-06: Numero invalido (>5 chars) — andar=1 numero=12345X
+Timestamp: 2026-04-21T00:00:24Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":1,"numero":"12345X"}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "errors": {
+        "numero": [
+            "O numero da unidade deve seguir o formato de 1 a 4 digitos com sufixo alfabetico opcional."
+        ]
+    },
+    "traceId": "3def42cc19bcdecdee6e7c5380b01fb8"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-07: Numero so letra — andar=1 numero=A
+Timestamp: 2026-04-21T00:00:24Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":1,"numero":"A"}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "errors": {
+        "numero": [
+            "O numero da unidade deve seguir o formato de 1 a 4 digitos com sufixo alfabetico opcional."
+        ]
+    },
+    "traceId": "199f06455750e6c1094268a8365ea37b"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-08: Numero com simbolos — andar=1 numero=101-B
+Timestamp: 2026-04-21T00:00:24Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":1,"numero":"101-B"}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "errors": {
+        "numero": [
+            "O numero da unidade deve seguir o formato de 1 a 4 digitos com sufixo alfabetico opcional."
+        ]
+    },
+    "traceId": "db678f4f2cd46545c7a190115db1d9f3"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-09: Andar negativo — andar=-1 numero=01
+Timestamp: 2026-04-21T00:00:24Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":-1,"numero":"01"}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "errors": {
+        "andar": [
+            "O andar da unidade deve ser maior ou igual a zero."
+        ]
+    },
+    "traceId": "5b5890924ae58477263786c613faa4bd"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-10: Conflito canonico — criar andar=5 numero=501 duas vezes
+Timestamp: 2026-04-21T00:00:43Z
+========================================
+--- REQUEST 1a tentativa ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":5,"numero":"501"}
+--- RESPONSE 1a tentativa ---
+Status: 201
+Body:
+{
+    "id": "368496a7-8296-41de-a908-9e03b83d4184",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 5,
+    "numero": "501",
+    "ativo": true,
+    "inativadoEm": null
+}
+
+--- REQUEST 2a tentativa (duplicata) ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Body: {"andar":5,"numero":"501"}
+--- RESPONSE 2a tentativa ---
+Status: 409
+Body:
+{
+    "type": "https://portabox.app/problems/canonical-conflict",
+    "title": "Conflito can\u00f4nico",
+    "status": 409,
+    "detail": "Unidade ja existe",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "traceId": "706797382f706ff37361786a7e5a55f3"
+}
+--- RESULTADO: PASS --- (1a: 201; 2a: 409)
+
+========================================
+CT-11: Bloco inexistente — blocoId GUID random
+Timestamp: 2026-04-21T00:00:50Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/aaaabbbb-cccc-dddd-eeee-ffff00001111/unidades
+Body: {"andar":1,"numero":"999"}
+--- RESPONSE ---
+Status: 404
+Body:
+{
+    "type": "https://portabox.app/problems/not-found",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "Bloco nao encontrado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/aaaabbbb-cccc-dddd-eeee-ffff00001111/unidades",
+    "traceId": "afe551cc322ad40415c2340b63f3b4de"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-12: Bloco inativo — criar bloco temp, inativar, tentar criar unidade
+Timestamp: 2026-04-21T00:01:03Z
+========================================
+--- STEP 1: Criar bloco temp ---
+Status criar bloco: 201
+ID bloco temp: 54d4fbe9-e749-4ee4-8dc4-442355762b6c
+--- STEP 2: Inativar bloco temp ---
+Status inativar: 200
+Body:
+{
+    "id": "54d4fbe9-e749-4ee4-8dc4-442355762b6c",
+    "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+    "nome": "Bloco Temp Inativo QA",
+    "ativo": false,
+    "inativadoEm": "2026-04-21T00:01:03.8242876Z"
+}
+--- STEP 3: Criar unidade em bloco inativo ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/54d4fbe9-e749-4ee4-8dc4-442355762b6c/unidades
+Body: {"andar":1,"numero":"999"}
+--- RESPONSE ---
+Status: 422
+Body:
+{
+    "type": "https://portabox.app/problems/invalid-transition",
+    "title": "Transi\u00e7\u00e3o inv\u00e1lida",
+    "status": 422,
+    "detail": "Bloco inativo",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/54d4fbe9-e749-4ee4-8dc4-442355762b6c/unidades",
+    "traceId": "9b287dfbbe0f5510c1fdf30e4118d9e9"
+}
+--- RESULTADO: PASS --- bloco_temp=54d4fbe9-e749-4ee4-8dc4-442355762b6c (permanece inativo)
+
+========================================
+CT-13: Sindico A em tenant B
+Timestamp: 2026-04-21T00:01:18Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Auth: Cookie sindico A (tenant A)
+Body: {"andar":1,"numero":"999"}
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "traceId": "fde7bcf97647b0023a265b7296ee88c1"
+}
+--- RESULTADO: PASS --- (cross-tenant blocked: 403)
+
+========================================
+CT-14: Sem autenticacao
+Timestamp: 2026-04-21T00:01:18Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades
+Auth: none
+Body: {"andar":1,"numero":"999"}
+--- RESPONSE ---
+Status: 401
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+    "title": "N\u00e3o autorizado",
+    "status": 401,
+    "detail": "Token de autentica\u00e7\u00e3o inv\u00e1lido ou expirado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades",
+    "traceId": "364cb85c06ad6a1525efc9ad03c0c214"
+}
+--- RESULTADO: PASS ---
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:03:33.588Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:03:47.536Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:04:01.264Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:04:12.271Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:04:28.445Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:04:42.157Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:04:55.785Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:05:06.688Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:06:26.517Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:06:45.206Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:07:01.180Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:07:16.200Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:13:07.715Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:13:22.584Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:13:37.409Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:13:54.897Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:16:23.464Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:16:46.052Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:17:05.928Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:17:25.809Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:22:22.699Z
+========================================
+
+--- UT-01 ---
+Modal still visible: false
+Tree shows 1001: false
+Console errors: none
+
+--- BROWSER CONSOLE UT-01 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+UT-01: PASS — Modal fechou
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:22:28.800Z
+========================================
+
+--- UT-02 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-02: PASS — Erro de validacao visivel
+
+--- UT-03 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-03: PASS — Erro de validacao visivel para numero XX
+
+--- UT-04 ---
+Input value after fill('1002a'): '1002A'
+
+Modal still visible: false
+Tree shows 1002A (upper): false
+Tree shows 1002a (lower): false
+Console errors: none
+
+--- BROWSER CONSOLE UT-04 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-04: FAIL — 1002A nao aparece na arvore
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:28:53.812Z
+========================================
+
+========================================
+UI TESTS (Playwright)
+Timestamp: 2026-04-21T00:29:05.108Z
+========================================
+
+--- UT-02 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+UT-02: PASS — Erro de validacao visivel
+
+--- UT-03 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-03: PASS — Erro de validacao visivel para numero XX
+
+--- UT-04 ---
+Input value after fill('1002a'): '1002A'
+
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:30:38.135Z
+========================================
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:31:33.788Z
+========================================
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:32:29.446Z
+========================================
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:33:25.126Z
+========================================
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:35:53.933Z
+========================================
+
+--- UT-01 ---
+Tree shows 1101: false
+Console errors: none
+
+--- BROWSER CONSOLE UT-01 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+UT-01: FAIL — Unidade 1101 nao aparece na arvore
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:36:07.450Z
+========================================
+
+--- UT-02 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+UT-02: PASS — Erro de validacao visivel
+
+--- UT-03 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-03: PASS — Erro de validacao visivel para numero XX
+
+--- UT-04 ---
+Input value after fill('1102a'): '1102A'
+
+Tree shows 1102A (upper): false
+Tree shows 1102a (lower): false
+Console errors: none
+
+--- BROWSER CONSOLE UT-04 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-04: FAIL — 1102A nao aparece na arvore
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:37:14.499Z
+========================================
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:37:28.030Z
+========================================
+
+--- UT-02 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+UT-02: PASS — Erro de validacao visivel
+
+--- UT-03 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-03: PASS — Erro de validacao visivel para numero XX
+
+--- UT-04 ---
+Input value after fill('1102a'): '1102A'
+
+
+========================================
+UI TESTS (Playwright) — RERUN
+Timestamp: 2026-04-21T00:38:33.041Z
+========================================
+
+--- UT-01 ---
+Tree shows 9901: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-01 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+UT-01: PASS — Unidade 9901 visivel na arvore
+
+--- UT-02 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-02: PASS — Erro de validacao visivel
+
+--- UT-03 ---
+Validation error visible: true
+Modal still open: true
+Console errors: none
+
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-03: PASS — Erro de validacao visivel para numero XX
+
+--- UT-04 ---
+Input value after fill('9902a'): '9902A'
+
+Tree shows 9902A (upper): true
+Tree shows 9902a (lower): true
+Console errors: none
+
+--- BROWSER CONSOLE UT-04 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+UT-04: PASS — 9902A aparece na arvore em maiuscula

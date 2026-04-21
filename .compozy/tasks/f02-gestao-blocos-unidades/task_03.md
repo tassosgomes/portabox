@@ -1,10 +1,10 @@
 ---
-status: pending
+status: completed
 title: Agregado Bloco (entity + eventos + EF Configuration + IBlocoRepository + BlocoRepository)
 type: backend
 complexity: medium
 dependencies:
-  - task_01
+    - task_01
 ---
 
 # Task 03: Agregado Bloco (entity + eventos + EF Configuration + IBlocoRepository + BlocoRepository)

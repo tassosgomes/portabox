@@ -1,0 +1,96 @@
+{
+  "ID": "XBGcTUn3qBmtXPxTtDuJN4JhcuJcHNFKH93gYPGKreE=@mailhog.example",
+  "From": {
+    "Relays": null,
+    "Mailbox": "no-reply",
+    "Domain": "portabox.dev",
+    "Params": ""
+  },
+  "To": [
+    {
+      "Relays": null,
+      "Mailbox": "qa-sindico-b-1776724968",
+      "Domain": "portabox.test",
+      "Params": ""
+    }
+  ],
+  "Content": {
+    "Headers": {
+      "Content-Type": [
+        "multipart/alternative; boundary=\"=-e3FLKvKERz9mDE3wDnDHfg==\""
+      ],
+      "Date": [
+        "Mon, 20 Apr 2026 19:42:48 -0300"
+      ],
+      "From": [
+        "no-reply@portabox.dev"
+      ],
+      "MIME-Version": [
+        "1.0"
+      ],
+      "Message-Id": [
+        "<AN7VTVS92TU4.72L5WAMU75A11@tasso-thinkpad>"
+      ],
+      "Received": [
+        "from tasso-thinkpad by mailhog.example (MailHog)\r\n          id XBGcTUn3qBmtXPxTtDuJN4JhcuJcHNFKH93gYPGKreE=@mailhog.example; Mon, 20 Apr 2026 22:42:48 +0000"
+      ],
+      "Return-Path": [
+        "<no-reply@portabox.dev>"
+      ],
+      "Subject": [
+        "Bem-vindo ao PortaBox =?utf-8?b?4oCU?= defina sua senha"
+      ],
+      "To": [
+        "qa-sindico-b-1776724968@portabox.test"
+      ]
+    },
+    "Body": "--=-e3FLKvKERz9mDE3wDnDHfg==\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\nOl=C3=A1, Sindico QA B.\r\n\r\nSeu acesso ao condom=C3=ADnio QA Teste B - 1776724968 est=C3=A1 quase pront=\r\no.\r\n\r\nPara definir sua senha inicial, acesse o link abaixo:\r\nhttp://localhost:5174/password-setup?token=3DNG-hJJD7lXA0_H5I-zY4w9dh40b9dc=\r\nk6vFMne2CjdhY\r\n\r\nSe voc=C3=AA n=C3=A3o solicitou este acesso, ignore esta mensagem.\r\n\r\n--=-e3FLKvKERz9mDE3wDnDHfg==\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n<!DOCTYPE html>\r\n<html lang=3D\"pt-BR\">\r\n<head>\r\n  <meta charset=3D\"utf-8\">\r\n  <title>Defina sua senha</title>\r\n</head>\r\n<body style=3D\"font-family: Arial, sans-serif; color: #0b2b47; line-height:=\r\n 1.6;\">\r\n  <p>Ol=C3=A1, Sindico QA B.</p>\r\n  <p>Seu acesso ao condom=C3=ADnio <strong>QA Teste B - 1776724968</strong>=\r\n est=C3=A1 quase pronto.</p>\r\n  <p>Para definir sua senha inicial, acesse o link abaixo:</p>\r\n  <p><a href=3D\"http://localhost:5174/password-setup?token=3DNG-hJJD7lXA0_H=\r\n5I-zY4w9dh40b9dck6vFMne2CjdhY\">http://localhost:5174/password-setup?token=3D=\r\nNG-hJJD7lXA0_H5I-zY4w9dh40b9dck6vFMne2CjdhY</a></p>\r\n  <p>Se voc=C3=AA n=C3=A3o solicitou este acesso, ignore esta mensagem.</p>\r\n</body>\r\n</html>\r\n\r\n--=-e3FLKvKERz9mDE3wDnDHfg==--",
+    "Size": 1647,
+    "MIME": null
+  },
+  "Created": "2026-04-20T22:42:48.623535165Z",
+  "MIME": {
+    "Parts": [
+      {
+        "Headers": {
+          "Content-Transfer-Encoding": [
+            "quoted-printable"
+          ],
+          "Content-Type": [
+            "text/plain; charset=utf-8"
+          ]
+        },
+        "Body": "Ol=C3=A1, Sindico QA B.\r\n\r\nSeu acesso ao condom=C3=ADnio QA Teste B - 1776724968 est=C3=A1 quase pront=\r\no.\r\n\r\nPara definir sua senha inicial, acesse o link abaixo:\r\nhttp://localhost:5174/password-setup?token=3DNG-hJJD7lXA0_H5I-zY4w9dh40b9dc=\r\nk6vFMne2CjdhY\r\n\r\nSe voc=C3=AA n=C3=A3o solicitou este acesso, ignore esta mensagem.",
+        "Size": 415,
+        "MIME": null
+      },
+      {
+        "Headers": {
+          "Content-Transfer-Encoding": [
+            "quoted-printable"
+          ],
+          "Content-Type": [
+            "text/html; charset=utf-8"
+          ]
+        },
+        "Body": "<!DOCTYPE html>\r\n<html lang=3D\"pt-BR\">\r\n<head>\r\n  <meta charset=3D\"utf-8\">\r\n  <title>Defina sua senha</title>\r\n</head>\r\n<body style=3D\"font-family: Arial, sans-serif; color: #0b2b47; line-height:=\r\n 1.6;\">\r\n  <p>Ol=C3=A1, Sindico QA B.</p>\r\n  <p>Seu acesso ao condom=C3=ADnio <strong>QA Teste B - 1776724968</strong>=\r\n est=C3=A1 quase pronto.</p>\r\n  <p>Para definir sua senha inicial, acesse o link abaixo:</p>\r\n  <p><a href=3D\"http://localhost:5174/password-setup?token=3DNG-hJJD7lXA0_H=\r\n5I-zY4w9dh40b9dck6vFMne2CjdhY\">http://localhost:5174/password-setup?token=3D=\r\nNG-hJJD7lXA0_H5I-zY4w9dh40b9dck6vFMne2CjdhY</a></p>\r\n  <p>Se voc=C3=AA n=C3=A3o solicitou este acesso, ignore esta mensagem.</p>\r\n</body>\r\n</html>",
+        "Size": 803,
+        "MIME": null
+      },
+      {
+        "Headers": {},
+        "Body": "--",
+        "Size": 2,
+        "MIME": null
+      }
+    ]
+  },
+  "Raw": {
+    "From": "no-reply@portabox.dev",
+    "To": [
+      "qa-sindico-b-1776724968@portabox.test"
+    ],
+    "Data": "From: no-reply@portabox.dev\r\nDate: Mon, 20 Apr 2026 19:42:48 -0300\r\nSubject: Bem-vindo ao PortaBox =?utf-8?b?4oCU?= defina sua senha\r\nMessage-Id: <AN7VTVS92TU4.72L5WAMU75A11@tasso-thinkpad>\r\nTo: qa-sindico-b-1776724968@portabox.test\r\nMIME-Version: 1.0\r\nContent-Type: multipart/alternative; boundary=\"=-e3FLKvKERz9mDE3wDnDHfg==\"\r\n\r\n--=-e3FLKvKERz9mDE3wDnDHfg==\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\nOl=C3=A1, Sindico QA B.\r\n\r\nSeu acesso ao condom=C3=ADnio QA Teste B - 1776724968 est=C3=A1 quase pront=\r\no.\r\n\r\nPara definir sua senha inicial, acesse o link abaixo:\r\nhttp://localhost:5174/password-setup?token=3DNG-hJJD7lXA0_H5I-zY4w9dh40b9dc=\r\nk6vFMne2CjdhY\r\n\r\nSe voc=C3=AA n=C3=A3o solicitou este acesso, ignore esta mensagem.\r\n\r\n--=-e3FLKvKERz9mDE3wDnDHfg==\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n<!DOCTYPE html>\r\n<html lang=3D\"pt-BR\">\r\n<head>\r\n  <meta charset=3D\"utf-8\">\r\n  <title>Defina sua senha</title>\r\n</head>\r\n<body style=3D\"font-family: Arial, sans-serif; color: #0b2b47; line-height:=\r\n 1.6;\">\r\n  <p>Ol=C3=A1, Sindico QA B.</p>\r\n  <p>Seu acesso ao condom=C3=ADnio <strong>QA Teste B - 1776724968</strong>=\r\n est=C3=A1 quase pronto.</p>\r\n  <p>Para definir sua senha inicial, acesse o link abaixo:</p>\r\n  <p><a href=3D\"http://localhost:5174/password-setup?token=3DNG-hJJD7lXA0_H=\r\n5I-zY4w9dh40b9dck6vFMne2CjdhY\">http://localhost:5174/password-setup?token=3D=\r\nNG-hJJD7lXA0_H5I-zY4w9dh40b9dck6vFMne2CjdhY</a></p>\r\n  <p>Se voc=C3=AA n=C3=A3o solicitou este acesso, ignore esta mensagem.</p>\r\n</body>\r\n</html>\r\n\r\n--=-e3FLKvKERz9mDE3wDnDHfg==--",
+    "Helo": "tasso-thinkpad"
+  }
+}

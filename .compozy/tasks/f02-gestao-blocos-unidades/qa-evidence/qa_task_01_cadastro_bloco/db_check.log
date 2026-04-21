@@ -1,0 +1,36 @@
+========================================
+CT-10: Persistencia no banco — Bloco QA-01
+Timestamp: 2026-04-20T23:42:01Z
+========================================
+Query: SELECT id, tenant_id, condominio_id, nome, ativo, criado_em, criado_por FROM bloco WHERE id = '88037273-d560-4415-a1e2-b45a00dc5be4';
+Result: 88037273-d560-4415-a1e2-b45a00dc5be4|4cce551d-4f18-474b-a42a-2deb6c2a0451|4cce551d-4f18-474b-a42a-2deb6c2a0451|Bloco QA-01|t|2026-04-20 23:39:44.052522+00|9ae7217c-7c68-43ba-b663-63bb9f235d97
+Registro encontrado: 88037273-d560-4415-a1e2-b45a00dc5be4|4cce551d-4f18-474b-a42a-2deb6c2a0451|4cce551d-4f18-474b-a42a-2deb6c2a0451|Bloco QA-01|t|2026-04-20 23:39:44.052522+00|9ae7217c-7c68-43ba-b663-63bb9f235d97
+PASS: todos os campos corretos
+  ativo=t, tenant_id=OK, condominio_id=OK, nome=Bloco QA-01, criado_por=OK, criado_em=2026-04-20 23:39:44.052522+00
+
+========================================
+CT-11: Audit entry — BlocoCriado
+Timestamp: 2026-04-20T23:42:15Z
+========================================
+Query tenant_audit_entry: ERROR:  relation "tenant_audit_entry" does not exist
+LINE 1: ...LECT event_kind, performed_by, metadata_json FROM tenant_aud...
+                                                             ^
+Tabela tenant_audit_entry nao existe. Tentando tenant_audit_log...
+Query tenant_audit_log: ERROR:  column "performed_by" does not exist
+LINE 1: SELECT event_kind, performed_by, metadata_json FROM tenant_a...
+                           ^
+
+--- Schema audit: tabela correta = tenant_audit_log, performed_by_user_id ---
+Colunas: id, tenant_id, event_kind(smallint), performed_by_user_id, occurred_at, note, metadata_json
+
+Ultimas entradas de audit:
+5|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"nome": "Bloco QA-03", "blocoId": "ff2ed42b-e9d9-426e-81fa-6bd51b767174"}|2026-04-20 23:40:15.087459+00
+5|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"nome": "Bloco QA-02", "blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae"}|2026-04-20 23:40:08.951038+00
+5|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"nome": "Bloco QA-01", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4"}|2026-04-20 23:39:44.092948+00
+1|0dcbb805-e21e-4db3-a196-e6e456b3ea2d||2026-04-20 22:41:44.214094+00
+
+CT-11: Audit entry BlocoCriado
+event_kind: 5 (5 = BlocoCriado)
+performed_by_user_id: 9ae7217c-7c68-43ba-b663-63bb9f235d97
+metadata_json: {"nome": "Bloco QA-01", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4"}
+PASS: audit entry correta

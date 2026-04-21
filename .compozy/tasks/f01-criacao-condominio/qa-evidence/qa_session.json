@@ -1,0 +1,99 @@
+{
+  "session": {
+    "created_at": "2026-04-18T00:00:00Z",
+    "prd_path": ".compozy/tasks/f01-criacao-condominio/_prd.md",
+    "techspec_path": null,
+    "orchestrator_version": "1.0"
+  },
+  "scope": {
+    "user_stories_in_scope": [
+      { "task_id": "qa_task_01", "slug": "wizard_criacao_tenant", "description": "Fluxo completo do wizard — 3 etapas + revisão + confirmação (CF1)" },
+      { "task_id": "qa_task_02", "slug": "validacao_deduplicacao_cnpj", "description": "Validação de formato/dígito do CNPJ e bloqueio de duplicata (CF2)" },
+      { "task_id": "qa_task_03", "slug": "magic_link_sindico", "description": "Envio automático do magic link ao síndico + reenvio (CF3)" },
+      { "task_id": "qa_task_04", "slug": "painel_detalhes_golive", "description": "Painel de detalhes do tenant + ação Ativar operação (CF4)" },
+      { "task_id": "qa_task_05", "slug": "lista_tenants", "description": "Listagem de tenants com filtros por status e busca por nome/CNPJ (CF5)" },
+      { "task_id": "qa_task_06", "slug": "log_auditoria", "description": "Log de auditoria das transições do tenant — criação e ativação (CF6)" }
+    ],
+    "excluded": []
+  },
+  "environment": {
+    "base_url": "http://localhost:5173",
+    "api_url": "http://localhost:5272",
+    "email_catcher_url": "http://localhost:8025",
+    "auth": {
+      "enabled": true,
+      "type": "bearer",
+      "credentials_env": {
+        "username_var": "QA_USERNAME",
+        "password_var": "QA_PASSWORD"
+      }
+    }
+  },
+  "database": {
+    "enabled": true,
+    "type": "postgresql",
+    "connection_string_env": "QA_DB_CONNECTION_STRING",
+    "docker_image": "postgres:16-alpine"
+  },
+  "report": {
+    "formats": ["markdown"],
+    "output_dir": ".compozy/tasks/f01-criacao-condominio/qa-evidence"
+  },
+  "execution": {
+    "tasks": [
+      {
+        "id": "qa_task_01",
+        "slug": "wizard_criacao_tenant",
+        "description": "Fluxo completo do wizard — 3 etapas + revisão + confirmação (CF1)",
+        "type": ["ui", "api", "db"],
+        "depends_on": [],
+        "can_run_parallel_with": []
+      },
+      {
+        "id": "qa_task_02",
+        "slug": "validacao_deduplicacao_cnpj",
+        "description": "Validação de formato/dígito do CNPJ e bloqueio de duplicata (CF2)",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_01"],
+        "can_run_parallel_with": ["qa_task_03", "qa_task_04", "qa_task_05"]
+      },
+      {
+        "id": "qa_task_03",
+        "slug": "magic_link_sindico",
+        "description": "Envio automático do magic link ao síndico + reenvio (CF3)",
+        "type": ["ui", "api", "email"],
+        "depends_on": ["qa_task_01"],
+        "can_run_parallel_with": ["qa_task_02", "qa_task_04", "qa_task_05"]
+      },
+      {
+        "id": "qa_task_04",
+        "slug": "painel_detalhes_golive",
+        "description": "Painel de detalhes do tenant + ação Ativar operação (CF4)",
+        "type": ["ui", "api", "db"],
+        "depends_on": ["qa_task_01"],
+        "can_run_parallel_with": ["qa_task_02", "qa_task_03", "qa_task_05"]
+      },
+      {
+        "id": "qa_task_05",
+        "slug": "lista_tenants",
+        "description": "Listagem de tenants com filtros por status e busca por nome/CNPJ (CF5)",
+        "type": ["ui"],
+        "depends_on": ["qa_task_01"],
+        "can_run_parallel_with": ["qa_task_02", "qa_task_03", "qa_task_04"]
+      },
+      {
+        "id": "qa_task_06",
+        "slug": "log_auditoria",
+        "description": "Log de auditoria das transições do tenant — criação e ativação (CF6)",
+        "type": ["ui", "db"],
+        "depends_on": ["qa_task_04"],
+        "can_run_parallel_with": []
+      }
+    ],
+    "phases": [
+      { "phase": 1, "mode": "sequential", "tasks": ["qa_task_01"] },
+      { "phase": 2, "mode": "parallel", "tasks": ["qa_task_02", "qa_task_03", "qa_task_04", "qa_task_05"] },
+      { "phase": 3, "mode": "sequential", "tasks": ["qa_task_06"] }
+    ]
+  }
+}

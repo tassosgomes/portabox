@@ -1,0 +1,602 @@
+[2026-04-19T01:21:14.109Z] ========================================
+[2026-04-19T01:21:14.110Z] TC-01: Lista exibe o tenant criado
+[2026-04-19T01:21:14.110Z] Timestamp: 2026-04-19T01:21:14.110Z
+[2026-04-19T01:21:14.110Z] ========================================
+[2026-04-19T01:21:14.676Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:14.685Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:14.781Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:21:28.410Z] ========================================
+[2026-04-19T01:21:28.411Z] TC-02: Colunas da tabela
+[2026-04-19T01:21:28.411Z] Timestamp: 2026-04-19T01:21:28.411Z
+[2026-04-19T01:21:28.411Z] ========================================
+[2026-04-19T01:21:28.945Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:28.950Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:29.058Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:21:45.439Z] ========================================
+[2026-04-19T01:21:45.440Z] TC-03: Filtro por status pre-ativo
+[2026-04-19T01:21:45.440Z] Timestamp: 2026-04-19T01:21:45.440Z
+[2026-04-19T01:21:45.440Z] ========================================
+[2026-04-19T01:21:45.969Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:45.977Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:21:46.089Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:21:59.720Z] ========================================
+[2026-04-19T01:21:59.721Z] TC-04: Filtro por status ativo
+[2026-04-19T01:21:59.721Z] Timestamp: 2026-04-19T01:21:59.721Z
+[2026-04-19T01:21:59.721Z] ========================================
+[2026-04-19T01:22:00.290Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:22:00.298Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:22:00.407Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 429 (Too Many Requests)
+[2026-04-19T01:22:13.986Z] ========================================
+[2026-04-19T01:22:13.987Z] TC-05: Busca por nome
+[2026-04-19T01:22:13.987Z] Timestamp: 2026-04-19T01:22:13.987Z
+[2026-04-19T01:22:13.987Z] ========================================
+[2026-04-19T01:22:14.575Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:22:14.585Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:22:14.803Z] Login realizado com sucesso
+[2026-04-19T01:22:15.065Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:22:15.069Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:22:15.071Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:22:15.071Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:22:42.577Z] ========================================
+[2026-04-19T01:22:42.578Z] TC-06: Busca por CNPJ
+[2026-04-19T01:22:42.579Z] Timestamp: 2026-04-19T01:22:42.579Z
+[2026-04-19T01:22:42.579Z] ========================================
+[2026-04-19T01:22:43.118Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:22:43.126Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:22:43.306Z] Login realizado com sucesso
+[2026-04-19T01:22:43.677Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:22:43.680Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:22:43.682Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:22:43.682Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:23:11.124Z] ========================================
+[2026-04-19T01:23:11.125Z] TC-07: Link para painel de detalhes
+[2026-04-19T01:23:11.125Z] Timestamp: 2026-04-19T01:23:11.125Z
+[2026-04-19T01:23:11.125Z] ========================================
+[2026-04-19T01:23:11.671Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:23:11.683Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:23:11.897Z] Login realizado com sucesso
+[2026-04-19T01:23:12.191Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:23:12.195Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:23:12.197Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:23:12.198Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:23:28.381Z] ========================================
+[2026-04-19T01:23:28.382Z] TC-08: Paginacao
+[2026-04-19T01:23:28.382Z] Timestamp: 2026-04-19T01:23:28.382Z
+[2026-04-19T01:23:28.382Z] ========================================
+[2026-04-19T01:23:28.961Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:23:28.977Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:23:29.178Z] Login realizado com sucesso
+[2026-04-19T01:23:29.458Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:23:29.462Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:23:29.464Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:23:29.464Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:26:43.248Z] ========================================
+[2026-04-19T01:26:43.249Z] SETUP: Login e salvar sessao
+[2026-04-19T01:26:43.249Z] Timestamp: 2026-04-19T01:26:43.249Z
+[2026-04-19T01:26:43.249Z] ========================================
+[2026-04-19T01:26:44.526Z] SETUP: Login realizado com sucesso
+[2026-04-19T01:26:44.561Z] SETUP: Sessao salva em /home/tsgomes/log-portaria/.compozy/tasks/f01-criacao-condominio/qa-evidence/qa_task_05_lista_tenants/auth_state.json
+[2026-04-19T01:26:44.740Z] ========================================
+[2026-04-19T01:26:44.740Z] TC-01: Lista exibe o tenant criado
+[2026-04-19T01:26:44.741Z] Timestamp: 2026-04-19T01:26:44.741Z
+[2026-04-19T01:26:44.741Z] ========================================
+[2026-04-19T01:26:45.241Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:26:45.243Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:26:45.246Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:26:45.246Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:26:58.768Z] ========================================
+[2026-04-19T01:26:58.768Z] TC-02: Colunas da tabela
+[2026-04-19T01:26:58.768Z] Timestamp: 2026-04-19T01:26:58.768Z
+[2026-04-19T01:26:58.769Z] ========================================
+[2026-04-19T01:26:59.356Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:26:59.358Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:26:59.361Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:26:59.361Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:27:12.655Z] ========================================
+[2026-04-19T01:27:12.655Z] TC-03: Filtro por status pre-ativo
+[2026-04-19T01:27:12.655Z] Timestamp: 2026-04-19T01:27:12.655Z
+[2026-04-19T01:27:12.655Z] ========================================
+[2026-04-19T01:27:13.215Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:27:13.217Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:27:13.219Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:27:13.220Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:27:13.655Z] TC-03: Botoes 'Pre-ativo' encontrados: 0
+[2026-04-19T01:27:13.661Z] TC-03: Todos os botoes: []
+[2026-04-19T01:27:41.018Z] ========================================
+[2026-04-19T01:27:41.019Z] TC-04: Filtro por status ativo
+[2026-04-19T01:27:41.019Z] Timestamp: 2026-04-19T01:27:41.019Z
+[2026-04-19T01:27:41.019Z] ========================================
+[2026-04-19T01:27:41.556Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:27:41.558Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:27:41.561Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:27:41.561Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:28:09.417Z] ========================================
+[2026-04-19T01:28:09.417Z] TC-05: Busca por nome
+[2026-04-19T01:28:09.417Z] Timestamp: 2026-04-19T01:28:09.417Z
+[2026-04-19T01:28:09.418Z] ========================================
+[2026-04-19T01:28:09.986Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:28:09.988Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:28:09.991Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:28:09.991Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:28:37.797Z] ========================================
+[2026-04-19T01:28:37.798Z] TC-06: Busca por CNPJ
+[2026-04-19T01:28:37.798Z] Timestamp: 2026-04-19T01:28:37.798Z
+[2026-04-19T01:28:37.798Z] ========================================
+[2026-04-19T01:28:38.404Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:28:38.407Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:28:38.409Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:28:38.410Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:29:06.204Z] ========================================
+[2026-04-19T01:29:06.205Z] TC-07: Link para painel de detalhes
+[2026-04-19T01:29:06.205Z] Timestamp: 2026-04-19T01:29:06.205Z
+[2026-04-19T01:29:06.205Z] ========================================
+[2026-04-19T01:29:06.812Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:29:06.813Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:29:06.816Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:29:06.816Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:29:22.864Z] ========================================
+[2026-04-19T01:29:22.865Z] TC-08: Paginacao
+[2026-04-19T01:29:22.865Z] Timestamp: 2026-04-19T01:29:22.865Z
+[2026-04-19T01:29:22.865Z] ========================================
+[2026-04-19T01:29:23.437Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:29:23.437Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:29:23.439Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:29:23.440Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:31:55.043Z] ========================================
+[2026-04-19T01:31:55.044Z] SETUP: Login unico para toda a suite
+[2026-04-19T01:31:55.044Z] Timestamp: 2026-04-19T01:31:55.044Z
+[2026-04-19T01:31:55.044Z] ========================================
+[2026-04-19T01:31:55.678Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:31:55.683Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:31:56.467Z] SETUP: Login realizado, sessao ativa
+[2026-04-19T01:31:56.516Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:31:56.519Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:31:56.522Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:31:56.522Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:31:56.607Z] ========================================
+[2026-04-19T01:31:56.607Z] TC-01: Lista exibe o tenant criado
+[2026-04-19T01:31:56.607Z] Timestamp: 2026-04-19T01:31:56.607Z
+[2026-04-19T01:31:56.607Z] ========================================
+[2026-04-19T01:31:56.828Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:31:56.830Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:31:56.831Z] [BROWSER_CONSOLE_ERROR] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[2026-04-19T01:31:56.832Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')
+[2026-04-19T01:32:11.962Z] SETUP: Context encerrado
+
+========================================
+API CONTRACT VALIDATION
+Timestamp: 2026-04-19T01:32:00Z
+========================================
+--- GET /api/v1/admin/condominios (sem filtro) ---
+Status: 200
+Response keys: ['items', 'page', 'pageSize', 'totalCount', 'totalPages']
+Item keys: ['id', 'nomeFantasia', 'cnpjMasked', 'status', 'createdAt', 'activatedAt']
+totalCount: 2
+
+--- MISMATCH #1: Campo 'cnpj' ---
+Frontend type CondominioListItem espera: cnpj (string)
+API retorna: cnpjMasked (string mascarado ex: "****3000181")
+Resultado: item.cnpj = undefined → formatCnpj(undefined) → TypeError: Cannot read properties of undefined (reading 'replace')
+
+--- MISMATCH #2: Campo 'total' ---
+Frontend type PagedResult espera: total (number)
+API retorna: totalCount (number)
+Resultado: result.total = undefined → Math.ceil(undefined / 20) = NaN
+
+--- MISMATCH #3: status=0 retorna vazio ---
+GET /api/v1/admin/condominios?status=0 retorna totalCount: 0
+Esperado (PRD): status=0 = "Todos" (sem filtro)
+Workaround no frontend: api.ts omite status=0 da querystring (correto)
+Mas o backend retorna vazio quando status=0 é explicitamente passado
+
+--- EFEITO NO BROWSER ---
+ListaCondominiosPage crasha com React error boundary após receber dados da API
+Pagina fica em branco (blank screen)
+Nenhuma tabela, filtro ou busca e renderizada
+[2026-04-20T16:42:21.378Z] ========================================
+[2026-04-20T16:42:21.379Z] RERUN — SETUP: Login para a suite
+[2026-04-20T16:42:21.379Z] Timestamp: 2026-04-20T16:42:21.379Z
+[2026-04-20T16:42:21.379Z] ========================================
+[2026-04-20T16:42:21.962Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:42:21.972Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:42:22.714Z] RERUN — SETUP: Login OK, sessao ativa
+[2026-04-20T16:42:22.867Z] ========================================
+[2026-04-20T16:42:22.867Z] RERUN TC-01: Lista exibe tenants sem crash
+[2026-04-20T16:42:22.868Z] Timestamp: 2026-04-20T16:42:22.868Z
+[2026-04-20T16:42:22.868Z] ========================================
+[2026-04-20T16:42:23.245Z] TC-01: Body text length: 439
+[2026-04-20T16:42:23.258Z] TC-01: 'Residencial Teste QA' visivel: true
+[2026-04-20T16:42:23.259Z] TC-01: 'Residencial Rerun QA' visivel: true
+[2026-04-20T16:42:23.323Z] TC-01: PASS
+[2026-04-20T16:42:23.342Z] ========================================
+[2026-04-20T16:42:23.342Z] RERUN TC-02: Colunas da tabela
+[2026-04-20T16:42:23.342Z] Timestamp: 2026-04-20T16:42:23.342Z
+[2026-04-20T16:42:23.342Z] ========================================
+[2026-04-20T16:42:23.618Z] TC-02: Headers encontrados: ["Nome","CNPJ","Status","Criado em","Ativado em"]
+[2026-04-20T16:42:23.618Z] TC-02: Coluna 'Nome': PRESENTE
+[2026-04-20T16:42:23.619Z] TC-02: Coluna 'CNPJ': PRESENTE
+[2026-04-20T16:42:23.620Z] TC-02: Coluna 'Status': PRESENTE
+[2026-04-20T16:42:23.621Z] TC-02: Coluna 'Criado': PRESENTE
+[2026-04-20T16:42:23.621Z] TC-02: Coluna 'Ativado': PRESENTE
+[2026-04-20T16:42:23.690Z] TC-02: PASS
+[2026-04-20T16:42:23.702Z] ========================================
+[2026-04-20T16:42:23.702Z] RERUN TC-03: Filtro Pre-ativo
+[2026-04-20T16:42:23.702Z] Timestamp: 2026-04-20T16:42:23.702Z
+[2026-04-20T16:42:23.702Z] ========================================
+[2026-04-20T16:42:23.932Z] TC-03: Botoes de filtro: ["Todos","Pré-ativo","Ativo"]
+[2026-04-20T16:42:23.936Z] TC-03: Botoes 'Pre-ativo' encontrados: 1
+[2026-04-20T16:42:23.319Z] TC-03: Clicou no filtro 'Pre-ativo'
+[2026-04-20T16:42:23.373Z] TC-03: 'Residencial Rerun QA' com filtro PreAtivo: VISIVEL (esperado)
+[2026-04-20T16:42:23.377Z] TC-03: 'Residencial Teste QA' com filtro PreAtivo: VISIVEL (FAIL)
+[2026-04-20T16:42:23.377Z] TC-03 FAIL — Expected: 'Residencial Teste QA' (status=Ativo) nao visivel com filtro PreAtivo
+[2026-04-20T16:42:23.377Z] TC-03 FAIL — Actual: apareceu com countTeste=1
+[2026-04-20T16:42:23.550Z] RERUN — SETUP: Context encerrado
+[2026-04-20T16:59:14.297Z] ========================================
+[2026-04-20T16:59:14.297Z] RERUN2 SETUP: Login para suite TC-03 a TC-08
+[2026-04-20T16:59:14.298Z] Timestamp: 2026-04-20T16:59:14.298Z
+[2026-04-20T16:59:14.298Z] ========================================
+[2026-04-20T16:59:14.905Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:59:14.917Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:59:15.816Z] RERUN2 SETUP: Login realizado, sessao ativa
+[2026-04-20T16:59:15.841Z] ========================================
+[2026-04-20T16:59:15.842Z] RERUN2 TC-03: Filtro Pre-ativo (assertion corrigida)
+[2026-04-20T16:59:15.842Z] Timestamp: 2026-04-20T16:59:15.842Z
+[2026-04-20T16:59:15.842Z] ========================================
+[2026-04-20T16:59:16.194Z] TC-03: Botoes de filtro encontrados: ["Todos","Pré-ativo","Ativo"]
+[2026-04-20T16:59:16.200Z] TC-03: Botoes 'Pré-ativo' encontrados: 1
+[2026-04-20T16:59:16.231Z] TC-03: Clicou no filtro 'Pré-ativo'
+[2026-04-20T16:59:17.834Z] TC-03: Linhas na tabela apos filtro Pre-ativo: ["Residencial Teste QA API Check****8000195Pré-ativo18/04/2026—"]
+[2026-04-20T16:59:17.842Z] TC-03: "Residencial Rerun QA" count: 0
+[2026-04-20T16:59:17.936Z] TC-03 FAIL — Expected: "Residencial Rerun QA" (status=1) visivel com filtro Pre-ativo
+[2026-04-20T16:59:17.936Z] TC-03 FAIL — Actual: rerunRows=0
+[2026-04-20T16:59:18.087Z] RERUN2 SETUP: Context encerrado
+[2026-04-20T17:01:09.056Z] ========================================
+[2026-04-20T17:01:09.057Z] RERUN2 SETUP: Login para suite TC-03 a TC-08
+[2026-04-20T17:01:09.057Z] Timestamp: 2026-04-20T17:01:09.057Z
+[2026-04-20T17:01:09.057Z] ESTADO REAL DO BANCO (confirmado via API):
+[2026-04-20T17:01:09.057Z]   Residencial Rerun QA: status=2 (Ativo) — briefing dizia PreAtivo, mas foi ativado em sessao anterior
+[2026-04-20T17:01:09.057Z]   Residencial Teste QA API Check: status=1 (PreAtivo)
+[2026-04-20T17:01:09.057Z]   Residencial Teste QA: status=2 (Ativo)
+[2026-04-20T17:01:09.058Z] ========================================
+[2026-04-20T17:01:09.692Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T17:01:09.707Z] [BROWSER_CONSOLE_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T17:01:10.683Z] RERUN2 SETUP: Login realizado, sessao ativa
+[2026-04-20T17:01:10.708Z] ========================================
+[2026-04-20T17:01:10.708Z] RERUN2 TC-03: Filtro Pre-ativo (assertion corrigida para estado real do banco)
+[2026-04-20T17:01:10.708Z] Timestamp: 2026-04-20T17:01:10.708Z
+[2026-04-20T17:01:10.708Z] Expected: apenas 'Residencial Teste QA API Check' visivel (unico status=1)
+[2026-04-20T17:01:10.708Z] Expected: 'Residencial Rerun QA' (agora status=2) NAO aparece
+[2026-04-20T17:01:10.708Z] Expected: 'Residencial Teste QA' (status=2) NAO aparece
+[2026-04-20T17:01:10.709Z] ========================================
+[2026-04-20T17:01:11.107Z] TC-03: Botoes de filtro encontrados: ["Todos","Pré-ativo","Ativo"]
+[2026-04-20T17:01:11.116Z] TC-03: Botoes 'Pré-ativo' encontrados: 1
+[2026-04-20T17:01:11.185Z] TC-03: Clicou no filtro 'Pré-ativo'
+[2026-04-20T17:01:12.788Z] TC-03: Linhas na tabela apos filtro Pre-ativo: ["Residencial Teste QA API Check****8000195Pré-ativo18/04/2026—"]
+[2026-04-20T17:01:12.793Z] TC-03: "Residencial Teste QA API Check" count: 1
+[2026-04-20T17:01:12.803Z] TC-03: "Residencial Teste QA" (exact) count: 0
+[2026-04-20T17:01:12.809Z] TC-03: "Residencial Rerun QA" (agora Ativo) count: 0
+[2026-04-20T17:01:12.890Z] TC-03: PASS
+[2026-04-20T17:01:12.912Z] ========================================
+[2026-04-20T17:01:12.912Z] RERUN2 TC-04: Filtro Ativo (estado real: 2 tenants Ativos)
+[2026-04-20T17:01:12.912Z] Timestamp: 2026-04-20T17:01:12.912Z
+[2026-04-20T17:01:12.912Z] Expected: 'Residencial Rerun QA' (status=2) aparece
+[2026-04-20T17:01:12.912Z] Expected: 'Residencial Teste QA' (status=2) aparece
+[2026-04-20T17:01:12.912Z] Expected: 'Residencial Teste QA API Check' (status=1) NAO aparece
+[2026-04-20T17:01:12.912Z] ========================================
+[2026-04-20T17:01:13.232Z] TC-04: Botoes de filtro encontrados: ["Todos","Pré-ativo","Ativo"]
+[2026-04-20T17:01:13.239Z] TC-04: Botoes 'Ativo' (exact) encontrados: 1
+[2026-04-20T17:01:13.287Z] TC-04: Clicou no filtro 'Ativo'
+[2026-04-20T17:01:14.865Z] TC-04: Linhas na tabela apos filtro Ativo: ["Residencial Rerun QA****7000161Ativo20/04/202620/04/2026","Residencial Teste QA****3000181Ativo18/04/202618/04/2026"]
+[2026-04-20T17:01:14.870Z] TC-04: "Residencial Rerun QA" count: 1
+[2026-04-20T17:01:14.875Z] TC-04: "Residencial Teste QA" (exact) count: 1
+[2026-04-20T17:01:14.879Z] TC-04: "Residencial Teste QA API Check" count: 0
+[2026-04-20T17:01:14.953Z] TC-04: PASS
+[2026-04-20T17:01:14.971Z] ========================================
+[2026-04-20T17:01:14.971Z] RERUN2 TC-05: Busca por nome 'Rerun'
+[2026-04-20T17:01:14.971Z] Timestamp: 2026-04-20T17:01:14.971Z
+[2026-04-20T17:01:14.971Z] Expected: 'Residencial Rerun QA' aparece; outros ausentes
+[2026-04-20T17:01:14.971Z] ========================================
+[2026-04-20T17:01:15.246Z] TC-05: Campo de busca visivel: true
+[2026-04-20T17:01:15.296Z] TC-05: Digitou 'Rerun' no campo de busca
+[2026-04-20T17:01:15.117Z] TC-05: Linhas na tabela apos busca 'Rerun': ["Residencial Rerun QA****7000161Ativo20/04/202620/04/2026"]
+[2026-04-20T17:01:15.121Z] TC-05: "Residencial Rerun QA" count: 1
+[2026-04-20T17:01:15.129Z] TC-05: "Residencial Teste QA" (exact) count: 0
+[2026-04-20T17:01:15.204Z] TC-05: PASS
+[2026-04-20T17:01:15.224Z] ========================================
+[2026-04-20T17:01:15.225Z] RERUN2 TC-06: Busca por CNPJ parcial '444'
+[2026-04-20T17:01:15.225Z] Timestamp: 2026-04-20T17:01:15.225Z
+[2026-04-20T17:01:15.225Z] Expected: '${TENANT_RERUN_NAME}' (CNPJ 11.444.777/0001-61) aparece; outros ausentes
+[2026-04-20T17:01:15.225Z] ========================================
+[2026-04-20T17:01:15.453Z] TC-06: Campo de busca visivel: true
+[2026-04-20T17:01:15.484Z] TC-06: Digitou '444' no campo de busca
+[2026-04-20T17:01:17.064Z] TC-06: Linhas na tabela apos busca '444': ["Residencial Rerun QA****7000161Ativo20/04/202620/04/2026"]
+[2026-04-20T17:01:17.067Z] TC-06: "Residencial Rerun QA" count: 1
+[2026-04-20T17:01:17.071Z] TC-06: "Residencial Teste QA" (exact) count: 0
+[2026-04-20T17:01:17.075Z] TC-06: "Residencial Teste QA API Check" count: 0
+[2026-04-20T17:01:17.150Z] TC-06: PASS
+[2026-04-20T17:01:17.176Z] ========================================
+[2026-04-20T17:01:17.176Z] RERUN2 TC-07: Redirect ao clicar no tenant
+[2026-04-20T17:01:17.176Z] Timestamp: 2026-04-20T17:01:17.176Z
+[2026-04-20T17:01:17.176Z] Expected: URL muda para /condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:01:17.176Z] ========================================
+[2026-04-20T17:01:17.572Z] TC-07: Linha "Residencial Rerun QA" encontrada: 1
+[2026-04-20T17:01:17.583Z] TC-07: href do link na linha: /condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:01:19.120Z] TC-07: URL apos clique: http://localhost:5173/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T17:01:19.424Z] TC-07: PASS
+[2026-04-20T17:01:19.442Z] ========================================
+[2026-04-20T17:01:19.442Z] RERUN2 TC-08: Paginacao ausente
+[2026-04-20T17:01:19.442Z] Timestamp: 2026-04-20T17:01:19.442Z
+[2026-04-20T17:01:19.443Z] Expected: controles de paginacao ausentes (3 tenants < PAGE_SIZE=20)
+[2026-04-20T17:01:19.443Z] ========================================
+[2026-04-20T17:01:19.771Z] TC-08: Total de linhas na tabela: 3
+[2026-04-20T17:01:19.798Z] TC-08: Botao 'Proxima' encontrado: 0
+[2026-04-20T17:01:19.799Z] TC-08: Botao 'Anterior' encontrado: 0
+[2026-04-20T17:01:19.799Z] TC-08: paginationFound: false
+[2026-04-20T17:01:19.895Z] TC-08: PASS
+[2026-04-20T17:01:19.998Z] RERUN2 SETUP: Context encerrado

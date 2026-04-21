@@ -1,0 +1,39 @@
+.form {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.fields {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.apiError {
+  margin: 0;
+  color: var(--danger-700, #b42318);
+  font-size: var(--fs-sm);
+}
+
+.batchHint {
+  margin: 0;
+  color: var(--fg-subtle);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+}
+
+@media (max-width: 640px) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+}

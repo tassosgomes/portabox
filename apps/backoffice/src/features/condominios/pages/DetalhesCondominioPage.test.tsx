@@ -23,11 +23,10 @@ const sindicoSemSenha = {
   userId: 'user-sind-1',
   nomeCompleto: 'João Síndico',
   email: 'sindico@example.com',
-  celularE164: '+5511999999999',
-  passwordDefined: false,
+  celularMasked: '+55 11 99999-9999',
 }
 
-const sindicoComSenha = { ...sindicoSemSenha, passwordDefined: true }
+const sindicoComSenha = { ...sindicoSemSenha }
 
 const auditLog = [
   {
@@ -42,7 +41,7 @@ const auditLog = [
 const baseDetails = {
   id: 'condo-1',
   nomeFantasia: 'Residencial Parque',
-  cnpj: '11222333000181',
+  cnpjMasked: '11.222.333/0001-81',
   status: 1,
   createdAt: '2026-01-10T00:00:00Z',
   activatedAt: null,
@@ -58,11 +57,12 @@ const baseDetails = {
     dataAssembleia: '2025-12-01',
     quorumDescricao: '2/3 dos condôminos',
     signatarioNome: 'Maria Silva',
-    signatarioCpf: '***.982.247-25',
+    signatarioCpfMasked: '***.982.247-25',
     dataTermo: '2025-12-15',
   },
-  optInDocuments: [],
+  documentos: [],
   sindico: sindicoSemSenha,
+  sindicoSenhaDefinida: false,
   auditLog,
 }
 
@@ -270,7 +270,7 @@ describe('DetalhesCondominioPage — reenvio de magic link', () => {
   it('não exibe botão de reenvio quando síndico já definiu senha', async () => {
     server.use(
       http.get(`${BASE}/v1/admin/condominios/condo-1`, () =>
-        HttpResponse.json({ ...baseDetails, sindico: sindicoComSenha }),
+        HttpResponse.json({ ...baseDetails, sindico: sindicoComSenha, sindicoSenhaDefinida: true }),
       ),
     )
     renderDetails()
@@ -330,7 +330,7 @@ describe('DetalhesCondominioPage — upload e download de documentos', () => {
   it('exibe lista de documentos com tamanho formatado em KB', async () => {
     const detailsWithDoc = {
       ...baseDetails,
-      optInDocuments: [
+      documentos: [
         {
           id: 'doc-1',
           kind: 1,
@@ -392,7 +392,7 @@ describe('DetalhesCondominioPage — upload e download de documentos', () => {
 
     const detailsWithDoc = {
       ...baseDetails,
-      optInDocuments: [
+      documentos: [
         {
           id: 'doc-1',
           kind: 1,

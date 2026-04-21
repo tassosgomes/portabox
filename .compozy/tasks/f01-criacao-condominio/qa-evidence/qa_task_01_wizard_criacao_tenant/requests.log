@@ -1,0 +1,197 @@
+[2026-04-19T01:13:02.659Z] === CT-01: Login e acesso ao wizard ===
+[2026-04-19T01:13:03.375Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:03.384Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:05.347Z] CT-01: Wizard content found: true
+[2026-04-19T01:13:05.347Z] CT-01: Page URL: http://localhost:5173/condominios/novo
+[2026-04-19T01:13:05.347Z] CT-01: PASS
+[2026-04-19T01:13:05.493Z] === CT-02: Etapa 1 — Validacao campos obrigatorios ===
+[2026-04-19T01:13:05.960Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:05.970Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:07.540Z] CT-02: Nome error displayed: true
+[2026-04-19T01:13:07.541Z] CT-02: CNPJ error displayed: true
+[2026-04-19T01:13:07.541Z] CT-02: URL after click: http://localhost:5173/condominios/novo
+[2026-04-19T01:13:07.541Z] CT-02: PASS
+[2026-04-19T01:13:07.658Z] === CT-03: Etapa 1 — Validacao CNPJ invalido ===
+[2026-04-19T01:13:08.148Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:08.162Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:06.791Z] CT-03: CNPJ error for invalid CNPJ: true
+[2026-04-19T01:13:06.791Z] CT-03: PASS
+[2026-04-19T01:13:06.905Z] === CT-04 a CT-11: Fluxo completo do wizard ===
+[2026-04-19T01:13:07.366Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:07.378Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:13:08.479Z] --- CT-04: Preenchendo Etapa 1 ---
+[2026-04-19T01:13:09.273Z] CT-04: Advanced to step 2: true
+[2026-04-19T01:13:09.273Z] CT-04: PASS
+[2026-04-19T01:13:09.273Z] --- CT-05: Validacao campos obrigatorios Etapa 2 ---
+[2026-04-19T01:13:09.401Z] CT-05: assembleia error: true, quorum error: true, signatario error: true
+[2026-04-19T01:13:09.401Z] CT-05: PASS
+[2026-04-19T01:13:09.402Z] --- CT-06: Preenchendo Etapa 2 ---
+[2026-04-19T01:13:10.168Z] CT-06: Advanced to step 3: true
+[2026-04-19T01:13:10.168Z] CT-06: PASS
+[2026-04-19T01:13:10.168Z] --- CT-07: Validacao campos Etapa 3 ---
+[2026-04-19T01:13:10.295Z] CT-07: nome error: true, email error: true, celular error: true
+[2026-04-19T01:13:10.456Z] CT-07: Celular format error shown for national format: true
+[2026-04-19T01:13:10.457Z] CT-07: PASS
+[2026-04-19T01:13:10.458Z] --- CT-08: Preenchendo Etapa 3 com celular E.164 ---
+[2026-04-19T01:13:11.216Z] CT-08: Advanced to revisao: true
+[2026-04-19T01:13:11.216Z] CT-08: PASS
+[2026-04-19T01:13:11.216Z] --- CT-09: Verificando dados na revisao ---
+[2026-04-19T01:13:11.220Z] CT-09: Nome condominio on revisao: true
+[2026-04-19T01:13:11.220Z] CT-09: CNPJ on revisao: true
+[2026-04-19T01:13:11.220Z] CT-09: Signatario on revisao: true
+[2026-04-19T01:13:11.220Z] CT-09: Sindico nome on revisao: true
+[2026-04-19T01:13:11.220Z] CT-09: Sindico email on revisao: true
+[2026-04-19T01:13:11.304Z] CT-09: PASS
+[2026-04-19T01:13:11.307Z] --- CT-10: Botao Voltar da revisao ---
+[2026-04-19T01:13:11.920Z] CT-10: Back to step 3 after Voltar: true
+[2026-04-19T01:13:11.920Z] CT-10: PASS
+[2026-04-19T01:13:12.475Z] --- CT-11: Confirmacao e redirecionamento ---
+[2026-04-19T01:13:12.589Z] CT-11: Clicked 'Criar condomínio'
+[2026-04-19T01:13:13.399Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-04-19T01:13:13.410Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2026-04-19T01:13:27.689Z] CT-11: FAIL — No redirect to tenant details. Current URL: http://localhost:5173/condominios/undefined
+[2026-04-19T01:13:27.689Z] CT-11: Body on fail: 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BR← VoltarCondomínio não encontrado.
+    
+  
+
+
+
+========================================
+API DIRECT TEST — Confirming response shape
+Timestamp: 2026-04-19T01:20:00Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/admin/condominios
+Body: { nomeFantasia, cnpj: "12345678000195", optIn: {...}, sindico: {...} }
+
+--- RESPONSE ---
+Status: 201
+Body:
+{
+  "condominioId": "1792efd1-3e2b-4156-8e55-7b7c43576fe0",
+  "sindicoUserId": "84c58c91-0cf9-4d68-9ec0-7e2d896adf9e"
+}
+
+--- FINDING ---
+API response has "condominioId" field.
+Frontend types.ts interface CreateCondominioResponse expects "id" field.
+MISMATCH: Frontend reads result.id which is undefined.
+This causes navigate(`/condominios/${result.id}`) -> navigate("/condominios/undefined")
+DEFECT CONFIRMED: CT-11 FAIL — Bug in frontend/backend contract
+
+========================================
+CT-12: DB VALIDATION — Condominio status pre-ativo
+Timestamp: 2026-04-19T01:15:29Z
+Query: SELECT id, nome_fantasia, cnpj, status FROM condominio WHERE id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5'
+========================================
+Result: f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5|Residencial Teste QA|11222333000181|1
+id=f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5 nome=Residencial Teste QA cnpj=11222333000181 status=1
+CT-12: PASS — status=1 (PreAtivo) confirmed
+
+========================================
+CT-13: DB VALIDATION — opt_in_record
+Timestamp: 2026-04-19T01:15:36Z
+Query: SELECT * FROM opt_in_record WHERE tenant_id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5'
+========================================
+Result: 71083068-8b17-4d98-9d5b-c608351e884b|2026-03-01|75%|Joao da Silva|52998224725|2026-03-01
+CT-13: PASS — opt_in_record found
+
+========================================
+CT-14: DB VALIDATION — sindico
+Timestamp: 2026-04-19T01:15:44Z
+Query: SELECT s.id, s.nome_completo, s.celular_e164, s.status, u.email FROM sindico s JOIN asp_net_users u ON s.user_id = u.id WHERE s.tenant_id = 'f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5'
+========================================
+Result: 1c32c1f6-61da-4c4b-a8bf-fa4661934789|Maria Oliveira|+5511912345678|1|sindico.qa@portabox.dev
+CT-14: PASS — sindico found: nome=Maria Oliveira, email=sindico.qa@portabox.dev, celular=+5511912345678, status=1
+
+========================================
+BONUS: DB VALIDATION — magic_link criado para sindico
+========================================
+Result: 528dc6a1-4e01-458d-9688-84f223c40629|1|2026-04-19 01:13:13.109545+00|2026-04-22 01:13:13.109545+00|
+BONUS: PASS — magic_link found
+
+========================================
+TC-11 RERUN ATTEMPT
+Timestamp: 2026-04-20T00:00:00Z
+========================================
+Objetivo: Re-executar TC-11 apos correcao do bug em NovoCondominioPage.tsx linha 65
+
+CORRECAO VERIFICADA NO CODIGO FONTE:
+  Arquivo: apps/backoffice/src/features/condominios/pages/NovoCondominioPage.tsx
+  Linha 65 antes: navigate(`/condominios/${result.id}`)  -> result.id era undefined
+  Linha 65 depois: navigate(`/condominios/${result.condominioId}`)  -> usa campo correto da API
+  Arquivo: apps/backoffice/src/features/condominios/types.ts
+  Interface CreateCondominioResponse atualizada: { condominioId: string; sindicoUserId: string }
+
+AMBIENTE DE EXECUCAO:
+  Status: NÃO DISPONÍVEL
+  Motivo: Docker Desktop não está em execução no host Windows
+    - /mnt/wsl/docker-desktop mount está ausente (link simbólico em /usr/bin/docker inacessível)
+    - Podman não instalado
+    - PostgreSQL server não instalado localmente (apenas postgresql-client-16)
+    - Sem pg_ctl, initdb ou binário postgres disponíveis
+  Servicos necessários: PostgreSQL (porta 5432), Minio (porta 9000), Mailhog (porta 1025)
+  Solucao necessaria: Iniciar Docker Desktop no Windows para habilitar integração WSL2
+
+BUILD DO DOTNET:
+  Status: OK — dotnet build PortaBox.sln concluiu com sucesso (0 erros)
+  Binário: src/PortaBox.Api/bin/Release/net8.0/PortaBox.Api.dll
+
+SPEC DE RERUN CRIADO:
+  Arquivo: tests/e2e/specs/qa_task_01_tc11_rerun.spec.ts
+  CNPJ para rerun: 11.444.777/0001-61 (diferente do 11.222.333/0001-81 já cadastrado)
+  Dados do wizard: Residencial Rerun QA, Carlos Rerun, Sindico Rerun
+
+RESULTADO: BLOQUEADO — ambiente indisponível
+PROXIMA ACAO: Iniciar Docker Desktop e re-executar `pnpm e2e --grep "TC-11 Rerun"`
+[2026-04-20T16:33:29.652Z] ========================================
+[2026-04-20T16:33:29.653Z] TC-11 RERUN: Confirmacao e redirecionamento
+[2026-04-20T16:33:29.653Z] Timestamp: 2026-04-20T16:33:29.653Z
+[2026-04-20T16:33:29.653Z] Bug corrigido: result.id -> result.condominioId em NovoCondominioPage.tsx linha 65
+[2026-04-20T16:33:29.653Z] ========================================
+[2026-04-20T16:33:29.653Z] --- PASSO 1: Login ---
+[2026-04-20T16:33:30.284Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:33:30.296Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:33:31.007Z] Login OK. URL: http://localhost:5173/condominios
+[2026-04-20T16:33:31.008Z] --- PASSO 2: Acessar wizard ---
+[2026-04-20T16:33:31.892Z] Wizard carregado. URL: http://localhost:5173/condominios/novo
+[2026-04-20T16:33:31.892Z] --- PASSO 3: Preencher Etapa 1 — Dados do condominio ---
+[2026-04-20T16:33:32.122Z] Etapa 1 preenchida: nome=Residencial Rerun QA, cnpj=11.444.777/0001-61
+[2026-04-20T16:33:32.775Z] Avancou para etapa 2: true
+[2026-04-20T16:33:32.775Z] --- PASSO 4: Preencher Etapa 2 --- Opt-In LGPD ---
+[2026-04-20T16:33:32.901Z] Etapa 2 preenchida: dataAssembleia=2026-03-15, quorum=60%, signatario=Carlos Rerun
+[2026-04-20T16:33:33.532Z] Avancou para etapa 3: true
+[2026-04-20T16:33:33.532Z] --- PASSO 5: Preencher Etapa 3 — Sindico ---
+[2026-04-20T16:33:33.631Z] Etapa 3 preenchida: nome=Sindico Rerun, email=sindico.rerun@portabox.dev, celular=+5511987654321
+[2026-04-20T16:33:34.272Z] Avancou para revisao: true
+[2026-04-20T16:33:34.272Z] --- PASSO 6: Tela de revisao — clicar em Criar condominio ---
+[2026-04-20T16:33:34.339Z] Botao 'Criar condominio' encontrado: true
+[2026-04-20T16:33:35.026Z] API Response status: 201
+[2026-04-20T16:33:35.027Z] API Response body: {"condominioId":"4a3d87ea-f62f-4d9c-80de-a34237d0dae3","sindicoUserId":"85c256c2-3958-4b69-b6c8-8104adb805a7"}
+[2026-04-20T16:33:35.027Z] API retornou 201. Aguardando redirecionamento...
+[2026-04-20T16:33:35.029Z] TC-11: Redirecionado para: http://localhost:5173/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T16:33:35.093Z] TC-11: Tenant ID extraido da URL: 4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T16:33:35.161Z] Conteudo da pagina de detalhes:
+[2026-04-20T16:33:35.162Z]   - Nome do condominio visivel: false
+[2026-04-20T16:33:35.162Z]   - Mensagem de sucesso visivel: false
+[2026-04-20T16:33:35.162Z]   - Body (primeiros 500 chars): 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BRCarregando...
+    
+  
+
+
+[2026-04-20T16:33:35.162Z] --- BROWSER CONSOLE TC-11 RERUN ---
+[2026-04-20T16:33:35.162Z] [debug] [vite] connecting...
+[2026-04-20T16:33:35.162Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-20T16:33:35.162Z] [debug] [vite] connected.
+[2026-04-20T16:33:35.162Z] [error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:33:35.162Z] [error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-20T16:33:35.162Z] [debug] [vite] connecting...
+[2026-04-20T16:33:35.162Z] [debug] [vite] connected.
+[2026-04-20T16:33:35.162Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-20T16:33:35.162Z] TC-11 RERUN: PASS — Redirect para /condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+[2026-04-20T16:33:35.231Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'length')
+[2026-04-20T17:49:26.820Z] === CT-02: Etapa 1 — Validacao campos obrigatorios ===
+[2026-04-20T17:49:27.243Z] [PAGE_ERROR] Cannot read properties of undefined (reading 'replace')

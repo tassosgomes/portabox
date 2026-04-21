@@ -134,6 +134,7 @@ public sealed class CondominioSindicoPersistenceTests(PostgresDatabaseFixture fi
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseNpgsql(testDatabaseConnectionString)
                 .UseSnakeCaseNamingConvention()
+                .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning))
                 .Options;
 
             await using var dbContext = new AppDbContext(options);
@@ -191,6 +192,7 @@ public sealed class CondominioSindicoPersistenceTests(PostgresDatabaseFixture fi
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(fixture.ConnectionString)
             .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning))
             .Options;
 
         return new AppDbContext(options, tenantContext);

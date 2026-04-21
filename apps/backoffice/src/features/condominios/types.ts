@@ -32,7 +32,8 @@ export interface WizardData {
 }
 
 export interface CreateCondominioResponse {
-  id: string
+  condominioId: string
+  sindicoUserId: string
 }
 
 export interface ProblemDetails {
@@ -49,7 +50,7 @@ export type CondominioStatus = 1 | 2 // 1=PreAtivo, 2=Ativo
 export interface CondominioListItem {
   id: string
   nomeFantasia: string
-  cnpj: string
+  cnpjMasked: string
   status: CondominioStatus
   createdAt: string
   activatedAt: string | null
@@ -57,7 +58,7 @@ export interface CondominioListItem {
 
 export interface PagedResult<T> {
   items: T[]
-  total: number
+  totalCount: number
   page: number
   pageSize: number
 }
@@ -66,7 +67,7 @@ export interface OptInRecord {
   dataAssembleia: string
   quorumDescricao: string
   signatarioNome: string
-  signatarioCpf: string
+  signatarioCpfMasked: string
   dataTermo: string
 }
 
@@ -84,14 +85,13 @@ export interface SindicoInfo {
   userId: string
   nomeCompleto: string
   email: string
-  celularE164: string
-  passwordDefined: boolean
+  celularMasked: string
 }
 
 export interface AuditEntry {
   id: number
   eventKind: number // 1=Created, 2=Activated, 3=MagicLinkResent, 4=Other
-  performedByEmail: string
+  performedByUserId: string
   occurredAt: string
   note: string | null
 }
@@ -99,7 +99,7 @@ export interface AuditEntry {
 export interface CondominioDetails {
   id: string
   nomeFantasia: string
-  cnpj: string
+  cnpjMasked: string
   status: CondominioStatus
   createdAt: string
   activatedAt: string | null
@@ -112,8 +112,9 @@ export interface CondominioDetails {
   enderecoCep: string | null
   administradoraNome: string | null
   optIn: OptInRecord | null
-  optInDocuments: OptInDocumentItem[]
+  documentos: OptInDocumentItem[]
   sindico: SindicoInfo | null
+  sindicoSenhaDefinida: boolean
   auditLog: AuditEntry[]
 }
 

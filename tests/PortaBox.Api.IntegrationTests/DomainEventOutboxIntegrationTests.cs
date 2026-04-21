@@ -222,7 +222,8 @@ public sealed class DomainEventOutboxIntegrationTests(PostgresDatabaseFixture fi
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(fixture.ConnectionString)
-            .UseSnakeCaseNamingConvention();
+            .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning));
 
         if (addInterceptors)
         {

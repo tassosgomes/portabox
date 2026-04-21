@@ -9,8 +9,8 @@ namespace PortaBox.Api.Infrastructure;
 
 public sealed class ProblemDetailsExceptionHandler : IExceptionHandler
 {
-    private const string ValidationErrorType = "https://tools.ietf.org/html/rfc9110#section-15.5.1";
-    private const string InternalServerErrorType = "https://tools.ietf.org/html/rfc9110#section-15.6.1";
+    private const string ValidationErrorType = "https://portabox.app/problems/validation-error";
+    private const string InternalServerErrorType = "https://portabox.app/problems/internal-error";
 
     private readonly ProblemDetailsFactory _problemDetailsFactory;
     private readonly IHostEnvironment _environment;
@@ -62,9 +62,9 @@ public sealed class ProblemDetailsExceptionHandler : IExceptionHandler
                 httpContext,
                 modelState,
                 statusCode: StatusCodes.Status400BadRequest,
-                title: "One or more validation errors occurred.",
+                title: "Falha de validação",
                 type: ValidationErrorType,
-                detail: "One or more validation errors occurred.",
+                detail: "Um ou mais campos estão inválidos",
                 instance: httpContext.Request.Path);
 
             validationProblemDetails.Extensions["traceId"] =
@@ -78,12 +78,12 @@ public sealed class ProblemDetailsExceptionHandler : IExceptionHandler
 
         var detail = _environment.IsDevelopment()
             ? exception.Message
-            : "An unexpected error occurred.";
+            : "Ocorreu um erro inesperado. Tente novamente mais tarde.";
 
         var problemDetails = _problemDetailsFactory.CreateProblemDetails(
             httpContext,
             statusCode: StatusCodes.Status500InternalServerError,
-            title: "An unexpected error occurred.",
+            title: "Erro interno do servidor",
             type: InternalServerErrorType,
             detail: detail,
             instance: httpContext.Request.Path);

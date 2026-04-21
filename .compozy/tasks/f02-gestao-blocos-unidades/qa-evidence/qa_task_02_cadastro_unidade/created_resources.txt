@@ -1,0 +1,29 @@
+# Recursos criados durante qa_task_02_cadastro_unidade
+# Tenant A: 4cce551d-4f18-474b-a42a-2deb6c2a0451
+# Bloco QA-01: 88037273-d560-4415-a1e2-b45a00dc5be4
+
+## Unidades criadas via API (CT-01 a CT-10)
+
+CT-01 : id=f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33  andar=1  numero=101
+CT-02 : id=0608df78-27c8-439f-a0a5-b6511107fcad  andar=0  numero=01
+CT-03 : id=c010da4e-b74e-4476-b2e2-2b0747b3bfbc  andar=1  numero=101A  (entrada: "101a" -> normalizado para "101A")
+CT-04 : id=d06623f6-1c32-41f9-b681-bf23070249b0  andar=1  numero=102B
+CT-05 : id=c0d95956-97a9-418b-8f8e-3d53bdcc5d3b  andar=20 numero=2001
+CT-10a: id=368496a7-8296-41de-a908-9e03b83d4184  andar=5  numero=501  (1a tentativa - 201)
+CT-10b: 409 conflict (2a tentativa com mesmos dados andar=5, numero=501)
+
+## Unidades criadas via API (testes auxiliares)
+
+CT-12-bloco-temp: bloco_id=54d4fbe9-e749-4ee4-8dc4-442355762b6c  nome="Bloco Temp Inativo QA"  (inativado)
+
+## Unidades criadas via UI (UT-01, UT-04)
+
+UT-01: id=97e8872b-aa59-4379-9f82-1838b546a6dc  andar=99 numero=9901
+UT-04: id=2bf3daaa-38e3-4187-ae12-7131935e848b  andar=99 numero=9902A  (entrada: "9902a" -> normalizado para "9902A")
+
+## Unidades criadas em runs intermediarios (nao fazem parte do plano original)
+
+RUN-INTERMEDIARIO: id=45f39d2b-56ba-48bf-b36d-fc231b1013c0  andar=10 numero=1001  (criado durante tentativa UT-01 com numero original)
+RUN-INTERMEDIARIO: id=37bc9e13-78fb-440e-9b99-23f7b19f6c60  andar=10 numero=1002A (criado durante tentativa UT-04 com numero original)
+RUN-INTERMEDIARIO: id=fed9b09a-e5e6-4b84-bc70-37e88412f698  andar=11 numero=1101  (criado durante tentativa com numero intermediario)
+RUN-INTERMEDIARIO: id=daa2350c-d8ec-4b77-ad60-f6a1ee529842  andar=11 numero=1102A (criado durante tentativa com numero intermediario)

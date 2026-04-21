@@ -1,0 +1,13 @@
+========================================
+CT-07 Performance Log — Estrutura endpoint
+Timestamp: 2026-04-21T01:27:25Z
+PRD: < 1s para tenant com ate 100 unidades
+Tenant A unidades: ~19 (ativas + inativas)
+========================================
+Call 1: 22ms (HTTP 200)
+Call 2: 20ms (HTTP 200)
+Call 3: 20ms (HTTP 200)
+Average: 20ms
+PRD threshold: 1000ms for tenant with <= 100 units
+Tenant A has ~19 units
+RESULTADO: PASS - average 20ms < 1000ms

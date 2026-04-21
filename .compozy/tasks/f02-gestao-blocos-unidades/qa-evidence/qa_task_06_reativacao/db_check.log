@@ -1,0 +1,165 @@
+# DB Check Log — CF-06 Reativacao RETESTE
+# Gerado em: 2026-04-21T12:42:00Z
+
+========================================
+[RETEST - BEFORE] Estado dos Blocos (tenant A)
+Timestamp: 2026-04-21T12:42:00Z
+========================================
+                  id                  |           nome            | ativo 
+--------------------------------------+---------------------------+-------
+ 88037273-d560-4415-a1e2-b45a00dc5be4 | Bloco QA-01               | t
+ 4c936a72-fc12-4f32-809f-3f290c4bc8ae | Bloco QA-02 V3            | t
+ ff2ed42b-e9d9-426e-81fa-6bd51b767174 | Bloco QA-03               | t
+ 9aab2b47-1672-4686-ac12-6ce39b4c0f50 | Bloco UI-QA-01 Editado    | t
+ 54d4fbe9-e749-4ee4-8dc4-442355762b6c | Bloco Temp Inativo QA     | t
+ ac7b8af5-4bfe-47f0-84b1-c03bc3160895 | Bloco Temp Cascata QA     | t
+ e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907 | Bloco UI Inativar QA      | t
+ e6451b5b-bc1d-47e1-9300-2c5a50244273 | Bloco Temp Rename QA      | t
+ f32f5862-ccb5-4787-b850-768440e4e2ce | Bloco Conflito X QA       | f
+ f7fcaf43-5186-42cb-aa97-3888121323cb | Bloco Conflito X QA       | t
+ bb643a2a-8e4c-49c6-b76f-c98ad440a79e | Bloco Temp Pai Inativo QA | f
+ 52ac8a90-b077-464a-b14d-4dbd47dae6dd | Audit Bloco QA Renomeado  | t
+ 0260f7aa-8148-40e7-9280-7fd6ca93e4ba | Audit Bloco Unidades QA   | t
+(13 rows)
+
+
+========================================
+[RETEST - BEFORE] Estado das Unidades (tenant A)
+Timestamp: 2026-04-21T12:42:00Z
+========================================
+                  id                  |               bloco_id               | andar | numero | ativo 
+--------------------------------------+--------------------------------------+-------+--------+-------
+ 79e92757-a495-440a-8407-38d30706fd3f | 88037273-d560-4415-a1e2-b45a00dc5be4 |    50 | 501    | f
+ f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33 | 88037273-d560-4415-a1e2-b45a00dc5be4 |     1 | 101    | t
+ 0608df78-27c8-439f-a0a5-b6511107fcad | 88037273-d560-4415-a1e2-b45a00dc5be4 |     0 | 01     | t
+ c010da4e-b74e-4476-b2e2-2b0747b3bfbc | 88037273-d560-4415-a1e2-b45a00dc5be4 |     1 | 101A   | t
+ d06623f6-1c32-41f9-b681-bf23070249b0 | 88037273-d560-4415-a1e2-b45a00dc5be4 |     1 | 102B   | t
+ c0d95956-97a9-418b-8f8e-3d53bdcc5d3b | 88037273-d560-4415-a1e2-b45a00dc5be4 |    20 | 2001   | t
+ 368496a7-8296-41de-a908-9e03b83d4184 | 88037273-d560-4415-a1e2-b45a00dc5be4 |     5 | 501    | t
+ 1e990dbb-aed4-40c0-a48b-7a721692f872 | ac7b8af5-4bfe-47f0-84b1-c03bc3160895 |     1 | 101    | t
+ 45f39d2b-56ba-48bf-b36d-fc231b1013c0 | 88037273-d560-4415-a1e2-b45a00dc5be4 |    10 | 1001   | t
+ 37bc9e13-78fb-440e-9b99-23f7b19f6c60 | 88037273-d560-4415-a1e2-b45a00dc5be4 |    10 | 1002A  | t
+ fed9b09a-e5e6-4b84-bc70-37e88412f698 | 88037273-d560-4415-a1e2-b45a00dc5be4 |    11 | 1101   | t
+ daa2350c-d8ec-4b77-ad60-f6a1ee529842 | 88037273-d560-4415-a1e2-b45a00dc5be4 |    11 | 1102A  | t
+ 97e8872b-aa59-4379-9f82-1838b546a6dc | 88037273-d560-4415-a1e2-b45a00dc5be4 |    99 | 9901   | t
+ 2bf3daaa-38e3-4187-ae12-7131935e848b | 88037273-d560-4415-a1e2-b45a00dc5be4 |    99 | 9902A  | t
+ d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee | 88037273-d560-4415-a1e2-b45a00dc5be4 |     7 | 701    | t
+ 44be8a2a-a722-43b5-b9c4-e2f4fc6594e3 | 88037273-d560-4415-a1e2-b45a00dc5be4 |     8 | 801    | t
+ c4c0af70-e2be-4d21-a8fa-d1521791cc56 | 88037273-d560-4415-a1e2-b45a00dc5be4 |     8 | 802    | t
+ 660f8b54-7a57-4464-b78a-982b56c83c05 | 88037273-d560-4415-a1e2-b45a00dc5be4 |    50 | 501    | t
+ a2c82b48-a993-4200-82d7-24e1f3490b34 | bb643a2a-8e4c-49c6-b76f-c98ad440a79e |     1 | 101    | t
+ 38a64689-e814-4a71-b943-6f44603cce5d | 88037273-d560-4415-a1e2-b45a00dc5be4 |    99 | 99     | t
+ 13064f03-745f-4394-8390-05b1d0add428 | 88037273-d560-4415-a1e2-b45a00dc5be4 |    99 | 101    | t
+ c0f931cf-291c-40c1-86ac-23fef1ed955c | 88037273-d560-4415-a1e2-b45a00dc5be4 |    99 | 101A   | t
+ 58cdeb53-91f5-4ec5-95ec-37510a41e0df | 88037273-d560-4415-a1e2-b45a00dc5be4 |    99 | 102    | t
+ 1bae4c0d-e993-4b11-93ee-a45cfd6030fe | 0260f7aa-8148-40e7-9280-7fd6ca93e4ba |    10 | 1001   | t
+(24 rows)
+
+
+========================================
+[RETEST - BEFORE] Estado inconsistente legado CT-11
+========================================
+              unidade_id              | unidade_ativo |               bloco_id               |           nome            | bloco_ativo 
+--------------------------------------+---------------+--------------------------------------+---------------------------+-------------
+ a2c82b48-a993-4200-82d7-24e1f3490b34 | t             | bb643a2a-8e4c-49c6-b76f-c98ad440a79e | Bloco Temp Pai Inativo QA | f
+(1 row)
+
+
+========================================
+CT-12: Persistencia DB pos-reativacao
+Timestamp: 2026-04-21T12:46:55Z
+========================================
+--- Bloco CT-01 (14c086fa-97f7-49cc-a944-cd22da004464) ---
+                  id                  |           nome           | ativo | inativado_em | inativado_por 
+--------------------------------------+--------------------------+-------+--------------+---------------
+ 14c086fa-97f7-49cc-a944-cd22da004464 | Bloco Retest Reativar QA | t     |              | 
+(1 row)
+
+
+--- Unidade CT-05 (c6a97000-eb26-46b1-bcf9-f15f4b9104e8) ---
+                  id                  | andar | numero | ativo | inativado_em 
+--------------------------------------+-------+--------+-------+--------------
+ c6a97000-eb26-46b1-bcf9-f15f4b9104e8 |    60 | 601    | t     | 
+(1 row)
+
+
+RESULTADO CT-12:
+Bloco CT-01: ativo=t, inativado_em=NULL, inativado_por=NULL -> PASS
+Unidade CT-05: ativo=t, inativado_em=NULL -> PASS
+
+========================================
+CT-13: Audit entries — event_kind=8 (BlocoReativado) e event_kind=11 (UnidadeReativada)
+Timestamp: 2026-04-21T12:47:06Z
+Filtro: occurred_at > '2026-04-21T12:42:00Z'
+========================================
+ event_kind |                                                             metadata_json                                                              |          occurred_at          
+------------+----------------------------------------------------------------------------------------------------------------------------------------+-------------------------------
+          8 | {"nome": "Bloco B-01", "blocoId": "849b6750-0cca-4cef-a798-5d90d04246ff"}                                                              | 2026-04-21 12:46:20.610337+00
+         11 | {"andar": 60, "numero": "601", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "c6a97000-eb26-46b1-bcf9-f15f4b9104e8"} | 2026-04-21 12:44:56.299259+00
+          8 | {"nome": "Bloco Retest Reativar QA", "blocoId": "14c086fa-97f7-49cc-a944-cd22da004464"}                                                | 2026-04-21 12:43:55.039146+00
+(3 rows)
+
+
+RESULTADO CT-13:
+event_kind=8 (BlocoReativado): 2 entries encontradas (Bloco Retest Reativar QA e Bloco B-01 do cross-tenant)
+event_kind=11 (UnidadeReativada): 1 entry encontrada (Unidade 601 andar=60)
+PASS: Entries para CT-01 (BlocoReativado) e CT-05 (UnidadeReativada) presentes
+
+========================================
+CT-14: Estado inconsistente legado do run anterior
+Timestamp: 2026-04-21T12:47:15Z
+========================================
+Query: unidade a2c82b48 em bloco bb643a2a
+              unidade_id              | unidade_ativo |               bloco_id               |           nome            | bloco_ativo 
+--------------------------------------+---------------+--------------------------------------+---------------------------+-------------
+ a2c82b48-a993-4200-82d7-24e1f3490b34 | t             | bb643a2a-8e4c-49c6-b76f-c98ad440a79e | Bloco Temp Pai Inativo QA | f
+(1 row)
+
+
+RESULTADO CT-14:
+Estado inconsistente PERSISTE: unidade_ativo=t, bloco_ativo=f
+Unidade a2c82b48 ainda esta ATIVA sob bloco bb643a2a (Bloco Temp Pai Inativo QA) que esta INATIVO
+Este estado foi criado pelo run anterior (CT-11 bug). Nao foi alterado neste reteste.
+DOCUMENTADO — sem acao corretiva conforme instrucoes.
+
+--- Verificacao: CT-11 reteste nao criou novo estado inconsistente ---
+              unidade_id              | unidade_ativo |               bloco_id               |           nome            | bloco_ativo 
+--------------------------------------+---------------+--------------------------------------+---------------------------+-------------
+ a2c82b48-a993-4200-82d7-24e1f3490b34 | t             | bb643a2a-8e4c-49c6-b76f-c98ad440a79e | Bloco Temp Pai Inativo QA | f
+(1 row)
+
+
+========================================
+[RETEST - AFTER] Estado final dos Blocos (tenant A)
+Timestamp: 2026-04-21T13:02:37Z
+========================================
+                  id                  |           nome            | ativo 
+--------------------------------------+---------------------------+-------
+ 88037273-d560-4415-a1e2-b45a00dc5be4 | Bloco QA-01               | t
+ 4c936a72-fc12-4f32-809f-3f290c4bc8ae | Bloco QA-02 V3            | t
+ ff2ed42b-e9d9-426e-81fa-6bd51b767174 | Bloco QA-03               | t
+ 9aab2b47-1672-4686-ac12-6ce39b4c0f50 | Bloco UI-QA-01 Editado    | t
+ 54d4fbe9-e749-4ee4-8dc4-442355762b6c | Bloco Temp Inativo QA     | t
+ ac7b8af5-4bfe-47f0-84b1-c03bc3160895 | Bloco Temp Cascata QA     | t
+ e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907 | Bloco UI Inativar QA      | t
+ e6451b5b-bc1d-47e1-9300-2c5a50244273 | Bloco Temp Rename QA      | t
+ f32f5862-ccb5-4787-b850-768440e4e2ce | Bloco Conflito X QA       | f
+ f7fcaf43-5186-42cb-aa97-3888121323cb | Bloco Conflito X QA       | t
+ bb643a2a-8e4c-49c6-b76f-c98ad440a79e | Bloco Temp Pai Inativo QA | f
+ 52ac8a90-b077-464a-b14d-4dbd47dae6dd | Audit Bloco QA Renomeado  | t
+ 0260f7aa-8148-40e7-9280-7fd6ca93e4ba | Audit Bloco Unidades QA   | t
+ 14c086fa-97f7-49cc-a944-cd22da004464 | Bloco Retest Reativar QA  | t
+ 8cb7528b-72ab-4509-83c9-88b31928b7ce | Retest Conflito X QA      | f
+ 4585ea6d-c165-41da-aaae-647fff3f136a | Retest Conflito X QA      | t
+ 69738a69-fbe8-4389-9a3a-43885e30fa34 | Retest Pai Inativo QA     | t
+(17 rows)
+
+
+========================================
+[RETEST - AFTER] Estado inconsistente legado (verificacao final)
+========================================
+              unidade_id              | unidade_ativo |               bloco_id               |           nome            | bloco_ativo 
+--------------------------------------+---------------+--------------------------------------+---------------------------+-------------
+ a2c82b48-a993-4200-82d7-24e1f3490b34 | t             | bb643a2a-8e4c-49c6-b76f-c98ad440a79e | Bloco Temp Pai Inativo QA | f
+(1 row)
+

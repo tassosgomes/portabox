@@ -8,13 +8,6 @@ import styles from './ListaCondominiosPage.module.css'
 
 const PAGE_SIZE = 20
 
-function formatCnpj(cnpj: string): string {
-  const d = cnpj.replace(/\D/g, '')
-  return d.length === 14
-    ? d.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5')
-    : cnpj
-}
-
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('pt-BR')
 }
@@ -75,7 +68,7 @@ export function ListaCondominiosPage() {
     return () => { cancelled = true }
   }, [page, statusFilter, debouncedSearch])
 
-  const totalPages = result ? Math.ceil(result.total / PAGE_SIZE) : 0
+  const totalPages = result ? Math.ceil(result.totalCount / PAGE_SIZE) : 0
 
   return (
     <div className={styles.page}>
@@ -162,7 +155,7 @@ export function ListaCondominiosPage() {
                         {item.nomeFantasia}
                       </Link>
                     </td>
-                    <td className={styles.mono}>{formatCnpj(item.cnpj)}</td>
+                    <td className={styles.mono}>{item.cnpjMasked}</td>
                     <td>
                       <StatusBadge status={item.status} />
                     </td>

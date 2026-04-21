@@ -118,6 +118,7 @@ public sealed class OptInRecordPersistenceTests(PostgresDatabaseFixture fixture)
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(fixture.ConnectionString)
             .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning))
             .Options;
 
         return new AppDbContext(options, tenantContext);

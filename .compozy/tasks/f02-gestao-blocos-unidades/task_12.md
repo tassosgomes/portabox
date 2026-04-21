@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: Componentes Tree + TreeNode + ConfirmModal em packages/ui
 type: frontend
 complexity: medium
@@ -31,12 +31,12 @@ Adiciona ao pacote compartilhado `packages/ui` (já scaffoldado em F01 task_20) 
 </requirements>
 
 ## Subtasks
-- [ ] 12.1 Criar `packages/ui/src/Tree/Tree.tsx` + `TreeNode.tsx` com API genérica
-- [ ] 12.2 Implementar expand/collapse controlled + uncontrolled
-- [ ] 12.3 Implementar acessibilidade WAI-ARIA + navegação por teclado
-- [ ] 12.4 Criar `packages/ui/src/ConfirmModal/ConfirmModal.tsx` com variante `danger`
-- [ ] 12.5 Exportar via `packages/ui/src/index.ts`
-- [ ] 12.6 Escrever testes Vitest + Testing Library para interações principais
+- [x] 12.1 Criar `packages/ui/src/Tree/Tree.tsx` + `TreeNode.tsx` com API genérica
+- [x] 12.2 Implementar expand/collapse controlled + uncontrolled
+- [x] 12.3 Implementar acessibilidade WAI-ARIA + navegação por teclado
+- [x] 12.4 Criar `packages/ui/src/ConfirmModal/ConfirmModal.tsx` com variante `danger`
+- [x] 12.5 Exportar via `packages/ui/src/index.ts`
+- [x] 12.6 Escrever testes Vitest + Testing Library para interações principais
 
 ## Implementation Details
 Ver ADR-010 de F01 para padrões de design system e consumo de tokens. Antes de iniciar, invocar a skill `portabox-design` para carregar tokens atualizados.
@@ -84,17 +84,17 @@ type TreeItem = {
 
 ## Tests
 - Unit tests:
-  - [ ] `<Tree>` renderiza itens e respeita ordem
-  - [ ] Click em `<TreeNode>` com `children` alterna expand/collapse (uncontrolled)
-  - [ ] `expandedIds` prop controla expand externamente (controlled); `onExpandChange` é chamado
-  - [ ] Navegação por teclado: seta direita expande; esquerda colapsa; cima/baixo move foco; Enter aciona `onClick`
-  - [ ] `aria-expanded` reflete estado; `aria-level` crescente por profundidade
-  - [ ] Item com `state="inactive"` renderiza com estilo descontrast + ícone distinto
-  - [ ] `<ConfirmModal>` chama `onConfirm` ao clicar em confirm; `onCancel` ao cancelar; Escape fecha
-  - [ ] `<ConfirmModal>` com `danger=true` estiliza botão de confirmar conforme design system
+  - [x] `<Tree>` renderiza itens e respeita ordem
+  - [x] Click em `<TreeNode>` com `children` alterna expand/collapse (uncontrolled)
+  - [x] `expandedIds` prop controla expand externamente (controlled); `onExpandChange` é chamado
+  - [x] Navegação por teclado: seta direita expande; esquerda colapsa; cima/baixo move foco; Enter aciona `onClick`
+  - [x] `aria-expanded` reflete estado; `aria-level` crescente por profundidade
+  - [x] Item com `state="inactive"` renderiza com estilo descontrast + ícone distinto
+  - [x] `<ConfirmModal>` chama `onConfirm` ao clicar em confirm; `onCancel` ao cancelar; Escape fecha
+  - [x] `<ConfirmModal>` com `danger=true` estiliza botão de confirmar conforme design system
 - Integration tests:
-  - [ ] Storybook renderiza 3 stories (Tree básica, Tree com inativos, ConfirmModal danger)
-  - [ ] Snapshot dos 3 componentes não regrida entre commits
+  - [x] Storybook renderiza 3 stories (Tree básica, Tree com inativos, ConfirmModal danger)
+  - [x] Snapshot dos 3 componentes não regrida entre commits
 - Test coverage target: >=80%
 - All tests must pass
 

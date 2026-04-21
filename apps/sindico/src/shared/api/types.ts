@@ -4,10 +4,12 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  id: string
-  email: string
-  name: string
-  role: string
+  userId?: string
+  id?: string
+  email?: string
+  name?: string
+  role?: string | null
+  tenantId?: string | null
 }
 
 export interface PasswordSetupRequest {

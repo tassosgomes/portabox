@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using PortaBox.Api.Features.Estrutura;
 using PortaBox.Api.Endpoints;
 using PortaBox.Api.Extensions;
 using PortaBox.Api.Infrastructure;
@@ -120,6 +121,7 @@ var apiV1 = app.MapGroup(ApiRoutes.V1);
 apiV1.MapGet("/", () => Results.Ok(new { service = "PortaBox.Api", version = "v1" }));
 apiV1.MapAuthEndpoints();
 apiV1.MapCondominiosEndpoints();
+apiV1.MapEstruturaEndpoints();
 
 if (builder.Configuration.GetValue<bool>("Testing:EnableExceptionEndpoint"))
 {

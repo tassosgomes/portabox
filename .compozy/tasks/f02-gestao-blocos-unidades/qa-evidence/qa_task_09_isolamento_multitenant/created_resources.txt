@@ -1,0 +1,10 @@
+# Recursos criados durante qa_task_09_isolamento_multitenant
+# Tenant B setup resources (nao deletar — usados como isca de isolamento)
+
+BLOCO_B_ID=7a600791-d5ac-4f70-9741-c7c86ea49ca5
+BLOCO_B_NOME=Bloco B-QA-01
+UNIDADE_B_ID=f24e0bdf-22fd-4300-9919-94da8618672e
+UNIDADE_B_ANDAR=1
+UNIDADE_B_NUMERO=101
+CRIADO_POR=Sindico B (de785ac5-f834-47f2-8bbe-cf7ee3be24d9)
+TENANT_B_ID=23fb219d-460a-4eee-a9e7-308d7665350b

@@ -1,0 +1,27 @@
+# CF-03 — Estado Final dos Recursos
+
+## Blocos usados nesta task
+
+### Bloco QA-02 (principal desta task)
+- ID: 4c936a72-fc12-4f32-809f-3f290c4bc8ae
+- Nome atual: Bloco QA-02 V3
+- Ativo: true
+- Historico de renomes:
+  - "Bloco QA-02" → "Bloco QA-02 Renomeado" (CT-01, audit event_kind=6)
+  - "Bloco QA-02 Renomeado" → "Bloco QA-02 V3" (CT-12, audit event_kind=6)
+
+### Bloco UI-QA-01 (testes UI)
+- ID: 9aab2b47-1672-4686-ac12-6ce39b4c0f50
+- Nome atual: Bloco UI-QA-01 Editado
+- Ativo: true
+- Historico de renomes:
+  - "Bloco UI-QA-01" → "Bloco UI-QA-01 Editado" (UT-01, audit event_kind=6)
+
+### Bloco Temp Rename QA (criado e inativado em CT-09)
+- ID: e6451b5b-bc1d-47e1-9300-2c5a50244273
+- Nome: Bloco Temp Rename QA
+- Ativo: false (inativado durante CT-09)
+
+## Audit Trail (event_kind=6)
+- 3 entradas totais de rename no tenant_audit_log para Tenant A
+- Todas com nomeAntes e nomeDepois no metadata_json

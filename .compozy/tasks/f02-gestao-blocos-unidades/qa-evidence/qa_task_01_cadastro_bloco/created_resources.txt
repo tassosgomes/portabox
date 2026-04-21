@@ -1,0 +1,16 @@
+# Recursos criados pela qa_task_01_cadastro_bloco
+# TENANT A (4cce551d-4f18-474b-a42a-2deb6c2a0451)
+
+BLOCO_QA01_ID=88037273-d560-4415-a1e2-b45a00dc5be4
+BLOCO_QA01_NOME=Bloco QA-01
+
+BLOCO_QA02_ID=4c936a72-fc12-4f32-809f-3f290c4bc8ae
+BLOCO_QA02_NOME=Bloco QA-02
+
+BLOCO_QA03_ID=ff2ed42b-e9d9-426e-81fa-6bd51b767174
+BLOCO_QA03_NOME=Bloco QA-03
+
+BLOCO_UI_QA01_ID=9aab2b47-1672-4686-ac12-6ce39b4c0f50
+BLOCO_UI_QA01_NOME=Bloco UI-QA-01
+
+# Todos com ativo=true, criado_por=9ae7217c-7c68-43ba-b663-63bb9f235d97 (sindico A)

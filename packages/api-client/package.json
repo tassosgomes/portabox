@@ -1,0 +1,32 @@
+{
+  "name": "@portabox/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --coverage --config vitest.config.ts",
+    "test:watch": "vitest --config vitest.config.ts",
+    "lint": "eslint src",
+    "generate:types": "bash ./scripts/generate-types.sh",
+    "check:generated": "pnpm generate:types && git diff --exit-code -- src/generated.ts"
+  },
+  "devDependencies": {
+    "@stoplight/prism-cli": "^5.14.2",
+    "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^3.2.3",
+    "openapi-typescript": "^7.10.1",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.3"
+  }
+}

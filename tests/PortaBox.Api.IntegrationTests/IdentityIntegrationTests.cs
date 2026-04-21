@@ -35,6 +35,7 @@ public sealed class IdentityIntegrationTests(PostgresDatabaseFixture fixture)
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseNpgsql(testDatabaseConnectionString)
                 .UseSnakeCaseNamingConvention()
+                .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning))
                 .Options;
 
             await using var dbContext = new AppDbContext(options);

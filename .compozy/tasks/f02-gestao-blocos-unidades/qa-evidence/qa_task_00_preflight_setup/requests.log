@@ -1,0 +1,242 @@
+========================================
+QA Task 00 — Preflight Setup
+Timestamp: 2026-04-20T22:39:14Z
+========================================
+========================================
+STEP 1A: Backend Health Check
+Timestamp: 2026-04-20T22:39:18Z
+========================================
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Mon, 20 Apr 2026 22:39:18 GMT
+Server: Kestrel
+Cache-Control: no-store, no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Pragma: no-cache
+Transfer-Encoding: chunked
+X-Request-Id: 9f8a25e9-8dff-44b3-8f69-be176ce7a2d2
+Content-Security-Policy: default-src 'self'; img-src 'self' data: https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'none'
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: strict-origin-when-cross-origin
+
+{"status":"Healthy","totalDuration":4.6908,"checks":{"self":{"status":"Healthy","description":"Process is alive.","duration":0.2695,"data":{}}}}
+========================================
+STEP 1B: Frontend Sindico Health Check
+Timestamp: 2026-04-20T22:39:24Z
+========================================
+HTTP/1.1 200 OK
+Vary: Origin
+Content-Type: text/html
+Cache-Control: no-cache
+Etag: W/"3e1-65C9tGoeuzCNlJE7yzbgCOUrvfg"
+Date: Mon, 20 Apr 2026 22:39:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+========================================
+STEP 1C: MailHog Health Check
+Timestamp: 2026-04-20T22:39:24Z
+========================================
+HTTP/1.1 404 Not Found
+Content-Type: text/plain; charset=utf-8
+X-Content-Type-Options: nosniff
+Date: Mon, 20 Apr 2026 22:39:24 GMT
+Content-Length: 19
+
+========================================
+CT-05: Login como Operator
+Timestamp: 2026-04-20T22:40:18Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/login
+Body: {"email":"operator@portabox.dev","password":"[REDACTED]"}
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "userId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+    "role": "Operator",
+    "tenantId": null
+}
+--- RESULTADO: PASS ---
+========================================
+CT-06: Criar Tenant A
+Timestamp: 2026-04-20T22:40:32Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/admin/condominios
+Sindico Email: qa-sindico-a-1776724832@portabox.test
+Condominio Name: QA Teste A - 1776724832
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "detail": "One or more validation errors occurred.",
+    "instance": "/api/v1/admin/condominios",
+    "errors": {
+        "Cnpj": [
+            "CNPJ must be valid."
+        ],
+        "EnderecoCep": [
+            "The length of 'Endereco Cep' must be 8 characters or fewer. You entered 9 characters."
+        ],
+        "SignatarioCpf": [
+            "CPF must be valid."
+        ]
+    },
+    "traceId": "f6dc67e3423dbc71c3582fbc0c41471d"
+}
+--- RESULTADO: FAIL ---
+Expected status: 201
+Actual status:   400
+========================================
+CT-06: Criar Tenant A (corrigido — CNPJ/CPF validos)
+Timestamp: 2026-04-20T22:41:14Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/admin/condominios
+Sindico Email: qa-sindico-a-1776724874@portabox.test
+Condominio Name: QA Teste A - 1776724874
+CNPJ: 11222333000181
+CEP: 01310100 (8 digits)
+CPF: 52998224725
+--- RESPONSE ---
+Status: 409
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.10",
+    "title": "CNPJ j\u00e1 cadastrado.",
+    "status": 409,
+    "detail": "CnpjAlreadyExists",
+    "instance": "/api/v1/admin/condominios",
+    "traceId": "e0de9065c4fd5f76ff6f3b5eb61717f5"
+}
+--- RESULTADO: FAIL ---
+Expected status: 201
+Actual status:   409
+========================================
+CT-06: Criar Tenant A (CNPJ unico gerado)
+Timestamp: 2026-04-20T22:41:44Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/admin/condominios
+Sindico Email: qa-sindico-a-1776724904@portabox.test
+Condominio Name: QA Teste A - 1776724904
+CNPJ: 04.577.786/0001-65
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+    "sindicoUserId": "9ae7217c-7c68-43ba-b663-63bb9f235d97"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-07: Capturar magic link do sindico A no MailHog
+Timestamp: 2026-04-20T22:41:57Z
+Procurando email para: qa-sindico-a-1776724904@portabox.test
+========================================
+Email encontrado — token extraido com sucesso
+--- RESULTADO: PASS ---
+
+========================================
+CT-08: Password Setup para sindico A
+Timestamp: 2026-04-20T22:42:18Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/password-setup
+Body: {"token":"[TOKEN_REDACTED]","password":"[PASSWORD_REDACTED]"}
+--- RESPONSE ---
+Status: 200
+Body: 
+--- RESULTADO: PASS ---
+========================================
+CT-09: Login como Sindico A
+Timestamp: 2026-04-20T22:42:30Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/login
+Body: {"email":"qa-sindico-a-1776724904@portabox.test","password":"[REDACTED]"}
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "userId": "9ae7217c-7c68-43ba-b663-63bb9f235d97",
+    "role": "Sindico",
+    "tenantId": "4cce551d-4f18-474b-a42a-2deb6c2a0451"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-10: Criar Tenant B
+Timestamp: 2026-04-20T22:42:48Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/admin/condominios
+Sindico Email: qa-sindico-b-1776724968@portabox.test
+Condominio Name: QA Teste B - 1776724968
+CNPJ: 33.388.845/0001-55
+--- RESPONSE ---
+Status: 201
+Body:
+{
+    "condominioId": "23fb219d-460a-4eee-a9e7-308d7665350b",
+    "sindicoUserId": "de785ac5-f834-47f2-8bbe-cf7ee3be24d9"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-11: Password Setup sindico B + Login sindico B
+Timestamp: 2026-04-20T22:43:12Z
+========================================
+--- REQUEST password-setup B ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/password-setup
+Token: [REDACTED]
+--- RESPONSE ---
+Status: 200
+Body: 
+--- RESULTADO: PASS (password setup B) ---
+========================================
+CT-12: Login como Sindico B
+Timestamp: 2026-04-20T22:43:23Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/login
+Email: qa-sindico-b-1776724968@portabox.test
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "userId": "de785ac5-f834-47f2-8bbe-cf7ee3be24d9",
+    "role": "Sindico",
+    "tenantId": "23fb219d-460a-4eee-a9e7-308d7665350b"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-13: Verificar arquivos de credenciais e cookies
+Timestamp: 2026-04-20T22:43:38Z
+========================================
+cookies_operator.txt: OK (5 lines)
+cookies_sindico_a.txt: OK (5 lines)
+cookies_sindico_b.txt: OK (5 lines)
+.env.qa.local: 9 chaves QA_
+--- RESULTADO: PASS ---
+
+========================================
+RESUMO FINAL
+========================================
+Todos os servicos: UP
+Tenant A condominioId: 4cce551d-4f18-474b-a42a-2deb6c2a0451
+Tenant B condominioId: 23fb219d-460a-4eee-a9e7-308d7665350b
+Status: PASS

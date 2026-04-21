@@ -1,0 +1,42 @@
+QA Task 02 — DB Checks
+Iniciado em: 2026-04-21T00:02:03Z
+
+========================================
+CT-15: Persistencia DB — unidade CT-01 (id=f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33)
+Timestamp: 2026-04-21T00:02:03Z
+========================================
+Query: SELECT id, tenant_id, bloco_id, andar, numero, ativo, criado_em, criado_por FROM unidade WHERE id = 'f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33'
+DB Result: f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33|4cce551d-4f18-474b-a42a-2deb6c2a0451|88037273-d560-4415-a1e2-b45a00dc5be4|1|101|t|2026-04-20 23:59:41.096218+00|9ae7217c-7c68-43ba-b663-63bb9f235d97
+Parsed fields:
+  id:         f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33
+  tenant_id:  4cce551d-4f18-474b-a42a-2deb6c2a0451
+  bloco_id:   88037273-d560-4415-a1e2-b45a00dc5be4
+  andar:      1
+  numero:     101
+  ativo:      t
+  criado_em:  2026-04-20 23:59:41.096218+00
+  criado_por: 9ae7217c-7c68-43ba-b663-63bb9f235d97
+PASS: Todos os campos corretos
+
+========================================
+CT-16: Audit entry — UnidadeCriada (event_kind=9)
+Timestamp: 2026-04-21T00:02:18Z
+========================================
+Query: SELECT event_kind, performed_by_user_id, metadata_json, occurred_at FROM tenant_audit_log WHERE event_kind=9 ORDER BY occurred_at DESC LIMIT 5
+Audit query result:
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 5, "numero": "501", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "368496a7-8296-41de-a908-9e03b83d4184"}|2026-04-21 00:00:43.863561+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 20, "numero": "2001", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "c0d95956-97a9-418b-8f8e-3d53bdcc5d3b"}|2026-04-21 00:00:08.872787+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 1, "numero": "102B", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "d06623f6-1c32-41f9-b681-bf23070249b0"}|2026-04-21 00:00:08.782547+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 1, "numero": "101A", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "c010da4e-b74e-4476-b2e2-2b0747b3bfbc"}|2026-04-20 23:59:56.861315+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 0, "numero": "01", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "0608df78-27c8-439f-a0a5-b6511107fcad"}|2026-04-20 23:59:49.914044+00
+OBSERVACAO: event_kind=9 existe mas nao encontrou entrada especifica para CT-01
+  Entradas encontradas: 9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 5, "numero": "501", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "368496a7-8296-41de-a908-9e03b83d4184"}|2026-04-21 00:00:43.863561+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 20, "numero": "2001", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "c0d95956-97a9-418b-8f8e-3d53bdcc5d3b"}|2026-04-21 00:00:08.872787+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 1, "numero": "102B", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "d06623f6-1c32-41f9-b681-bf23070249b0"}|2026-04-21 00:00:08.782547+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 1, "numero": "101A", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "c010da4e-b74e-4476-b2e2-2b0747b3bfbc"}|2026-04-20 23:59:56.861315+00
+9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 0, "numero": "01", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "0608df78-27c8-439f-a0a5-b6511107fcad"}|2026-04-20 23:59:49.914044+00
+
+--- CT-16 audit para unidade CT-01 especificamente ---
+Query: WHERE metadata_json LIKE '%f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33%'
+Result: 9|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"andar": 1, "numero": "101", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33"}|2026-04-20 23:59:41.111846+00
+PASS: Audit entry encontrada para CT-01. event_kind=9

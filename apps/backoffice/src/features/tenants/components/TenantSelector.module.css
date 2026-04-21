@@ -1,0 +1,29 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 280px;
+}
+
+.label {
+  font-size: var(--fs-xs, 0.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-subtle);
+  font-weight: var(--fw-medium);
+}
+
+.select {
+  border: 1px solid var(--pb-gray-300, #d1d5db);
+  border-radius: var(--r-md, 10px);
+  padding: var(--sp-3);
+  font-size: var(--fs-sm);
+  background: var(--bg-surface);
+  color: var(--fg-body);
+  box-shadow: var(--sh-sm);
+}
+
+.select:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}

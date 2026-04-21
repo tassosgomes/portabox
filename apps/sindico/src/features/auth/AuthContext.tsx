@@ -1,33 +1,42 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
   useState,
   type ReactNode,
 } from 'react'
 import { apiClient } from '@/shared/api/client'
 import type { LoginRequest, LoginResponse } from '@/shared/api/types'
+import { AuthContext, type AuthState, type AuthUser } from './context'
 
-export interface AuthUser {
-  id: string
-  email: string
-  name: string
-  role: string
+type MeResponse = {
+  userId?: string
+  id?: string
+  email?: string
+  name?: string
+  role?: string
+  roles?: string[]
+  tenantId?: string | null
 }
 
-interface AuthState {
-  user: AuthUser | null
-  isAuthenticated: boolean
-  isLoading: boolean
-}
+function normalizeAuthUser(payload: MeResponse): AuthUser {
+  const id = payload.userId ?? payload.id
+  const email = payload.email
 
-interface AuthContextValue extends AuthState {
-  login: (credentials: LoginRequest) => Promise<void>
-  logout: () => Promise<void>
-}
+  if (!id || !email) {
+    throw new Error('Auth payload is missing required fields')
+  }
 
-const AuthContext = createContext<AuthContextValue | null>(null)
+  const role = payload.role ?? payload.roles?.[0] ?? 'Sindico'
+  const fallbackName = email.split('@')[0] ?? email
+
+  return {
+    id,
+    email,
+    name: payload.name ?? fallbackName,
+    role,
+    tenantId: payload.tenantId ?? null,
+  }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
@@ -38,9 +47,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     apiClient
-      .get<AuthUser>('/v1/auth/me', { noRedirectOn401: true })
-      .then((user) => {
-        setState({ user, isAuthenticated: true, isLoading: false })
+      .get<MeResponse>('/v1/auth/me', { noRedirectOn401: true })
+      .then((payload) => {
+        setState({ user: normalizeAuthUser(payload), isAuthenticated: true, isLoading: false })
       })
       .catch(() => {
         setState({ user: null, isAuthenticated: false, isLoading: false })
@@ -48,9 +57,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = useCallback(async (credentials: LoginRequest): Promise<void> => {
-    const res = await apiClient.post<LoginResponse>('/v1/auth/login', credentials)
+    await apiClient.post<LoginResponse>('/v1/auth/login', credentials, { noRedirectOn401: true })
+    const me = await apiClient.get<MeResponse>('/v1/auth/me', { noRedirectOn401: true })
+    const user = normalizeAuthUser(me)
+
     setState({
-      user: { id: res.id, email: res.email, name: res.name, role: res.role },
+      user,
       isAuthenticated: true,
       isLoading: false,
     })
@@ -66,10 +78,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export function useAuthContext(): AuthContextValue {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuthContext must be used within AuthProvider')
-  return ctx
 }

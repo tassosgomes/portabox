@@ -183,6 +183,7 @@ public sealed class ObjectStorageAndOptInDocumentIntegrationTests(
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(postgresFixture.ConnectionString)
             .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning))
             .Options;
 
         return new AppDbContext(options, tenantContext);

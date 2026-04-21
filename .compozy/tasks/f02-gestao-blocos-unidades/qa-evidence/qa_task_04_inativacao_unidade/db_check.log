@@ -1,0 +1,23 @@
+========================================
+CT-07: Persistencia DB — unidade inativada
+Timestamp: 2026-04-21T00:44:55Z
+Query: SELECT id, ativo, inativado_em, inativado_por FROM unidade WHERE id = 'd05aca01-c7b2-41b0-8b1b-c2d3b7e45eee'
+Result: 
+--- RESULTADO: FAIL ---
+Expected: ativo=f, inativado_em!=null, inativado_por!=null
+Actual: ativo=, inativado_em=, inativado_por=
+========================================
+CT-07: Persistencia DB — unidade inativada
+Timestamp: 2026-04-21T00:45:07Z
+Query: SELECT id, ativo, inativado_em, inativado_por FROM unidade WHERE id = 'd05aca01-c7b2-41b0-8b1b-c2d3b7e45eee'
+Result: d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee|f|2026-04-21 00:43:37.784939+00|9ae7217c-7c68-43ba-b663-63bb9f235d97
+--- RESULTADO: PASS ---
+ativo=f, inativado_em=2026-04-21 00:43:37.784939+00, inativado_por=9ae7217c-7c68-43ba-b663-63bb9f235d97
+========================================
+CT-08: Audit entry event_kind=10 (UnidadeInativada)
+Timestamp: 2026-04-21T00:45:16Z
+Query: SELECT event_kind, metadata_json FROM tenant_audit_log WHERE event_kind=10 ORDER BY occurred_at DESC LIMIT 3
+Result:
+10|{"andar": 7, "numero": "701", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee"}
+--- RESULTADO: PASS ---
+Entrada audit com event_kind=10 encontrada referenciando unidade d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee

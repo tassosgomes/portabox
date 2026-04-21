@@ -26,7 +26,7 @@ export function AuditLogList({ entries }: AuditLogListProps) {
         <li key={entry.id} className={styles.item}>
           <span className={styles.kind}>{EVENT_KIND_LABELS[entry.eventKind] ?? 'Outro'}</span>
           <span className={styles.meta}>
-            {entry.performedByEmail} &middot; {formatDate(entry.occurredAt)}
+            {entry.performedByUserId} &middot; {formatDate(entry.occurredAt)}
           </span>
           {entry.note && <span className={styles.note}>{entry.note}</span>}
         </li>

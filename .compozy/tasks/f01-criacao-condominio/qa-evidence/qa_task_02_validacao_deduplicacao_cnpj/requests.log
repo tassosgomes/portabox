@@ -1,0 +1,56 @@
+[2026-04-19T01:19:54.504Z] === TC-01: CNPJ com formato invalido ===
+[2026-04-19T01:19:55.021Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:19:55.033Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:19:56.757Z] TC-01: CNPJ error displayed: true
+[2026-04-19T01:19:56.757Z] TC-01: Still on step 1: true
+[2026-04-19T01:19:56.757Z] TC-01: Page URL: http://localhost:5173/condominios/novo
+[2026-04-19T01:19:56.757Z] TC-01: Body excerpt: 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BRNovo condomínio1Dados do condomínio2Consentimento LGPD3Síndico responsávelNome fantasia *CNPJ *CNPJ inválidoLogradouroNúmeroComplementoBairroCidadeUFCEPAdministradoraOpcional — nome da empresa administradoraAvançar
+    
+  
+
+
+[2026-04-19T01:19:56.757Z] TC-01: PASS
+[2026-04-19T01:19:56.880Z] === TC-02: CNPJ formato correto, digito verificador invalido ===
+[2026-04-19T01:19:57.345Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:19:57.356Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:19:56.486Z] TC-02: CNPJ error displayed: true
+[2026-04-19T01:19:56.486Z] TC-02: Still on step 1: true
+[2026-04-19T01:19:56.486Z] TC-02: Body excerpt: 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BRNovo condomínio1Dados do condomínio2Consentimento LGPD3Síndico responsávelNome fantasia *CNPJ *CNPJ inválidoLogradouroNúmeroComplementoBairroCidadeUFCEPAdministradoraOpcional — nome da empresa administradoraAvançar
+    
+  
+
+
+[2026-04-19T01:19:56.486Z] TC-02: PASS
+[2026-04-19T01:19:56.628Z] === TC-03: CNPJ valido e duplicado — espera 409 com mensagem de duplicata ===
+[2026-04-19T01:19:57.176Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:19:57.187Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:19:59.217Z] TC-03: Advanced to step 2: true
+[2026-04-19T01:19:59.979Z] TC-03: Advanced to step 3: true
+[2026-04-19T01:20:00.734Z] TC-03: On revisao page: true
+[2026-04-19T01:20:00.775Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 409 (Conflict)
+[2026-04-19T01:20:00.778Z] TC-03: API Response Status: 409
+[2026-04-19T01:20:00.778Z] TC-03: API Response Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.10","title":"CNPJ já cadastrado.","status":409,"detail":"CnpjAlreadyExists","instance":"/api/v1/admin/condominios","traceId":"9b1292b9e6a117ccf3579b72d1a6e32c"}
+[2026-04-19T01:20:02.863Z] TC-03: Duplicata message displayed: true
+[2026-04-19T01:20:02.863Z] TC-03: API Status received: 409
+[2026-04-19T01:20:02.863Z] TC-03: Body after submit: 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BRNovo condomínio✓Dados do condomínio✓Consentimento LGPD✓Síndico responsávelDados do condomínioNome fantasiaCopia Residencial TesteCNPJ11.222.333/0001-81Consentimento LGPDData da assembleia15/01/2025Quórum2/3 dos condôminosSignatárioCarlos SignatarioCPF do signatário529.982.247-25Data do termo15/01/2025Síndico responsávelNomeSindico TesteE-mailsindico.task02@portabox.devCelular+5511987654321Este CNPJ já está cadastrado.VoltarCriar condomínio
+    
+  
+
+
+[2026-04-19T01:20:02.863Z] TC-03: PASS — API retornou 409 e mensagem de duplicata foi exibida
+[2026-04-19T01:20:02.990Z] === TC-04: CNPJ valido e unico ===
+[2026-04-19T01:20:03.516Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:03.528Z] [BROWSER_ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[2026-04-19T01:20:05.467Z] TC-04: CNPJ error displayed: false
+[2026-04-19T01:20:05.467Z] TC-04: Advanced to step 2: true
+[2026-04-19T01:20:05.467Z] TC-04: Page URL: http://localhost:5173/condominios/novo
+[2026-04-19T01:20:05.468Z] TC-04: Body excerpt: 
+    PortaBoxHomologOOperatorOperatorSairCondomíniosEm breveEncomendasem breveMoradoresem breveRelatóriosem breveAuditoriaem brevePortaBox Backofficev0.1.0 · build #184Homolog · pt-BRNovo condomínio✓Dados do condomínio2Consentimento LGPD3Síndico responsávelRegistre os dados do consentimento coletivo obtido em assembleia de condôminos.Data da assembleia *Descrição do quórum *Nome do signatário *CPF do signatário *Data do termo *VoltarAvançar
+    
+  
+
+
+[2026-04-19T01:20:05.468Z] TC-04: PASS

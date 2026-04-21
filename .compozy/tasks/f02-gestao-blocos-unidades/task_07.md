@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: Unidade — Commands + Handlers + Validators (Create/Inativar/Reativar)
 type: backend
 complexity: medium
@@ -13,6 +13,8 @@ dependencies:
 
 ## Overview
 Implementa os 3 Commands de ciclo de vida de `Unidade`: criar (com validação de bloco ativo e unicidade canônica), inativar, reativar. Seguem o mesmo padrão dos handlers de Bloco (task_06), mas com validações canônicas adicionais (regex do número, andar ≥ 0, bloco pertence ao mesmo tenant).
+
+> **Alinhamento com contrato:** `CreateUnidadeRequest` e `UnidadeDto` serializam para os schemas `CreateUnidadeRequest` e `Unidade` de [`api-contract.yaml`](../api-contract.yaml). Regex do `numero` e `andar ≥ 0` estão formalizados no contrato — backend valida, mas o contrato é a fonte de verdade para consumidores (frontend, testes de contrato).
 
 <critical>
 - ALWAYS READ the PRD and TechSpec before starting
@@ -36,12 +38,12 @@ Implementa os 3 Commands de ciclo de vida de `Unidade`: criar (com validação d
 </requirements>
 
 ## Subtasks
-- [ ] 07.1 Criar commands + request/response DTOs + validators de Unidade
-- [ ] 07.2 Implementar `CreateUnidadeCommandHandler` incluindo load de bloco + check de unicidade canônica
-- [ ] 07.3 Implementar `InativarUnidadeCommandHandler`
-- [ ] 07.4 Implementar `ReativarUnidadeCommandHandler` com check de conflito canônico
-- [ ] 07.5 Tratar `DbUpdateException` em Create e Reativar
-- [ ] 07.6 Escrever unit tests para caminhos felizes e erros
+- [x] 07.1 Criar commands + request/response DTOs + validators de Unidade
+- [x] 07.2 Implementar `CreateUnidadeCommandHandler` incluindo load de bloco + check de unicidade canônica
+- [x] 07.3 Implementar `InativarUnidadeCommandHandler`
+- [x] 07.4 Implementar `ReativarUnidadeCommandHandler` com check de conflito canônico
+- [x] 07.5 Tratar `DbUpdateException` em Create e Reativar
+- [x] 07.6 Escrever unit tests para caminhos felizes e erros
 
 ## Implementation Details
 Ver TechSpec **Data Flow** cenário C2 (criar unidade) e C5 (reativar com conflito). O `CreateUnidadeCommandHandler` consome duas abstrações (`IBlocoRepository` e `IUnidadeRepository`) — é um exemplo de handler que orquestra dois agregados da mesma bounded context.
@@ -77,16 +79,16 @@ Normalização do `numero`: o validator aceita input em caixa mista (`101a`), ma
 
 ## Tests
 - Unit tests:
-  - [ ] `CreateUnidadeCommandHandler` caminho feliz: carrega bloco ativo, check canônico retorna falso, cria entidade, audit `UnidadeCriada`, save
-  - [ ] `CreateUnidadeCommandHandler` com bloco inexistente → `Result.Failure("Bloco não encontrado")` (404)
-  - [ ] `CreateUnidadeCommandHandler` com bloco inativo → `Result.Failure("Bloco inativo")` (422)
-  - [ ] `CreateUnidadeCommandHandler` com tripla duplicada entre ativas → `Result.Failure("Unidade já existe")` (409); nenhum side effect
-  - [ ] `CreateUnidadeCommandHandler` absorve `DbUpdateException` (race) e retorna 409 limpo
-  - [ ] `InativarUnidadeCommandHandler` caminho feliz → audit `UnidadeInativada`, save
-  - [ ] `InativarUnidadeCommandHandler` em unidade já inativa → `Result.Failure`
-  - [ ] `ReativarUnidadeCommandHandler` caminho feliz com carga via `GetByIdIncludingInactive` → audit `UnidadeReativada`
-  - [ ] `ReativarUnidadeCommandHandler` com conflito canônico → `Result.Failure("conflito canônico; inative a duplicada")`
-  - [ ] Validators: `numero="1AB"`, `" "`, `"12345"`, `andar=-1` → rejeitados
+  - [x] `CreateUnidadeCommandHandler` caminho feliz: carrega bloco ativo, check canônico retorna falso, cria entidade, audit `UnidadeCriada`, save
+  - [x] `CreateUnidadeCommandHandler` com bloco inexistente → `Result.Failure("Bloco não encontrado")` (404)
+  - [x] `CreateUnidadeCommandHandler` com bloco inativo → `Result.Failure("Bloco inativo")` (422)
+  - [x] `CreateUnidadeCommandHandler` com tripla duplicada entre ativas → `Result.Failure("Unidade já existe")` (409); nenhum side effect
+  - [x] `CreateUnidadeCommandHandler` absorve `DbUpdateException` (race) e retorna 409 limpo
+  - [x] `InativarUnidadeCommandHandler` caminho feliz → audit `UnidadeInativada`, save
+  - [x] `InativarUnidadeCommandHandler` em unidade já inativa → `Result.Failure`
+  - [x] `ReativarUnidadeCommandHandler` caminho feliz com carga via `GetByIdIncludingInactive` → audit `UnidadeReativada`
+  - [x] `ReativarUnidadeCommandHandler` com conflito canônico → `Result.Failure("conflito canônico; inative a duplicada")`
+  - [x] Validators: `numero="1AB"`, `" "`, `"12345"`, `andar=-1` → rejeitados
 - Integration tests:
   - [ ] Cobertos em task_10
 - Test coverage target: >=80%

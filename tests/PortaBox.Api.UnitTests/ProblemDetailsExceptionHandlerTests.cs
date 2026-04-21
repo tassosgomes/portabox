@@ -46,8 +46,8 @@ public class ProblemDetailsExceptionHandlerTests
         Assert.NotNull(problemDetails);
         Assert.Equal(StatusCodes.Status400BadRequest, problemDetails.Status);
         Assert.Equal("/api/v1/admin/condominios", problemDetails.Instance);
-        Assert.Equal("https://tools.ietf.org/html/rfc9110#section-15.5.1", problemDetails.Type);
-        Assert.Equal("One or more validation errors occurred.", problemDetails.Title);
+        Assert.Equal("https://portabox.app/problems/validation-error", problemDetails.Type);
+        Assert.Equal("Falha de validação", problemDetails.Title);
         Assert.Contains("CNPJ is required.", problemDetails.Errors["Cnpj"]);
         Assert.Contains("Name is required.", problemDetails.Errors["NomeFantasia"]);
         Assert.Equal(activity.TraceId.ToString(), problemDetails.Extensions["traceId"]?.ToString());
@@ -83,9 +83,9 @@ public class ProblemDetailsExceptionHandlerTests
         Assert.NotNull(problemDetails);
         Assert.Equal(StatusCodes.Status500InternalServerError, problemDetails.Status);
         Assert.Equal("/api/v1/_throw", problemDetails.Instance);
-        Assert.Equal("https://tools.ietf.org/html/rfc9110#section-15.6.1", problemDetails.Type);
-        Assert.Equal("An unexpected error occurred.", problemDetails.Title);
-        Assert.Equal("An unexpected error occurred.", problemDetails.Detail);
+        Assert.Equal("https://portabox.app/problems/internal-error", problemDetails.Type);
+        Assert.Equal("Erro interno do servidor", problemDetails.Title);
+        Assert.Equal("Ocorreu um erro inesperado. Tente novamente mais tarde.", problemDetails.Detail);
         Assert.Equal(activity.TraceId.ToString(), problemDetails.Extensions["traceId"]?.ToString());
     }
 

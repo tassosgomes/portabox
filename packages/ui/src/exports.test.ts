@@ -31,9 +31,24 @@ describe('packages/ui public API exports', () => {
     expect(typeof UI.StepIndicator).toBe('function')
   })
 
+  it('exports Tree and TreeNode components', () => {
+    expect(UI.Tree).toBeDefined()
+    expect(typeof UI.Tree).toBe('function')
+    expect(UI.TreeNode).toBeDefined()
+    expect(typeof UI.TreeNode).toBe('object')
+  })
+
+  it('exports ConfirmModal component', () => {
+    expect(UI.ConfirmModal).toBeDefined()
+    expect(typeof UI.ConfirmModal).toBe('function')
+  })
+
   it('exports all canonical Lucide icons', () => {
     expect(UI.Building2).toBeDefined()
+    expect(UI.ChevronDown).toBeDefined()
+    expect(UI.ChevronRight).toBeDefined()
     expect(UI.FileText).toBeDefined()
+    expect(UI.Home).toBeDefined()
     expect(UI.UserPlus).toBeDefined()
     expect(UI.Mail).toBeDefined()
     expect(UI.CheckCircle).toBeDefined()

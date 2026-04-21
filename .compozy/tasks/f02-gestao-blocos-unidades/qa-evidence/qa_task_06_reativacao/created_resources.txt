@@ -1,0 +1,50 @@
+# Recursos criados/modificados no RETESTE CF-06 (2026-04-21)
+
+## Blocos Criados (Reteste)
+
+CT-01: Bloco Retest Reativar QA
+  ID: 14c086fa-97f7-49cc-a944-cd22da004464
+  Estado final: ATIVO (foi criado, inativado, reativado)
+
+CT-04: Bloco Retest Conflito X QA (A — inativo)
+  ID: 8cb7528b-72ab-4509-83c9-88b31928b7ce
+  Estado final: INATIVO
+
+CT-04: Bloco Retest Conflito Y QA (B — renomeado para "Retest Conflito X QA")
+  ID: 4585ea6d-c165-41da-aaae-647fff3f136a
+  Estado final: ATIVO (nome = "Retest Conflito X QA")
+
+CT-11: Retest Pai Inativo QA (bloco)
+  ID: 69738a69-fbe8-4389-9a3a-43885e30fa34
+  Estado final: INATIVO (bloco foi reativado por UT-01 e depois... aguarde)
+
+## Unidades Criadas (Reteste)
+
+CT-05: Unidade andar=60, numero=601 em Bloco QA-01
+  ID: c6a97000-eb26-46b1-bcf9-f15f4b9104e8
+  Estado final: ATIVA (criada, inativada, reativada)
+
+CT-08: Unidade X andar=61, numero=611 em Bloco QA-01 (inativa)
+  ID: (gerado em runtime, ver requests.log)
+  Estado final: INATIVA
+
+CT-08: Unidade Y andar=61, numero=611 em Bloco QA-01 (ativa)
+  ID: (gerado em runtime, ver requests.log)
+  Estado final: ATIVA
+
+CT-11: Unidade andar=62, numero=62 em Retest Pai Inativo QA (inativa)
+  ID: e8b464ad-1e59-404f-b0d3-a46108acce56
+  Estado final: INATIVA (reativacao rejeitada pela API — bug corrigido)
+
+## Estado Inconsistente Legado (run anterior)
+
+Unidade: a2c82b48-a993-4200-82d7-24e1f3490b34 (andar=1, numero=101)
+  Estado: ATIVA
+  Bloco pai: bb643a2a-8e4c-49c6-b76f-c98ad440a79e (Bloco Temp Pai Inativo QA) — INATIVO
+  Criado: run anterior CT-11 (bug)
+  Status reteste: Estado inconsistente PERSISTE (nao alterado conforme instrucoes)
+
+## Blocos Modificados por UT-01 (UI)
+
+Retest Pai Inativo QA (69738a69) — reativado pelo UT-01 via UI
+  Estado pos-UT-01: ATIVO

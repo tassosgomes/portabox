@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: GetEstruturaQuery + handler + DTOs (árvore completa)
 type: backend
 complexity: medium
@@ -12,6 +12,8 @@ dependencies:
 
 ## Overview
 Implementa a query de leitura da estrutura completa do condomínio, retornando a árvore Condomínio → Blocos → Andares → Unidades em um único response JSON. Esta é a query que alimenta tanto a UI do síndico quanto o modo read-only do backoffice; seu contrato é consumido pelo `packages/api-client` (task_11) com cache TanStack Query.
+
+> **Alinhamento com contrato:** os records C# `EstruturaDto`, `BlocoNodeDto`, `AndarNodeDto`, `UnidadeLeafDto` produzem JSON que DEVE bater exatamente com os schemas `Estrutura`, `BlocoNode`, `AndarNode`, `UnidadeLeaf` de [`api-contract.yaml`](../api-contract.yaml) (incluindo `geradoEm` no root). Ordenação semântica (alfabética bloco; numérica andar; numérica+sufixo em número) está documentada tanto no contrato quanto aqui — ambos devem evoluir juntos.
 
 <critical>
 - ALWAYS READ the PRD and TechSpec before starting
@@ -36,12 +38,12 @@ Implementa a query de leitura da estrutura completa do condomínio, retornando a
 </requirements>
 
 ## Subtasks
-- [ ] 08.1 Criar `GetEstruturaQuery` e os 4 DTOs (Estrutura, BlocoNode, AndarNode, UnidadeLeaf)
-- [ ] 08.2 Implementar `GetEstruturaQueryHandler` com carga otimizada (single query com JOIN se possível)
-- [ ] 08.3 Garantir que `IncludeInactive=true` ainda respeita `tenant_id` (usar `.IgnoreQueryFilters()` + `.Where(e => e.TenantId == ctx.TenantId)` explicitamente)
-- [ ] 08.4 Implementar agrupamento e ordenação em memória (blocos → andares → unidades)
-- [ ] 08.5 Tratar `condominioId` inexistente ou de outro tenant → 404 via `Result.Failure`
-- [ ] 08.6 Escrever unit tests com repositórios mockados + snapshot de ordenação
+- [x] 08.1 Criar `GetEstruturaQuery` e os 4 DTOs (Estrutura, BlocoNode, AndarNode, UnidadeLeaf)
+- [x] 08.2 Implementar `GetEstruturaQueryHandler` com carga otimizada (single query com JOIN se possível)
+- [x] 08.3 Garantir que `IncludeInactive=true` ainda respeita `tenant_id` (usar `.IgnoreQueryFilters()` + `.Where(e => e.TenantId == ctx.TenantId)` explicitamente)
+- [x] 08.4 Implementar agrupamento e ordenação em memória (blocos → andares → unidades)
+- [x] 08.5 Tratar `condominioId` inexistente ou de outro tenant → 404 via `Result.Failure`
+- [x] 08.6 Escrever unit tests com repositórios mockados + snapshot de ordenação
 
 ## Implementation Details
 Ver TechSpec seções **Implementation Design → Data Models** (shape dos DTOs) e **Data Flow C6** (fluxo de leitura do backoffice).
@@ -87,15 +89,15 @@ var blocos = await dbContext.Set<Bloco>()
 
 ## Tests
 - Unit tests:
-  - [ ] Caminho feliz: condomínio com 2 blocos, cada um com 3 andares e 2 unidades → retorna árvore completa ordenada
-  - [ ] Ordenação de blocos: "Torre B", "Bloco A", "Torre A" → ordem final: "Bloco A", "Torre A", "Torre B"
-  - [ ] Ordenação de andares: [3, 1, 10, 2] → [1, 2, 3, 10]
-  - [ ] Ordenação de unidades: ["102", "101A", "99", "101"] → ["99", "101", "101A", "102"] (semântica: parte numérica primeiro)
-  - [ ] `IncludeInactive=false` omite blocos e unidades inativos
-  - [ ] `IncludeInactive=true` inclui inativos **mas** não inclui itens de outro tenant (smoke via `TenantContext` scope)
-  - [ ] Condomínio inexistente → `Result.Failure("Condomínio não encontrado")` (404)
-  - [ ] Condomínio de outro tenant → `Result.Failure` (404; comportamento igual a inexistente para não vazar existência)
-  - [ ] `GeradoEm` preenchido com `clock.UtcNow`
+  - [x] Caminho feliz: condomínio com 2 blocos, cada um com 3 andares e 2 unidades → retorna árvore completa ordenada
+  - [x] Ordenação de blocos: "Torre B", "Bloco A", "Torre A" → ordem final: "Bloco A", "Torre A", "Torre B"
+  - [x] Ordenação de andares: [3, 1, 10, 2] → [1, 2, 3, 10]
+  - [x] Ordenação de unidades: ["102", "101A", "99", "101"] → ["99", "101", "101A", "102"] (semântica: parte numérica primeiro)
+  - [x] `IncludeInactive=false` omite blocos e unidades inativos
+  - [x] `IncludeInactive=true` inclui inativos **mas** não inclui itens de outro tenant (smoke via `TenantContext` scope)
+  - [x] Condomínio inexistente → `Result.Failure("Condomínio não encontrado")` (404)
+  - [x] Condomínio de outro tenant → `Result.Failure` (404; comportamento igual a inexistente para não vazar existência)
+  - [x] `GeradoEm` preenchido com `clock.UtcNow`
 - Integration tests:
   - [ ] Cobertos em task_10 (árvore real com seed de Bloco + Unidade no Postgres)
 - Test coverage target: >=80%

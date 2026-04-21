@@ -12,11 +12,17 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@portabox/api-client": "workspace:*",
     "@portabox/ui": "workspace:*",
+    "@tanstack/react-query": "^5.90.2",
+    "@tanstack/react-query-devtools": "^5.90.2",
     "lucide-react": "^0.511.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.14.1"
+    "react-hook-form": "^7.62.0",
+    "react-router-dom": "^7.14.1",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",

@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: Setup TanStack Query em apps/sindico e apps/backoffice
 type: frontend
 complexity: low
@@ -30,12 +30,12 @@ Configura `@tanstack/react-query` nos dois frontends (`apps/sindico` e `apps/bac
 </requirements>
 
 ## Subtasks
-- [ ] 13.1 Instalar dependências TanStack Query em ambos os apps
-- [ ] 13.2 Criar `QueryProvider` em `apps/sindico/src/providers/`
-- [ ] 13.3 Criar `QueryProvider` em `apps/backoffice/src/providers/`
-- [ ] 13.4 Chamar `configure` de `@portabox/api-client` no bootstrap de cada app
-- [ ] 13.5 Montar `QueryProvider` no `main.tsx` de cada app
-- [ ] 13.6 Adicionar `.env.local.example` documentando `VITE_API_URL`
+- [x] 13.1 Instalar dependências TanStack Query em ambos os apps
+- [x] 13.2 Criar `QueryProvider` em `apps/sindico/src/providers/`
+- [x] 13.3 Criar `QueryProvider` em `apps/backoffice/src/providers/`
+- [x] 13.4 Chamar `configure` de `@portabox/api-client` no bootstrap de cada app
+- [x] 13.5 Montar `QueryProvider` no `main.tsx` de cada app
+- [x] 13.6 Adicionar `.env.local.example` documentando `VITE_API_URL`
 
 ## Implementation Details
 Ver ADR-010 (Implementation Notes) para exemplo de setup do `QueryClient` e Provider. Os dois apps têm setup idêntico; considerar extrair para um helper compartilhado em `packages/ui` se houver interesse — mas por YAGNI, manter duplicado nesta task e consolidar em Phase 2 se outras features replicarem.
@@ -77,12 +77,12 @@ O nome da key `portabox.token` deve alinhar com F01 (confirmar em `apps/sindico`
 
 ## Tests
 - Unit tests:
-  - [ ] `<QueryProvider>` de cada app provê `QueryClient` para `useQueryClient()` ao filho
-  - [ ] `QueryClient` tem `defaultOptions.queries.staleTime === 30000` e `retry === 1`
-  - [ ] Devtools **não** é montado quando `import.meta.env.DEV === false`
-  - [ ] `configure` é chamado uma única vez no bootstrap (sem side effects em re-render)
+  - [x] `<QueryProvider>` de cada app provê `QueryClient` para `useQueryClient()` ao filho
+  - [x] `QueryClient` tem `defaultOptions.queries.staleTime === 30000` e `retry === 1`
+  - [x] Devtools **não** é montado quando `import.meta.env.DEV === false`
+  - [x] `configure` é chamado uma única vez no bootstrap (sem side effects em re-render)
 - Integration tests:
-  - [ ] Montar `<QueryProvider>` + componente de teste que usa `useQuery` contra mock → resolve com cache esperado
+  - [x] Montar `<QueryProvider>` + componente de teste que usa `useQuery` contra mock → resolve com cache esperado
 - Test coverage target: >=80%
 - All tests must pass
 

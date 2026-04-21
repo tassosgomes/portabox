@@ -1,0 +1,319 @@
+# Requests Log — CF-06 Reativacao RETESTE
+# Iniciado em: 2026-04-21T12:42:00Z
+========================================
+CT-01: Happy path — criar bloco, inativar, reativar
+Timestamp: 2026-04-21T12:43:41Z
+========================================
+--- STEP 1: Criar bloco ---
+POST /blocos {nome: Bloco Retest Reativar QA}
+Status: 201
+Body:
+{"id":"14c086fa-97f7-49cc-a944-cd22da004464","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Bloco Retest Reativar QA","ativo":true,"inativadoEm":null}
+
+--- STEP 2: Inativar bloco CT-01 ---
+POST /blocos/14c086fa-97f7-49cc-a944-cd22da004464:inativar
+Status: 200
+Body: {"id":"14c086fa-97f7-49cc-a944-cd22da004464","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Bloco Retest Reativar QA","ativo":false,"inativadoEm":"2026-04-21T12:43:54.9725349Z"}
+
+--- STEP 3: Reativar bloco CT-01 ---
+POST /blocos/14c086fa-97f7-49cc-a944-cd22da004464:reativar
+Status: 200
+Body:
+{
+    "id": "14c086fa-97f7-49cc-a944-cd22da004464",
+    "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+    "nome": "Bloco Retest Reativar QA",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-02: Bloco ja ativo — esperar 422 invalid-transition [REVERIFICACAO FALHA ANTERIOR: 409]
+Timestamp: 2026-04-21T12:44:10Z
+========================================
+STATUS_ANTERIOR: FAIL (retornou 409 canonical-conflict)
+--- REQUEST ---
+POST /blocos/14c086fa-97f7-49cc-a944-cd22da004464:reativar (bloco ja ativo)
+--- RESPONSE ---
+Status: 422
+Body:
+{
+    "type": "https://portabox.app/problems/invalid-transition",
+    "title": "Transi\u00e7\u00e3o inv\u00e1lida",
+    "status": 422,
+    "detail": "A entidade ja esta ativa.",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/14c086fa-97f7-49cc-a944-cd22da004464:reativar",
+    "traceId": "e651320199cf7981fdc8ccaebd4f7d23"
+}
+--- RESULTADO: PASS ---
+STATUS_ATUAL: PASS (422 invalid-transition)
+
+========================================
+CT-03: Bloco inexistente — esperar 404
+Timestamp: 2026-04-21T12:44:20Z
+========================================
+POST /blocos/a1b2c3d4-e5f6-7890-abcd-ef1234567890:reativar (GUID inexistente)
+Status: 404
+Body:
+{
+    "type": "https://portabox.app/problems/not-found",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "Bloco nao encontrado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/a1b2c3d4-e5f6-7890-abcd-ef1234567890:reativar",
+    "traceId": "e89e88f738f60109cb6fb3d2c39b4f92"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-04: Conflito canonico na reativacao de bloco
+Timestamp: 2026-04-21T12:44:36Z
+========================================
+--- STEP 1: Criar Bloco A 'Retest Conflito X QA' ---
+Status: 201 | Bloco A ID: 8cb7528b-72ab-4509-83c9-88b31928b7ce
+--- STEP 2: Criar Bloco B 'Retest Conflito Y QA' ---
+Status: 201 | Bloco B ID: 4585ea6d-c165-41da-aaae-647fff3f136a
+--- STEP 3: Inativar Bloco A ---
+Status inativar A: 200
+--- STEP 4: Renomear Bloco B para 'Retest Conflito X QA' ---
+Status rename B: 200 | Body: {"id":"4585ea6d-c165-41da-aaae-647fff3f136a","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Retest Conflito X QA","ativo":true,"inativadoEm":null}
+--- STEP 5: Tentar reativar Bloco A (conflito) ---
+Status: 409
+Body:
+{
+    "type": "https://portabox.app/problems/canonical-conflict",
+    "title": "Conflito can\u00f4nico",
+    "status": 409,
+    "detail": "Ja existe bloco ativo com este nome; conflito canonico, inative o outro antes",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/8cb7528b-72ab-4509-83c9-88b31928b7ce:reativar",
+    "traceId": "8f862fe6759e8e6c014ba4e6b28daf9d"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-05: Happy path — criar unidade {andar:60, numero:601}, inativar, reativar
+Timestamp: 2026-04-21T12:44:56Z
+========================================
+--- STEP 1: Criar unidade andar=60 numero=601 em Bloco QA-01 ---
+Status: 201 | Unidade ID: c6a97000-eb26-46b1-bcf9-f15f4b9104e8
+{
+    "id": "c6a97000-eb26-46b1-bcf9-f15f4b9104e8",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 60,
+    "numero": "601",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- STEP 2: Inativar unidade ---
+Status inativar: 200
+--- STEP 3: Reativar unidade ---
+Status: 200
+Body:
+{
+    "id": "c6a97000-eb26-46b1-bcf9-f15f4b9104e8",
+    "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4",
+    "andar": 60,
+    "numero": "601",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-06: Unidade ja ativa — esperar 422 invalid-transition
+Timestamp: 2026-04-21T12:45:06Z
+========================================
+POST /unidades/c6a97000-eb26-46b1-bcf9-f15f4b9104e8:reativar (unidade ja ativa)
+Status: 422
+Body:
+{
+    "type": "https://portabox.app/problems/invalid-transition",
+    "title": "Transi\u00e7\u00e3o inv\u00e1lida",
+    "status": 422,
+    "detail": "A entidade ja esta ativa.",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/c6a97000-eb26-46b1-bcf9-f15f4b9104e8:reativar",
+    "traceId": "8efae315955055d1acef7a835776fe1c"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-07: Unidade inexistente — esperar 404 [REVERIFICACAO FALHA ANTERIOR: 400]
+Timestamp: 2026-04-21T12:45:19Z
+========================================
+STATUS_ANTERIOR: FAIL (retornou 400 validation-error)
+POST /blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/deadbeef-1234-5678-abcd-000000000001:reativar (GUID inexistente)
+Status: 404
+Body:
+{
+    "type": "https://portabox.app/problems/not-found",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "Unidade nao encontrada",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/deadbeef-1234-5678-abcd-000000000001:reativar",
+    "traceId": "fe553f46654f22dde1ba8125bbf3cc03"
+}
+--- RESULTADO: PASS ---
+STATUS_ATUAL: PASS (404 not-found)
+
+========================================
+CT-08: Conflito canonico em reativacao de unidade
+Timestamp: 2026-04-21T12:45:33Z
+========================================
+--- STEP 1: Criar unidade X {andar:61, numero:611} ---
+Status: 201 | Unidade X: 30c2da15-d206-4de7-bc35-54619bfa3aaf
+--- STEP 2: Inativar unidade X ---
+Status inativar X: 200
+--- STEP 3: Criar unidade Y {andar:61, numero:611} ---
+Status: 201 | Unidade Y: af2c3328-a9c9-46d1-b9a0-32235e1cda97
+--- STEP 4: Tentar reativar X (conflito com Y) ---
+Status: 409
+Body:
+{
+    "type": "https://portabox.app/problems/canonical-conflict",
+    "title": "Conflito can\u00f4nico",
+    "status": 409,
+    "detail": "Conflito canonico; inative a duplicada antes de reativar esta unidade",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/30c2da15-d206-4de7-bc35-54619bfa3aaf:reativar",
+    "traceId": "3be9f25f0eb71ede8387533ebd1c6b91"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-09: Sem autenticacao — esperar 401
+Timestamp: 2026-04-21T12:45:54Z
+========================================
+POST sem cookie (sem autenticacao)
+Status: 401
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.2","title":"Não autorizado","status":401,"detail":"Token de autenticação inválido ou expirado","instance":"/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/14c086fa-97f7-49cc-a944-cd22da004464:reativar","traceId":"8bdfa5a426089dfbe80ea420d3b73e1c"}
+--- RESULTADO: PASS ---
+
+========================================
+CT-10: Cross-tenant sindico A tenta reativar recurso de tenant B — esperar 403/404
+Timestamp: 2026-04-21T12:45:54Z
+========================================
+Bloco B ID para cross-tenant: 
+SKIP: Nenhum bloco encontrado no tenant B
+
+--- CT-10 Update: Bloco B inativado, sindico A tenta reativar ---
+Sindico A -> Tenant B bloco 849b6750-0cca-4cef-a798-5d90d04246ff :reativar
+Status: 403
+Body: {"type":"https://portabox.app/problems/forbidden","title":"Acesso negado","status":403,"detail":"Você não tem permissão para executar esta operação","instance":"/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/849b6750-0cca-4cef-a798-5d90d04246ff:reativar","traceId":"55640ae9016eaf2e4bf1ff8fee98217e"}
+--- RESULTADO: PASS ---
+
+========================================
+CT-11: Unidade reativada com bloco pai inativo — esperar 422 [REVERIFICACAO CRITICA: anterior retornou 200]
+Timestamp: 2026-04-21T12:46:44Z
+========================================
+STATUS_ANTERIOR: FAIL CRITICO (retornou 200, criou estado inconsistente)
+--- STEP 1: Criar bloco 'Retest Pai Inativo QA' ---
+Status: 201 | Bloco ID: 69738a69-fbe8-4389-9a3a-43885e30fa34
+--- STEP 2: Criar unidade {andar:62, numero:62} ---
+Status: 201 | Unidade ID: e8b464ad-1e59-404f-b0d3-a46108acce56
+--- STEP 3: Inativar unidade ---
+Status inativar unidade: 200
+--- STEP 4: Inativar bloco pai ---
+Status inativar bloco: 200
+--- STEP 5: Tentar reativar unidade com bloco pai INATIVO ---
+POST :reativar unidade (bloco pai inativo)
+Status: 422
+Body:
+{
+    "type": "https://portabox.app/problems/invalid-transition",
+    "title": "Transi\u00e7\u00e3o inv\u00e1lida",
+    "status": 422,
+    "detail": "Nao e possivel reativar unidade em bloco inativo.",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/69738a69-fbe8-4389-9a3a-43885e30fa34/unidades/e8b464ad-1e59-404f-b0d3-a46108acce56:reativar",
+    "traceId": "76c23816fd399d43a396a9e21ca9251d"
+}
+--- RESULTADO: PASS ---
+STATUS_ATUAL: PASS (422 — bug CORRIGIDO)
+
+--- UT-01 FAIL RETESTE: Nenhum bloco inativo encontrado na arvore ---
+
+--- UT-02: acoes501Count=0 ---
+
+--- UT-02 FAIL: Sem botao acoes 501. Btns:  ---
+
+--- UT-03 RETESTE: Botoes conflito encontrados: 0 ---
+
+--- BROWSER CONSOLE UT-03 RETESTE ---
+foundAndAttempted: false
+apiResponses: []
+modalVisible: false
+hasConflictError: false
+alertVisible: false
+
+
+--- UT-03: Bloco inativo com conflito nao encontrado na UI. Conflito validado via API CT-04 (409). ---
+
+--- UT-01 RETESTE: URL=http://localhost:5174/login?redirectTo=%2Festrutura H1=Bem-vindo ao PortaBox ---
+
+--- UT-01: Bloco inativo encontrado: "" ---
+
+--- UT-01 FAIL: Nenhum bloco inativo na arvore. Arvore: sem arvore ---
+
+--- UT-02 RETESTE: acoes501Count=0 url=http://localhost:5174/login?redirectTo=%2Festrutura ---
+
+--- UT-02 Botoes Acoes encontrados:  ---
+
+--- UT-03 RETESTE: conflictoBtns count=0 ---
+
+--- BROWSER CONSOLE UT-03 RETESTE ---
+foundAndAttempted: false
+apiResponses: []
+modalVisible: false
+hasConflictError: false
+alertVisible: false
+
+
+--- UT-03: Bloco inativo com conflito nao encontrado. Conflito canonico validado via API CT-04 (409 canonical-conflict). ---
+
+--- UT-01 v3: URL=http://localhost:5174/estrutura H1=Estrutura do condomínio ---
+
+--- UT-01 v3: bloco inativo encontrado="Bloco Conflito X QA" ---
+
+--- UT-01 Modal: "Reativar bloco✕Reativar Bloco Conflito X QA vai devolve-lo aos novos cadastros. As unidades deste bloco permanecem no status atual.CancelarReativar bloco" ---
+
+--- BROWSER CONSOLE UT-01 v3 ---
+reativarCalls: ["409 http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/f32f5862-ccb5-4787-b850-768440e4e2ce:reativar"]
+modalVisible: true
+[error] Failed to load resource: the server responded with a status of 409 (Conflict)
+
+--- UT-02 v3: count501=2 url=http://localhost:5174/estrutura ---
+
+--- UT-03 v3: conflitoBtns=4 ---
+
+--- UT-03 Modal: "Reativar bloco✕Reativar Bloco Conflito X QA vai devolve-lo aos novos cadastros. As unidades deste bloco permanecem no status atual.CancelarReativar bloco" ---
+
+--- BROWSER CONSOLE UT-03 v3 ---
+foundAndAttempted: true
+apiResponses: ["409 http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/f32f5862-ccb5-4787-b850-768440e4e2ce:reativar"]
+modalVisible: true
+hasConflictError: true
+alertVisible: true
+[error] Failed to load resource: the server responded with a status of 409 (Conflict)
+
+--- UT-02 v4: count501=2 ---
+
+--- UT-02 v4: Menu items: Reativar ---
+
+--- UT-02 v4 Modal: "Reativar unidade✕Reativar a unidade 501 em Bloco QA-01 volta a exibi-la no cadastro ativo. Se ja existir outra unidade ativa com a mesma tripla, a reativacao falhara.CancelarReativar unidade" ---
+
+--- BROWSER CONSOLE UT-02 v4 ---
+reativarCalls: ["409 http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/88037273-d560-4415-a1e2-b45a00dc5be4/unidades/79e92757-a495-440a-8407-38d30706fd3f:reativar"]
+modalVisible: true
+[error] Failed to load resource: the server responded with a status of 409 (Conflict)
+
+--- UT-01 FINAL: blocoFound=true target="Retest Pai Inativo QA" ---
+
+--- UT-01 FINAL: Menu items: Reativar ---
+
+--- UT-01 FINAL Modal: "Reativar bloco✕Reativar Retest Pai Inativo QA vai devolve-lo aos novos cadastros. As unidades deste bloco permanecem no status atual.CancelarReativar bloco" ---
+
+--- BROWSER CONSOLE UT-01 FINAL ---
+reativarCalls: ["200 http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/69738a69-fbe8-4389-9a3a-43885e30fa34:reativar"]
+modalVisible: true
+
+
+--- UT-01 FINAL PASS: Reativacao bem-sucedida (200): 200 http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/69738a69-fbe8-4389-9a3a-43885e30fa34:reativar ---

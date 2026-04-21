@@ -1,0 +1,43 @@
+========================================
+QA Task 09 — DB Validation
+Timestamp: 2026-04-21T01:58:57Z
+========================================
+========================================
+CT-13: tenant_id preenchido em todas as tabelas
+Timestamp: 2026-04-21T01:58:57Z
+========================================
+Query: SELECT tenant_id, count(*) FROM bloco GROUP BY tenant_id ORDER BY tenant_id;
+Result:
+23fb219d-460a-4eee-a9e7-308d7665350b|3
+4cce551d-4f18-474b-a42a-2deb6c2a0451|12
+Query: SELECT count(*) FROM bloco WHERE tenant_id IS NULL;
+Result: 0
+Query: SELECT tenant_id, count(*) FROM unidade GROUP BY tenant_id ORDER BY tenant_id;
+Result:
+23fb219d-460a-4eee-a9e7-308d7665350b|2
+4cce551d-4f18-474b-a42a-2deb6c2a0451|23
+Query: SELECT count(*) FROM unidade WHERE tenant_id IS NULL;
+Result: 0
+--- RESULTADO: PASS ---
+Blocos com tenant_id NULL: 0
+Unidades com tenant_id NULL: 0
+tenant_id preenchido em todos os registros
+========================================
+CT-14: Bloco sem cross-tenant — tenant_id deve igualar condominio_id
+Timestamp: 2026-04-21T01:59:17Z
+========================================
+Schema check — colunas da tabela bloco:
+id
+tenant_id
+condominio_id
+nome
+criado_em
+criado_por
+ativo
+inativado_em
+inativado_por
+Query: SELECT id, tenant_id, condominio_id FROM bloco WHERE tenant_id != condominio_id LIMIT 5;
+Result:
+
+--- RESULTADO: PASS ---
+Zero registros com tenant_id != condominio_id

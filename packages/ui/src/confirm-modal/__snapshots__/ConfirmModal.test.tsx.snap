@@ -1,0 +1,65 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConfirmModal > matches the danger snapshot variant > confirm-modal-danger 1`] = `
+<DocumentFragment>
+  <div
+    class="backdrop"
+  >
+    <div
+      aria-labelledby="modal-title"
+      aria-modal="true"
+      class="dialog sm"
+      role="dialog"
+    >
+      <div
+        class="header"
+      >
+        <h2
+          class="title"
+          id="modal-title"
+        >
+          Inativar unidade
+        </h2>
+        <button
+          aria-label="Fechar modal"
+          class="closeBtn"
+          type="button"
+        >
+          ✕
+        </button>
+      </div>
+      <div
+        class="body"
+      >
+        <div
+          class="content"
+        >
+          <p
+            class="description"
+          >
+            A unidade deixará de aparecer no fluxo principal.
+          </p>
+          <div
+            class="actions"
+          >
+            <button
+              aria-disabled="false"
+              class="btn ghost md"
+              type="button"
+            >
+              Cancelar
+            </button>
+            <button
+              aria-disabled="false"
+              class="btn danger md"
+              type="button"
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

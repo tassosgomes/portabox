@@ -1,0 +1,170 @@
+{
+  "session": {
+    "created_at": "2026-04-20T00:00:00Z",
+    "prd_path": ".compozy/tasks/f02-gestao-blocos-unidades/_prd.md",
+    "techspec_path": ".compozy/tasks/f02-gestao-blocos-unidades/_techspec.md",
+    "api_contract_path": ".compozy/tasks/f02-gestao-blocos-unidades/api-contract.yaml",
+    "orchestrator_version": "1.0"
+  },
+  "scope": {
+    "user_stories_in_scope": [
+      { "task_id": "qa_task_01", "slug": "cadastro_bloco", "description": "CF-01 Cadastro de Bloco" },
+      { "task_id": "qa_task_02", "slug": "cadastro_unidade", "description": "CF-02 Cadastro de Unidade" },
+      { "task_id": "qa_task_03", "slug": "edicao_nome_bloco", "description": "CF-03 Edicao de Nome de Bloco" },
+      { "task_id": "qa_task_04", "slug": "inativacao_unidade", "description": "CF-04 Inativacao de Unidade" },
+      { "task_id": "qa_task_05", "slug": "inativacao_bloco", "description": "CF-05 Inativacao de Bloco" },
+      { "task_id": "qa_task_06", "slug": "reativacao", "description": "CF-06 Reativacao de Bloco ou Unidade" },
+      { "task_id": "qa_task_07", "slug": "navegacao_arvore", "description": "CF-07 Navegacao em Arvore Hierarquica" },
+      { "task_id": "qa_task_08", "slug": "backoffice_readonly_api", "description": "CF-09 Leitura Cross-Tenant no Backoffice (API only; UI nao implementada)" },
+      { "task_id": "qa_task_09", "slug": "isolamento_multitenant", "description": "Cross-tenant isolation (sindico A vs tenant B)" },
+      { "task_id": "qa_task_10", "slug": "audit_trail", "description": "Validacao de tenant_audit_entry por operacao" }
+    ],
+    "excluded": [
+      { "id": "CF-08", "reason": "Sem endpoint HTTP publico; metodo interno para F07, validado indiretamente quando F04 for implementado" }
+    ]
+  },
+  "environment": {
+    "backend_base_url": "http://localhost:5272",
+    "frontend_sindico_url": "http://localhost:5173",
+    "frontend_backoffice_url": "http://localhost:5173",
+    "mailhog_ui": "http://localhost:8025",
+    "mailhog_api": "http://localhost:8025/api/v2/messages",
+    "auth": {
+      "enabled": true,
+      "type": "cookie_session",
+      "scheme": "ASP.NET Identity ApplicationScheme",
+      "login_endpoint": "/auth/login",
+      "body_shape": "{ email, password }",
+      "response_shape": "{ userId, role, tenantId }",
+      "operator_credentials_env": {
+        "username_var": "QA_OPERATOR_USERNAME",
+        "password_var": "QA_OPERATOR_PASSWORD"
+      },
+      "sindico_a_credentials_env": {
+        "username_var": "QA_SINDICO_A_USERNAME",
+        "password_var": "QA_SINDICO_A_PASSWORD",
+        "tenant_id_var": "QA_TENANT_A_ID"
+      },
+      "sindico_b_credentials_env": {
+        "username_var": "QA_SINDICO_B_USERNAME",
+        "password_var": "QA_SINDICO_B_PASSWORD",
+        "tenant_id_var": "QA_TENANT_B_ID"
+      }
+    }
+  },
+  "database": {
+    "enabled": true,
+    "type": "postgresql",
+    "host": "localhost",
+    "port": 5432,
+    "database": "portabox",
+    "user_env": "QA_DB_USER",
+    "password_env": "QA_DB_PASSWORD",
+    "connection_string_env": "QA_DB_CONNECTION_STRING",
+    "docker_image": "postgres:16-alpine"
+  },
+  "report": {
+    "formats": ["markdown"],
+    "output_dir": ".compozy/tasks/f02-gestao-blocos-unidades/qa-evidence",
+    "consolidated_file": "qa_report_consolidated.md"
+  },
+  "execution": {
+    "tasks": [
+      {
+        "id": "qa_task_00",
+        "slug": "preflight_setup",
+        "description": "Validar servicos, criar 2 tenants via fluxo F01 (operador + MailHog) e extrair credenciais de sindicos",
+        "type": ["api", "db"],
+        "depends_on": [],
+        "can_run_parallel_with": []
+      },
+      {
+        "id": "qa_task_01",
+        "slug": "cadastro_bloco",
+        "description": "CF-01 Cadastro de Bloco",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_00"],
+        "can_run_parallel_with": []
+      },
+      {
+        "id": "qa_task_02",
+        "slug": "cadastro_unidade",
+        "description": "CF-02 Cadastro de Unidade",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_01"],
+        "can_run_parallel_with": ["qa_task_03", "qa_task_05"]
+      },
+      {
+        "id": "qa_task_03",
+        "slug": "edicao_nome_bloco",
+        "description": "CF-03 Edicao de Nome de Bloco",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_01"],
+        "can_run_parallel_with": ["qa_task_02", "qa_task_05"]
+      },
+      {
+        "id": "qa_task_04",
+        "slug": "inativacao_unidade",
+        "description": "CF-04 Inativacao de Unidade",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_02"],
+        "can_run_parallel_with": []
+      },
+      {
+        "id": "qa_task_05",
+        "slug": "inativacao_bloco",
+        "description": "CF-05 Inativacao de Bloco",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_01"],
+        "can_run_parallel_with": ["qa_task_02", "qa_task_03"]
+      },
+      {
+        "id": "qa_task_06",
+        "slug": "reativacao",
+        "description": "CF-06 Reativacao de Bloco ou Unidade (inclui conflito canonico)",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_04", "qa_task_05"],
+        "can_run_parallel_with": []
+      },
+      {
+        "id": "qa_task_07",
+        "slug": "navegacao_arvore",
+        "description": "CF-07 Navegacao em Arvore Hierarquica",
+        "type": ["ui", "api"],
+        "depends_on": ["qa_task_06"],
+        "can_run_parallel_with": []
+      },
+      {
+        "id": "qa_task_08",
+        "slug": "backoffice_readonly_api",
+        "description": "CF-09 API read-only para operador (UI nao implementada)",
+        "type": ["api"],
+        "depends_on": ["qa_task_07"],
+        "can_run_parallel_with": ["qa_task_09", "qa_task_10"]
+      },
+      {
+        "id": "qa_task_09",
+        "slug": "isolamento_multitenant",
+        "description": "Sindico A tenta acessar tenant B",
+        "type": ["api", "db"],
+        "depends_on": ["qa_task_07"],
+        "can_run_parallel_with": ["qa_task_08", "qa_task_10"]
+      },
+      {
+        "id": "qa_task_10",
+        "slug": "audit_trail",
+        "description": "Validar tenant_audit_entry para cada operacao",
+        "type": ["api", "db"],
+        "depends_on": ["qa_task_07"],
+        "can_run_parallel_with": ["qa_task_08", "qa_task_09"]
+      }
+    ],
+    "phases": [
+      { "phase": 1, "mode": "sequential", "tasks": ["qa_task_00"] },
+      { "phase": 2, "mode": "sequential", "tasks": ["qa_task_01"] },
+      { "phase": 3, "mode": "parallel", "tasks": ["qa_task_02", "qa_task_03", "qa_task_05"] },
+      { "phase": 4, "mode": "sequential", "tasks": ["qa_task_04", "qa_task_06", "qa_task_07"] },
+      { "phase": 5, "mode": "parallel", "tasks": ["qa_task_08", "qa_task_09", "qa_task_10"] }
+    ]
+  }
+}

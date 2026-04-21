@@ -62,7 +62,7 @@ export function NovoCondominioPage() {
     setSubmitError(null)
     try {
       const result = await createCondominio(data)
-      navigate(`/condominios/${result.id}`, {
+      navigate(`/condominios/${result.condominioId}`, {
         state: { successMessage: SUCCESS_MESSAGE },
       })
     } catch (err) {

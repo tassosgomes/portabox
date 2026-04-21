@@ -64,8 +64,8 @@ Sem um cadastro estruturado e confiável, é impossível determinar se um endere
 
 | # | Feature | Descrição | Prioridade | Status | PRD |
 |---|---|---|---|---|---|
-| F01 | Assistente de Criação de Condomínio | Wizard guiado (web) para configuração inicial do tenant: dados do condomínio, registro do opt-in coletivo (assembleia + termo assinado pelo síndico) e cadastro do primeiro síndico. No piloto, iniciado manualmente pela equipe do produto. | Must Have | `in-progress` | [`.compozy/tasks/f01-criacao-condominio/_prd.md`](/.compozy/tasks/f01-criacao-condominio/_prd.md) |
-| F02 | Gestão de Blocos e Unidades | CRUD de blocos e unidades via interface web. Definição da estrutura canônica do condomínio (bloco + andar + número). | Must Have | `in-progress` | [`.compozy/tasks/f02-gestao-blocos-unidades/_prd.md`](/.compozy/tasks/f02-gestao-blocos-unidades/_prd.md) |
+| F01 | Assistente de Criação de Condomínio | Wizard guiado (web) para configuração inicial do tenant: dados do condomínio, registro do opt-in coletivo (assembleia + termo assinado pelo síndico) e cadastro do primeiro síndico. No piloto, iniciado manualmente pela equipe do produto. | Must Have | `done` | [`.compozy/tasks/f01-criacao-condominio/_prd.md`](/.compozy/tasks/f01-criacao-condominio/_prd.md) |
+| F02 | Gestão de Blocos e Unidades | CRUD de blocos e unidades via interface web. Definição da estrutura canônica do condomínio (bloco + andar + número). | Must Have | `done` | [`.compozy/tasks/f02-gestao-blocos-unidades/_prd.md`](/.compozy/tasks/f02-gestao-blocos-unidades/_prd.md) |
 | F03 | Gestão Individual de Moradores | Incluir, editar e inativar moradores via web. Associação a uma unidade. Validação de formato do número de celular no cadastro. | Must Have | `planned` | — |
 | F04 | Importação em Massa de Moradores | Upload de planilha (template fornecido) com moradores em lote. Dados existentes não são sobrescritos sem confirmação explícita. Relatório de erros pós-importação. | Must Have | `planned` | — |
 | F05 | Autenticação do Síndico | Login via painel web (e-mail + senha). | Must Have | `planned` | — |

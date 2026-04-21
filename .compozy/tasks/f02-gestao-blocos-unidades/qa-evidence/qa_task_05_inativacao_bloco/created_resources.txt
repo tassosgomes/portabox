@@ -1,0 +1,37 @@
+# created_resources.txt — qa_task_05_inativacao_bloco
+# Generated: 2026-04-21
+
+## Blocos usados (pre-existentes, NAO criados nesta task)
+
+BLOCO_QA03_ID=ff2ed42b-e9d9-426e-81fa-6bd51b767174
+BLOCO_QA03_NOME=Bloco QA-03
+BLOCO_QA03_STATUS=INATIVO (inativado em 2026-04-21T00:00:13.975794Z por sindico A)
+
+## Blocos criados nesta task
+
+BLOCO_CASCATA_ID=ac7b8af5-4bfe-47f0-84b1-c03bc3160895
+BLOCO_CASCATA_NOME=Bloco Temp Cascata QA
+BLOCO_CASCATA_STATUS=INATIVO (criado e inativado em CT-10 para testar ausencia de cascata)
+
+BLOCO_UI_INATIVAR_ID=e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907
+BLOCO_UI_INATIVAR_NOME=Bloco UI Inativar QA
+BLOCO_UI_INATIVAR_STATUS=INATIVO (inativado via UI no UT-01)
+
+## Unidades criadas nesta task
+
+UNIDADE_CASCATA_ID=1e990dbb-aed4-40c0-a48b-7a721692f872
+UNIDADE_CASCATA_BLOCO=ac7b8af5-4bfe-47f0-84b1-c03bc3160895 (Bloco Temp Cascata QA)
+UNIDADE_CASCATA_STATUS=ATIVA (nao inativada por cascata — comprovado em CT-10)
+
+## Estado final
+
+- Bloco QA-03: INATIVO (qa_task_06 vai reativar)
+- Bloco Temp Cascata QA: INATIVO (bloco auxiliar, nao sera reativado)
+- Bloco UI Inativar QA: INATIVO (bloco auxiliar de UI, nao sera reativado)
+- Unidade Cascata QA: ATIVA (bloco inativo mas unidade permanece ativa — comportamento correto)
+
+## Blocos NAO tocados (paralelas)
+
+- Bloco QA-01: ATIVO (reservado para task_02)
+- Bloco QA-02 Renomeado: ATIVO (reservado para task_03)
+- Bloco UI-QA-01: ATIVO (reservado para UI tests)

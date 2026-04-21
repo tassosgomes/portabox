@@ -78,8 +78,8 @@ public class ApiBootstrapTests
 
         Assert.NotNull(problemDetails);
         Assert.Equal(StatusCodes.Status500InternalServerError, problemDetails.Status);
-        Assert.Equal("An unexpected error occurred.", problemDetails.Title);
-        Assert.Equal("An unexpected error occurred.", problemDetails.Detail);
+        Assert.Equal("Erro interno do servidor", problemDetails.Title);
+        Assert.Equal("Ocorreu um erro inesperado. Tente novamente mais tarde.", problemDetails.Detail);
         Assert.DoesNotContain("InvalidOperationException", problemDetails.Detail, StringComparison.Ordinal);
         Assert.DoesNotContain(" at ", problemDetails.Detail, StringComparison.Ordinal);
         Assert.False(string.IsNullOrWhiteSpace(problemDetails.Extensions["traceId"]?.ToString()));

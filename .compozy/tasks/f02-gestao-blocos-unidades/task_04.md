@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: Agregado Unidade (entity + eventos + EF Configuration + IUnidadeRepository + UnidadeRepository)
 type: backend
 complexity: medium
@@ -34,12 +34,12 @@ Introduz o agregado `Unidade` como subdomínio de D01: entidade imutável em seu
 </requirements>
 
 ## Subtasks
-- [ ] 04.1 Criar `Unidade.cs` com factory `Create` recebendo `Bloco` e validações estruturais
-- [ ] 04.2 Criar os 3 eventos de domínio em `Domain/Unidades/Events/`
-- [ ] 04.3 Criar `UnidadeConfiguration` com CHECK constraint e partial unique index canônico
-- [ ] 04.4 Criar `IUnidadeRepository` com `FindActiveByCanonicalAsync` e implementar `UnidadeRepository`
-- [ ] 04.5 Registrar `DbSet<Unidade>` em `AppDbContext`
-- [ ] 04.6 Escrever unit tests cobrindo regex do número, andar inválido, bloco inativo, bloco de outro tenant, eventos
+- [x] 04.1 Criar `Unidade.cs` com factory `Create` recebendo `Bloco` e validações estruturais
+- [x] 04.2 Criar os 3 eventos de domínio em `Domain/Unidades/Events/`
+- [x] 04.3 Criar `UnidadeConfiguration` com CHECK constraint e partial unique index canônico
+- [x] 04.4 Criar `IUnidadeRepository` com `FindActiveByCanonicalAsync` e implementar `UnidadeRepository`
+- [x] 04.5 Registrar `DbSet<Unidade>` em `AppDbContext`
+- [x] 04.6 Escrever unit tests cobrindo regex do número, andar inválido, bloco inativo, bloco de outro tenant, eventos
 
 ## Implementation Details
 Ver TechSpec seções **Core Interfaces** (signature de `Unidade`) e **Data Models** (schema de `unidade`).
@@ -79,15 +79,15 @@ Normalização do número: `numero = numero?.Trim()?.ToUpperInvariant()` antes d
 
 ## Tests
 - Unit tests:
-  - [ ] `Create` com bloco ativo, andar=2, numero="201" → sucesso; `UnidadeCriadaV1` emitido
-  - [ ] `Create` normaliza `numero="101a"` para `"101A"` antes de persistir
-  - [ ] `Create` com `numero="1AB"`, `"12345"`, `"20000"`, `""`, `" "` → `Result.Failure` com mensagem clara
-  - [ ] `Create` com `andar=-1` → `Result.Failure`
-  - [ ] `Create` com bloco inativo → `Result.Failure("bloco inativo")`
-  - [ ] `Create` com `bloco.TenantId != tenantId` do parâmetro → `Result.Failure("inconsistência de tenant")`
-  - [ ] `Inativar`/`Reativar` emitem eventos corretos com `blocoId`, `andar`, `numero` no payload
-  - [ ] `IUnidadeRepository.FindActiveByCanonicalAsync` retorna `null` para unidade inativa mesmo com tripla exata
-  - [ ] Método `GetByIdIncludingInactiveAsync` retorna unidade inativa
+  - [x] `Create` com bloco ativo, andar=2, numero="201" → sucesso; `UnidadeCriadaV1` emitido
+  - [x] `Create` normaliza `numero="101a"` para `"101A"` antes de persistir
+  - [x] `Create` com `numero="1AB"`, `"12345"`, `"20000"`, `""`, `" "` → `Result.Failure` com mensagem clara
+  - [x] `Create` com `andar=-1` → `Result.Failure`
+  - [x] `Create` com bloco inativo → `Result.Failure("bloco inativo")`
+  - [x] `Create` com `bloco.TenantId != tenantId` do parâmetro → `Result.Failure("inconsistência de tenant")`
+  - [x] `Inativar`/`Reativar` emitem eventos corretos com `blocoId`, `andar`, `numero` no payload
+  - [x] `IUnidadeRepository.FindActiveByCanonicalAsync` retorna `null` para unidade inativa mesmo com tripla exata
+  - [x] Método `GetByIdIncludingInactiveAsync` retorna unidade inativa
 - Integration tests:
   - [ ] Cobertos em task_10 (unicidade canônica com reinserção após inativação, cross-tenant)
 - Test coverage target: >=80%

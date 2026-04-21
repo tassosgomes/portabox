@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": "portabox.auth",
+      "value": "CfDJ8B6PkS-yuRtCtlJFtL3cr-2n75sPKjcxhvD8KYLNYtqqoJqeET088pvomln-4767lrdaaVC6fm9Nm3jjSK10wHJXxmUiy1whQUwyY4W7ln8JATq8E31nx29eWqcM_B41dUTUP4nzKh-PNF4k_WeKcJDF0hNRI2BNRWn8eMsndRkhk_2trCCVHsQi6wHZuQIC3o2JCELtUcbeCyRn6V8eGNxzTFeQX2L6U1_cbmF3M-ZJuLYb5d7A_0XD618onM1UWtMxy5wAe-37b7v3jbugQKhShodBarAsmg5UPjM-Mwl9uGnSmSukADbolsGwnTqoKnzQoyOCpM_U8EqqDR3ufJrmeye-3PrJLUXIMopPbcg9kJJUqoui61vtjByoY9t6s4P8oqwwgrc4sN7H9s7KXMjZNGIXMrSpk69Me2ioecOomIqLjkz0DGSRL70a6_XVk7TWhDZ77dsgJyGsvPaOMVQg2CvYKYDQCX6uU-IqU56CNZs5IJ81ZD1L--3vCH13EeYvgOxOuBYGzz28DoQOWCI3WPYdePZePWwZSdYBB-OvRYcQiB9o8dxxudRUCm7PSO5SdU7l0qzjvMg3Fj2tTXHAHNG6WoohAQrMBNCJrMXYHXkXDSteCosShLGhT9LT-rT_vFs3vMbK36-5SqAk6B06u9uydjJuiJg744gLFdrpTTghhVDaUTjTwaM5b3vFU6lIq4wYEvk9-juvNWUnXjXTY4N4z8ZXjuaEF5sSo2yl",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,24 @@
+========================================
+STEP 1D: Postgres Health Check
+Timestamp: 2026-04-20T22:39:40Z
+========================================
+Query: SELECT 1
+Result: 1
+
+Query: SELECT count(*) FROM AspNetUsers
+Result: ERROR:  relation "AspNetUsers" does not exist
+LINE 1: SELECT count(*) FROM "AspNetUsers";
+                             ^
+
+Query: SELECT count(*) FROM asp_net_users;
+Result: 4
+PASS: Postgres connected, tables confirmed snake_case naming
+
+========================================
+DB VALIDATION — Tenant A e B criados
+Timestamp: 2026-04-20T22:43:56Z
+Query: SELECT id, nome_fantasia, status FROM condominio WHERE id IN (tenant_a_id, tenant_b_id)
+Result:
+23fb219d-460a-4eee-a9e7-308d7665350b|QA Teste B - 1776724968|1
+4cce551d-4f18-474b-a42a-2deb6c2a0451|QA Teste A - 1776724904|1
+PASS: Ambos condominios encontrados no banco

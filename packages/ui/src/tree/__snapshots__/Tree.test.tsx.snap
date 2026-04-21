@@ -1,0 +1,411 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tree > matches snapshots for base and inactive states > tree-basic 1`] = `
+<DocumentFragment>
+  <div
+    aria-label="Estrutura hierárquica"
+    class="tree"
+    role="tree"
+  >
+    <div
+      role="none"
+    >
+      <div
+        aria-expanded="false"
+        aria-level="1"
+        class="node nodeFocused"
+        data-level="1"
+        id="tree-item-bloco-a"
+        role="treeitem"
+        tabindex="0"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-chevron-right leading"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m9 18 6-6-6-6"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-building2 lucide-building-2 typeIcon"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"
+          />
+          <path
+            d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"
+          />
+          <path
+            d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"
+          />
+          <path
+            d="M10 6h4"
+          />
+          <path
+            d="M10 10h4"
+          />
+          <path
+            d="M10 14h4"
+          />
+          <path
+            d="M10 18h4"
+          />
+        </svg>
+        <div
+          class="content"
+        >
+          <span
+            class="label"
+          >
+            Bloco A
+          </span>
+          <span
+            class="meta"
+          >
+            <span>
+              2
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      role="none"
+    >
+      <div
+        aria-level="1"
+        class="node"
+        data-level="1"
+        id="tree-item-bloco-b"
+        role="treeitem"
+        tabindex="-1"
+      >
+        <span
+          aria-hidden="true"
+          class="leading"
+        />
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-house typeIcon"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+          />
+          <path
+            d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+          />
+        </svg>
+        <div
+          class="content"
+        >
+          <span
+            class="label"
+          >
+            Bloco B
+          </span>
+          <span
+            class="meta"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Tree > matches snapshots for base and inactive states > tree-with-inactive 1`] = `
+<DocumentFragment>
+  <div
+    aria-label="Estrutura hierárquica"
+    class="tree"
+    role="tree"
+  >
+    <div
+      role="none"
+    >
+      <div
+        aria-expanded="true"
+        aria-level="1"
+        class="node nodeFocused"
+        data-level="1"
+        id="tree-item-bloco-a"
+        role="treeitem"
+        tabindex="0"
+      >
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-chevron-down leading"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m6 9 6 6 6-6"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-building2 lucide-building-2 typeIcon"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"
+          />
+          <path
+            d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"
+          />
+          <path
+            d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"
+          />
+          <path
+            d="M10 6h4"
+          />
+          <path
+            d="M10 10h4"
+          />
+          <path
+            d="M10 14h4"
+          />
+          <path
+            d="M10 18h4"
+          />
+        </svg>
+        <div
+          class="content"
+        >
+          <span
+            class="label"
+          >
+            Bloco A
+          </span>
+          <span
+            class="meta"
+          >
+            <span>
+              2
+            </span>
+          </span>
+        </div>
+      </div>
+      <div
+        class="group"
+        role="group"
+      >
+        <div
+          role="none"
+        >
+          <div
+            aria-level="2"
+            class="node"
+            data-level="2"
+            id="tree-item-apto-101"
+            role="treeitem"
+            tabindex="-1"
+          >
+            <span
+              aria-hidden="true"
+              class="leading"
+            />
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-house typeIcon"
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+              />
+              <path
+                d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+              />
+            </svg>
+            <div
+              class="content"
+            >
+              <span
+                class="label"
+              >
+                Apartamento 101
+              </span>
+              <span
+                class="meta"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          role="none"
+        >
+          <div
+            aria-disabled="true"
+            aria-level="2"
+            class="node inactive"
+            data-level="2"
+            id="tree-item-apto-102"
+            role="treeitem"
+            tabindex="-1"
+          >
+            <span
+              aria-hidden="true"
+              class="leading"
+            />
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-house typeIcon"
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+              />
+              <path
+                d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+              />
+            </svg>
+            <div
+              class="content"
+            >
+              <span
+                class="label"
+              >
+                Apartamento 102
+              </span>
+              <span
+                class="meta"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-power stateIcon"
+                  data-testid="tree-node-state-icon-apto-102"
+                  fill="none"
+                  height="16"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 2v10"
+                  />
+                  <path
+                    d="M18.4 6.6a9 9 0 1 1-12.77.04"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      role="none"
+    >
+      <div
+        aria-level="1"
+        class="node"
+        data-level="1"
+        id="tree-item-bloco-b"
+        role="treeitem"
+        tabindex="-1"
+      >
+        <span
+          aria-hidden="true"
+          class="leading"
+        />
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-house typeIcon"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+          />
+          <path
+            d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+          />
+        </svg>
+        <div
+          class="content"
+        >
+          <span
+            class="label"
+          >
+            Bloco B
+          </span>
+          <span
+            class="meta"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

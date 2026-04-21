@@ -1,0 +1,787 @@
+========================================
+CT-01: Estrutura default sem flag
+Timestamp: 2026-04-21T01:25:42Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+Cookies: cookies_sindico_a.txt
+--- RESPONSE ---
+Status: 401
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+    "title": "N\u00e3o autorizado",
+    "status": 401,
+    "detail": "Token de autentica\u00e7\u00e3o inv\u00e1lido ou expirado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura",
+    "traceId": "f9286eda7158dfe718bf4d5c3a6deb47"
+}
+========================================
+CT-01: Estrutura default sem flag
+Timestamp: 2026-04-21T01:26:17Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+    "nomeFantasia": "QA Teste A - 1776724904",
+    "blocos": [
+        {
+            "id": "f7fcaf43-5186-42cb-aa97-3888121323cb",
+            "nome": "Bloco Conflito X QA",
+            "ativo": true,
+            "andares": []
+        },
+        {
+            "id": "88037273-d560-4415-a1e2-b45a00dc5be4",
+            "nome": "Bloco QA-01",
+            "ativo": true,
+            "andares": [
+                {
+                    "andar": 0,
+                    "unidades": [
+                        {
+                            "id": "0608df78-27c8-439f-a0a5-b6511107fcad",
+                            "numero": "01",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 1,
+                    "unidades": [
+                        {
+                            "id": "f2a0b7cc-13d3-4c18-a36e-b5ba9fcfce33",
+                            "numero": "101",
+                            "ativo": true
+                        },
+                        {
+                            "id": "c010da4e-b74e-4476-b2e2-2b0747b3bfbc",
+                            "numero": "101A",
+                            "ativo": true
+                        },
+                        {
+                            "id": "d06623f6-1c32-41f9-b681-bf23070249b0",
+                            "numero": "102B",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 5,
+                    "unidades": [
+                        {
+                            "id": "368496a7-8296-41de-a908-9e03b83d4184",
+                            "numero": "501",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 7,
+                    "unidades": [
+                        {
+                            "id": "d05aca01-c7b2-41b0-8b1b-c2d3b7e45eee",
+                            "numero": "701",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 8,
+                    "unidades": [
+                        {
+                            "id": "44be8a2a-a722-43b5-b9c4-e2f4fc6594e3",
+                            "numero": "801",
+                            "ativo": true
+                        },
+                        {
+                            "id": "c4c0af70-e2be-4d21-a8fa-d1521791cc56",
+                            "numero": "802",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 10,
+                    "unidades": [
+                        {
+                            "id": "45f39d2b-56ba-48bf-b36d-fc231b1013c0",
+                            "numero": "1001",
+                            "ativo": true
+                        },
+                        {
+                            "id": "37bc9e13-78fb-440e-9b99-23f7b19f6c60",
+                            "numero": "1002A",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 11,
+                    "unidades": [
+                        {
+                            "id": "fed9b09a-e5e6-4b84-bc70-37e88412f698",
+                            "numero": "1101",
+                            "ativo": true
+                        },
+                        {
+                            "id": "daa2350c-d8ec-4b77-ad60-f6a1ee529842",
+                            "numero": "1102A",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 20,
+                    "unidades": [
+                        {
+                            "id": "c0d95956-97a9-418b-8f8e-3d53bdcc5d3b",
+                            "numero": "2001",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 50,
+                    "unidades": [
+                        {
+                            "id": "660f8b54-7a57-4464-b78a-982b56c83c05",
+                            "numero": "501",
+                            "ativo": true
+                        }
+                    ]
+                },
+                {
+                    "andar": 99,
+                    "unidades": [
+                        {
+                            "id": "97e8872b-aa59-4379-9f82-1838b546a6dc",
+                            "numero": "9901",
+                            "ativo": true
+                        },
+                        {
+                            "id": "2bf3daaa-38e3-4187-ae12-7131935e848b",
+                            "numero": "9902A",
+                            "ativo": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+            "nome": "Bloco QA-02 V3",
+            "ativo": true,
+            "andares": []
+        },
+        {
+            "id": "ff2ed42b-e9d9-426e-81fa-6bd51b767174",
+            "nome": "Bloco QA-03",
+            "ativo": true,
+            "andares": []
+        },
+        {
+            "id": "ac7b8af5-4bfe-47f0-84b1-c03bc3160895",
+            "nome": "Bloco Temp Cascata QA",
+            "ativo": true,
+            "andares": [
+                {
+                    "andar": 1,
+                    "unidades": [
+                        {
+                            "id": "1e990dbb-aed4-40c0-a48b-7a721692f872",
+                            "numero": "101",
+                            "ativo": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "54d4fbe9-e749-4ee4-8dc4-442355762b6c",
+            "nome": "Bloco Temp Inativo QA",
+            "ativo": true,
+            "andares": []
+        },
+        {
+            "id": "e6451b5b-bc1d-47e1-9300-2c5a50244273",
+            "nome": "Bloco Temp Rename QA",
+            "ativo": true,
+            "andares": []
+        },
+        {
+            "id": "e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907",
+            "nome": "Bloco UI Inativar QA",
+            "ativo": true,
+            "andares": []
+        },
+        {
+            "id": "9aab2b47-1672-4686-ac12-6ce39b4c0f50",
+            "nome": "Bloco UI-QA-01 Editado",
+            "ativo": true,
+            "andares": []
+        }
+    ],
+    "geradoEm": "2026-04-21T01:26:17.3584827Z"
+}
+--- ASSERTIONS ---
+Inactive blocos count: 0 []
+Inactive units count: 0 []
+Bloco names in order: ['Bloco Conflito X QA', 'Bloco QA-01', 'Bloco QA-02 V3', 'Bloco QA-03', 'Bloco Temp Cascata QA', 'Bloco Temp Inativo QA', 'Bloco Temp Rename QA', 'Bloco UI Inativar QA', 'Bloco UI-QA-01 Editado']
+geradoEm: 2026-04-21T01:26:17.3584827Z
+--- RESULTADO: PASS ---
+--- CT-01 ASSERTIONS DETAIL ---
+Blocos order: alphabetical (both case-sensitive and case-insensitive match)
+Andares order in Bloco QA-01: [0,1,5,7,8,10,11,20,50,99] - correctly sorted numerically
+Unit order samples: Andar 1: [101, 101A, 102B]; Andar 10: [1001, 1002A] - semantic order confirmed
+geradoEm: 2026-04-21T01:26:17.3584827Z - valid ISO 8601 UTC (Z suffix)
+No inactive blocos in response: PASS
+No inactive units in response: PASS
+--- RESULTADO: PASS ---
+
+========================================
+CT-02: Estrutura com includeInactive=true
+Timestamp: 2026-04-21T01:26:44Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=true
+--- RESPONSE ---
+Status: 200
+Body saved to response_include_inactive.json
+--- ASSERTIONS ---
+Total blocos: 11 (9 active + 2 inactive)
+Inactive bloco 'Bloco Conflito X QA': FOUND
+Inactive bloco 'Bloco Temp Pai Inativo QA': FOUND
+Inactive unit (Bloco QA-01, andar 50, num 501, id 79e92757): FOUND
+Andar 50 has 2 units: one active (501), one inactive (501) - both shown with includeInactive=true
+--- RESULTADO: PASS ---
+
+========================================
+CT-03: Estrutura com includeInactive=false
+Timestamp: 2026-04-21T01:26:57Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false
+--- RESPONSE ---
+Status: 200
+Inactive blocos: 0 []
+Inactive units count: 0
+--- RESULTADO: PASS ---
+
+========================================
+CT-04: Sem autenticacao
+Timestamp: 2026-04-21T01:27:04Z
+========================================
+--- REQUEST ---
+Method: GET (no cookies)
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+--- RESPONSE ---
+Status: 401
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+    "title": "N\u00e3o autorizado",
+    "status": 401,
+    "detail": "Token de autentica\u00e7\u00e3o inv\u00e1lido ou expirado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura",
+    "traceId": "fbff894f588e29fb6532317ca216f1b7"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-05: CondominioId inexistente
+Timestamp: 2026-04-21T01:27:13Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/00000000-0000-0000-0000-000000000001/estrutura
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/00000000-0000-0000-0000-000000000001/estrutura",
+    "traceId": "e51d49414198abee2b21269531411e77"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-06: Sindico A requisita estrutura do Tenant B
+Timestamp: 2026-04-21T01:27:13Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/estrutura
+Auth: cookies_sindico_a.txt (Sindico A, Tenant A)
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/estrutura",
+    "traceId": "53302d40e3019893d8bfed69075008a3"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-07: Tempo de resposta (3 chamadas consecutivas)
+Timestamp: 2026-04-21T01:27:25Z
+========================================
+PRD expectativa: < 1s para tenant com ate 100 unidades
+Tenant A tem ~19 unidades (bem abaixo de 100)
+--- RESULTADO: PASS ---
+
+========================================
+CT-08: Consistencia API vs DB
+Timestamp: 2026-04-21T01:27:34Z
+========================================
+--- DB QUERY ---
+f32f5862-ccb5-4787-b850-768440e4e2ce|Bloco Conflito X QA|f|0|0
+f7fcaf43-5186-42cb-aa97-3888121323cb|Bloco Conflito X QA|t|0|0
+88037273-d560-4415-a1e2-b45a00dc5be4|Bloco QA-01|t|16|1
+4c936a72-fc12-4f32-809f-3f290c4bc8ae|Bloco QA-02 V3|t|0|0
+ff2ed42b-e9d9-426e-81fa-6bd51b767174|Bloco QA-03|t|0|0
+ac7b8af5-4bfe-47f0-84b1-c03bc3160895|Bloco Temp Cascata QA|t|1|0
+54d4fbe9-e749-4ee4-8dc4-442355762b6c|Bloco Temp Inativo QA|t|0|0
+bb643a2a-8e4c-49c6-b76f-c98ad440a79e|Bloco Temp Pai Inativo QA|f|1|0
+e6451b5b-bc1d-47e1-9300-2c5a50244273|Bloco Temp Rename QA|t|0|0
+e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907|Bloco UI Inativar QA|t|0|0
+9aab2b47-1672-4686-ac12-6ce39b4c0f50|Bloco UI-QA-01 Editado|t|0|0
+--- DB vs API Comparison ---
+All 11 blocos consistent between DB and API (includeInactive=true)
+Bloco QA-01: DB=16 ativas+1 inativa, API=16 ativas+1 inativa - MATCH
+Bloco Conflito X QA: 2 entries (1 active, 1 inactive) - both in API
+Bloco Temp Pai Inativo QA: DB=inactive with 1 active unit, API=same
+--- RESULTADO: PASS ---
+
+========================================
+CT-09: Ordenacao alfabetica dos blocos (case policy)
+Timestamp: 2026-04-21T01:28:07Z
+========================================
+--- CT-09 ASSERTIONS ---
+Actual order (includeInactive=true):
+  1. Bloco Conflito X QA (inactive)
+  2. Bloco Conflito X QA (active)
+  3. Bloco QA-01
+  4. Bloco QA-02 V3
+  5. Bloco QA-03
+  6. Bloco Temp Cascata QA
+  7. Bloco Temp Inativo QA
+  8. Bloco Temp Pai Inativo QA
+  9. Bloco Temp Rename QA
+  10. Bloco UI Inativar QA
+  11. Bloco UI-QA-01 Editado
+Policy: Standard alphabetical (case-insensitive; space ASCII 32 < hyphen ASCII 45)
+Note: All names start with uppercase in this dataset, no case distinction visible
+--- RESULTADO: PASS ---
+
+========================================
+CT-10: Ordenacao semantica de unidades
+Timestamp: 2026-04-21T01:28:28Z
+========================================
+Creating 4 units in andar 99 of Bloco QA-01: 99, 101, 101A, 102
+Note: andar 99 already has 9901 and 9902A from previous tasks
+Create unit {"andar":99,"numero":"99"} -> HTTP 201, id=38a64689-e814-4a71-b943-6f44603cce5d
+Create unit {"andar":99,"numero":"101"} -> HTTP 201, id=13064f03-745f-4394-8390-05b1d0add428
+Create unit {"andar":99,"numero":"101A"} -> HTTP 201, id=c0f931cf-291c-40c1-86ac-23fef1ed955c
+Create unit {"andar":99,"numero":"102"} -> HTTP 201, id=58cdeb53-91f5-4ec5-95ec-37510a41e0df
+--- CT-10 ASSERTIONS ---
+Created 4 units in andar 99 of Bloco QA-01: 99, 101, 101A, 102
+GET estrutura andar 99 result: ['99', '101', '101A', '102', '9901', '9902A']
+Semantic order verified: 99 < 101 < 101A < 102 < 9901 < 9902A
+Numeric part sorts first, then alphabetic suffix
+--- RESULTADO: PASS ---
+
+
+========================================
+UT-07: Empty state
+Timestamp: 2026-04-21T01:33:40.623Z
+========================================
+
+Sindico B login: OK
+Tenant B blocos count: 1
+BLOCKED: Tenant B already has 1 bloco(s) — empty state cannot be tested in this session
+
+
+========================================
+UT-01: Arvore renderiza visualmente
+Timestamp: 2026-04-21T01:35:24.145Z
+========================================
+URL: http://localhost:5174/estrutura
+
+Current URL after goto /estrutura: http://localhost:5174/estrutura
+Bloco QA-01 visible: false
+Bloco QA-02 V3 visible: false
+--- BROWSER CONSOLE UT-01 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+--- RESULTADO: FAIL ---
+Bloco QA-01 not visible. URL: http://localhost:5174/estrutura
+
+
+========================================
+UT-02: Expandir/colapsar via click
+Timestamp: 2026-04-21T01:35:30.418Z
+========================================
+URL: http://localhost:5174/estrutura
+Expandable buttons found: 0
+
+Result: ut02Pass=false, detail=No aria-expanded buttons found. URL: http://localhost:5174/estrutura. Bloco QA-01 visible: false
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+--- RESULTADO: FAIL ---
+Detail: No aria-expanded buttons found. URL: http://localhost:5174/estrutura. Bloco QA-01 visible: false
+
+
+========================================
+UT-03: Navegacao por teclado
+Timestamp: 2026-04-21T01:35:35.470Z
+========================================
+PRD: "Acessibilidade: arvore navegavel por teclado (setas para expandir/colapsar)"
+URL: http://localhost:5174/estrutura
+
+role="tree" found: false
+role="treeitem" count: 0
+Keyboard nav: working=false, detail: No role="treeitem" found (tree found: false). URL: http://localhost:5174/estrutura
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+--- RESULTADO: FAIL ---
+PRD keyboard navigation requirement not met
+Detail: No role="treeitem" found (tree found: false). URL: http://localhost:5174/estrutura
+
+
+========================================
+UT-04: Toggle filtro incluir inativos
+Timestamp: 2026-04-21T01:35:40.642Z
+========================================
+URL: http://localhost:5174/estrutura
+
+Toggle "Mostrar inativos" visible: true
+Bloco Temp Pai Inativo QA visible before toggle: false
+Checkbox inside label: count=1
+Bloco Temp Pai Inativo QA visible after toggle ON: false
+Bloco Temp Pai Inativo QA visible after toggle OFF: false
+--- BROWSER CONSOLE UT-04 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=true' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=true' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+[error] Access to fetch at 'http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=false' from origin 'http://localhost:5174' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+[error] Failed to load resource: net::ERR_FAILED
+Toggle: before=false, after_on=false, after_off=false
+--- RESULTADO: FAIL ---
+before=false, after_on=false, after_off=false
+
+
+========================================
+UT-05: Painel lateral ao clicar num bloco
+Timestamp: 2026-04-21T01:35:49.091Z
+========================================
+PRD: "painel lateral com detalhes e acoes contextuais"
+URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+Bloco QA-01 visible: false
+"Bloco selecionado" visible: false
+"Adicionar unidade" visible: false
+"Criada por" audit text visible: false
+--- BROWSER CONSOLE UT-05 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+--- RESULTADO: FAIL ---
+No panel/toolbar after clicking Bloco QA-01 (blocoVisible=false)
+selectedBlocoText=false, adicionarUnidade=false
+
+
+========================================
+UT-06: Responsividade tablet 768x1024
+Timestamp: 2026-04-21T01:35:51.362Z
+========================================
+Viewport: 768x1024, URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+Bloco QA-01 visible at 768x1024: false
+Title "Estrutura do condomínio" visible: false
+--- BROWSER CONSOLE UT-06 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: FAIL ---
+Tree not visible at 768x1024. URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+
+========================================
+UT-07: Empty state
+Timestamp: 2026-04-21T01:35:52.590Z
+========================================
+
+BLOCKED: Could not login as Sindico B (HTTP 429)
+
+
+========================================
+UT-01: Arvore renderiza visualmente
+Timestamp: 2026-04-21T01:39:03.990Z
+========================================
+
+URL: http://localhost:5174/login?redirectTo=%2Festrutura
+Bloco QA-01 visible: false
+Bloco QA-02 V3 visible: false
+--- BROWSER CONSOLE UT-01 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: FAIL ---
+Bloco QA-01 not visible. URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+
+========================================
+UT-02: Expandir/colapsar via click
+Timestamp: 2026-04-21T01:39:13.063Z
+========================================
+URL: http://localhost:5174/login?redirectTo=%2Festrutura
+Expandable buttons found: 0
+
+Result: ut02Pass=false, detail=No aria-expanded buttons found. Bloco QA-01 visible: false
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: FAIL ---
+Detail: No aria-expanded buttons found. Bloco QA-01 visible: false
+
+
+========================================
+UT-03: Navegacao por teclado
+Timestamp: 2026-04-21T01:39:18.013Z
+========================================
+PRD: "Acessibilidade: arvore navegavel por teclado (setas para expandir/colapsar)"
+URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+role="tree" found: false
+role="treeitem" count: 0
+Keyboard nav: working=false, detail: No role="treeitem" found (tree found: false). URL: http://localhost:5174/login?redirectTo=%2Festrutura
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+--- RESULTADO: FAIL ---
+PRD keyboard navigation requirement not met
+Detail: No role="treeitem" found (tree found: false). URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+
+========================================
+UT-04: Toggle filtro incluir inativos
+Timestamp: 2026-04-21T01:39:22.912Z
+========================================
+URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+Toggle "Mostrar inativos" visible: false
+--- RESULTADO: FAIL ---
+Toggle "Mostrar inativos" not found. URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+--- BROWSER CONSOLE UT-04 ---
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+
+========================================
+UT-05: Painel lateral ao clicar num bloco
+Timestamp: 2026-04-21T01:39:27.846Z
+========================================
+PRD: "painel lateral com detalhes e acoes contextuais"
+URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+Bloco QA-01 visible: false
+"Bloco selecionado" visible: false
+"Adicionar unidade" visible: false
+"Criada por" audit text visible: false
+--- BROWSER CONSOLE UT-05 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: FAIL ---
+No panel/toolbar after clicking Bloco QA-01 (blocoVisible=false)
+
+
+========================================
+UT-06: Responsividade tablet 768x1024
+Timestamp: 2026-04-21T01:39:30.203Z
+========================================
+Viewport: 768x1024, URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+Bloco QA-01 visible at 768x1024: false
+Title "Estrutura do condomínio" visible: false
+--- BROWSER CONSOLE UT-06 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: FAIL ---
+Tree not visible at 768x1024. URL: http://localhost:5174/login?redirectTo=%2Festrutura
+
+
+========================================
+UT-07: Empty state
+Timestamp: 2026-04-21T01:39:31.402Z
+========================================
+
+Tenant B blocos count: 1
+BLOCKED: Tenant B already has 1 bloco(s) — empty state cannot be tested
+
+
+========================================
+UT-01: Arvore renderiza visualmente
+Timestamp: 2026-04-21T01:43:05.466Z
+========================================
+
+URL: http://localhost:5174/estrutura
+Bloco QA-01 visible: true
+Bloco QA-02 V3 visible: true
+--- BROWSER CONSOLE UT-01 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: PASS ---
+
+
+========================================
+UT-02: Expandir/colapsar via click
+Timestamp: 2026-04-21T01:43:11.053Z
+========================================
+URL: http://localhost:5174/estrutura
+Expandable buttons found: 9
+
+First button aria-expanded before click: false
+First button aria-expanded after click: true
+First button aria-expanded after 2nd click: false
+Result: ut02Pass=true, detail=aria-expanded: false -> true (expand), -> false (collapse)
+--- BROWSER CONSOLE UT-02 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: PASS ---
+
+
+========================================
+UT-03: Navegacao por teclado
+Timestamp: 2026-04-21T01:43:16.351Z
+========================================
+PRD: "Acessibilidade: arvore navegavel por teclado (setas para expandir/colapsar)"
+URL: http://localhost:5174/estrutura
+
+role="tree" found: true
+role="treeitem" count: 10
+First treeitem aria-expanded before ArrowRight: true
+After ArrowRight: true
+After ArrowLeft: true
+Keyboard nav: working=false, detail: Keyboard NOT responding. ArrowRight: true -> true (no change)
+--- BROWSER CONSOLE UT-03 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: FAIL ---
+PRD keyboard navigation requirement not met
+Detail: Keyboard NOT responding. ArrowRight: true -> true (no change)
+
+
+========================================
+UT-04: Toggle filtro incluir inativos
+Timestamp: 2026-04-21T01:43:22.458Z
+========================================
+URL: http://localhost:5174/estrutura
+
+Toggle "Mostrar inativos" visible: true
+Bloco Temp Pai Inativo QA visible before toggle: false
+Bloco Temp Pai Inativo QA visible after toggle ON: true
+Bloco Temp Pai Inativo QA visible after toggle OFF: false
+--- BROWSER CONSOLE UT-04 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+Toggle: before=false, on=true, off=false
+--- RESULTADO: PASS ---
+
+
+========================================
+UT-05: Painel lateral ao clicar num bloco
+Timestamp: 2026-04-21T01:43:30.820Z
+========================================
+PRD: "painel lateral com detalhes e acoes contextuais"
+URL: http://localhost:5174/estrutura
+
+Bloco QA-01 visible: true
+"Bloco selecionado" visible: true
+"Adicionar unidade" visible: true
+"Criada por" audit text visible: false
+--- BROWSER CONSOLE UT-05 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: PASS ---
+Panel/toolbar: selected=true, adicionarUnidade=true
+Audit "Criada por": false
+
+
+========================================
+UT-06: Responsividade tablet 768x1024
+Timestamp: 2026-04-21T01:43:33.852Z
+========================================
+Viewport: 768x1024, URL: http://localhost:5174/estrutura
+
+Bloco QA-01 visible at 768x1024: true
+Title "Estrutura do condomínio" visible: true
+--- BROWSER CONSOLE UT-06 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- RESULTADO: PASS ---
+
+
+========================================
+UT-07: Empty state
+Timestamp: 2026-04-21T01:43:34.017Z
+========================================
+
+Tenant B blocos count: 1
+BLOCKED: Tenant B has 1 bloco(s) — empty state cannot be tested
+

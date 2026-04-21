@@ -1,0 +1,14 @@
+.tree {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-left: var(--sp-4);
+  padding-left: var(--sp-3);
+  border-left: 1px solid var(--border-default);
+}

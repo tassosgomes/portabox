@@ -1,0 +1,51 @@
+# db_check.log — qa_task_05_inativacao_bloco
+# Generated: 2026-04-20
+========================================
+CT-06: Persistencia DB — Bloco QA-03 inativo
+Timestamp: 2026-04-21T00:01:38Z
+Query: SELECT id, ativo, inativado_em, inativado_por FROM bloco WHERE id = 'ff2ed42b-e9d9-426e-81fa-6bd51b767174'
+========================================
+Result:
+psql: error: connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+--- RESULTADO: FAIL ---
+Expected: ativo=f, inativado_em=non-null, inativado_por=non-null
+Actual ativo: 
+Actual inativado_em: 
+Actual inativado_por: 
+========================================
+CT-06: Persistencia DB — Bloco QA-03 pos inativacao
+Timestamp: 2026-04-21T00:02:11Z
+========================================
+Query: SELECT id, ativo, inativado_em, inativado_por FROM bloco WHERE id = 'ff2ed42b-e9d9-426e-81fa-6bd51b767174'
+Result:
+ff2ed42b-e9d9-426e-81fa-6bd51b767174|f|2026-04-21 00:00:13.975794+00|9ae7217c-7c68-43ba-b663-63bb9f235d97
+--- RESULTADO: PASS ---
+ativo=f (confirmed)
+inativado_em=2026-04-21 00:00:13.975794+00 (non-null, confirmed)
+inativado_por=9ae7217c-7c68-43ba-b663-63bb9f235d97 (matches sindico A user ID)
+
+========================================
+CT-07: Audit entry — BlocoInativado (event_kind=7)
+Timestamp: 2026-04-21T00:02:11Z
+========================================
+Query: SELECT event_kind, performed_by_user_id, metadata_json, occurred_at FROM tenant_audit_log WHERE event_kind = 7 ORDER BY occurred_at DESC LIMIT 3
+Result:
+7|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"nome": "Bloco Temp Inativo QA", "blocoId": "54d4fbe9-e749-4ee4-8dc4-442355762b6c"}|2026-04-21 00:01:03.824296+00
+7|9ae7217c-7c68-43ba-b663-63bb9f235d97|{"nome": "Bloco QA-03", "blocoId": "ff2ed42b-e9d9-426e-81fa-6bd51b767174"}|2026-04-21 00:00:13.976635+00
+--- RESULTADO: PASS ---
+event_kind=7 entry found
+performed_by_user_id: 9ae7217c-7c68-43ba-b663-63bb9f235d97
+metadata_json: {"nome": "Bloco Temp Inativo QA", "blocoId": "54d4fbe9-e749-4ee4-8dc4-442355762b6c"}
+
+========================================
+CT-10: Sem cascata — unidade permanece ativa
+Timestamp: 2026-04-21T00:02:50Z
+========================================
+New bloco ID: ac7b8af5-4bfe-47f0-84b1-c03bc3160895
+New unidade ID: 1e990dbb-aed4-40c0-a48b-7a721692f872
+Query: SELECT ativo FROM unidade WHERE id = '1e990dbb-aed4-40c0-a48b-7a721692f872'
+Result: t
+--- RESULTADO: PASS ---

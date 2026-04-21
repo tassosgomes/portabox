@@ -163,7 +163,8 @@ public sealed class MagicLinkIntegrationTests(PostgresDatabaseFixture fixture)
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(fixture.ConnectionString)
-            .UseSnakeCaseNamingConvention();
+            .UseSnakeCaseNamingConvention()
+            .ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.ManyServiceProvidersCreatedWarning));
 
         if (log is not null)
         {

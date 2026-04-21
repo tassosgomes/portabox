@@ -74,6 +74,17 @@
   color: var(--fg-subtle);
 }
 
+.structureLink {
+  color: var(--pb-navy-700);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  font-weight: var(--fw-medium);
+}
+
+.structureLink:hover {
+  text-decoration: underline;
+}
+
 .actions {
   display: flex;
   gap: var(--sp-3);

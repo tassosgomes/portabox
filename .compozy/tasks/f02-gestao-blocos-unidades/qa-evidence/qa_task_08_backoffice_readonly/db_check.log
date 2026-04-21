@@ -1,0 +1,52 @@
+========================================
+CT-12: Auditoria do acesso do operador
+Timestamp: 2026-04-21T01:51:32Z
+Operator user_id: 0dcbb805-e21e-4db3-a196-e6e456b3ea2d
+========================================
+Query: SELECT event_kind, tenant_id, performed_by, occurred_at, metadata_json FROM tenant_audit_log WHERE performed_by = '0dcbb805-e21e-4db3-a196-e6e456b3ea2d' ORDER BY occurred_at DESC LIMIT 10;
+Result:
+ERROR:  column "performed_by" does not exist
+LINE 1: SELECT event_kind, tenant_id, performed_by, occurred_at, met...
+                                      ^
+--- CORRECTED QUERY (column is performed_by_user_id, not performed_by) ---
+Query: SELECT event_kind, tenant_id, performed_by_user_id, occurred_at, metadata_json FROM tenant_audit_log WHERE performed_by_user_id = '0dcbb805-e21e-4db3-a196-e6e456b3ea2d' ORDER BY occurred_at DESC LIMIT 10;
+Result:
+1|23fb219d-460a-4eee-a9e7-308d7665350b|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 22:42:48.589598+00|
+1|4cce551d-4f18-474b-a42a-2deb6c2a0451|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 22:41:44.214094+00|
+3|4a3d87ea-f62f-4d9c-80de-a34237d0dae3|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 18:04:13.69914+00|
+3|4a3d87ea-f62f-4d9c-80de-a34237d0dae3|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 17:05:56.464582+00|
+2|4a3d87ea-f62f-4d9c-80de-a34237d0dae3|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 16:55:45.05646+00|
+1|4a3d87ea-f62f-4d9c-80de-a34237d0dae3|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-20 16:33:34.472521+00|
+3|f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-19 01:28:07.190423+00|
+2|f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-19 01:22:51.638297+00|
+1|1792efd1-3e2b-4156-8e55-7b7c43576fe0|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-19 01:15:09.579502+00|
+1|f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5|0dcbb805-e21e-4db3-a196-e6e456b3ea2d|2026-04-19 01:13:12.70591+00|
+========================================
+CT-12: Auditoria do acesso do operador — ANALISE FINAL
+Timestamp: 2026-04-21T01:52:56Z
+========================================
+Operator user_id: 0dcbb805-e21e-4db3-a196-e6e456b3ea2d
+
+A. Coluna correta: performed_by_user_id (nao performed_by)
+
+B. Entradas encontradas para operator em Tenant A e B:
+   event_kind=1 (Created) | tenant_id=4cce551d-4f18-474b-a42a-2deb6c2a0451 | occurred_at=2026-04-20T22:41:44Z
+   event_kind=1 (Created) | tenant_id=23fb219d... | occurred_at=2026-04-20T22:42:48Z
+   Estas entradas sao da criacao dos condominios pelo operador em qa_task_00, NAO de read access.
+
+C. Verificacao do handler (EstruturaEndpoints.cs linha 316-333):
+   O handler GET /admin/condominios/{id}/estrutura NAO chama IAuditService.
+   Nenhuma entrada de auditoria e criada para acesso read-only do operador.
+
+D. Verificacao do enum TenantAuditEventKind.cs:
+   Nao existe valor de enum para 'EstruturaAcessada' ou 'ReadOnlyAccess'.
+   Valores existentes: Created=1, Activated=2, MagicLinkResent=3, Other=4,
+   BlocoCriado=5, BlocoRenomeado=6, BlocoInativado=7, BlocoReativado=8,
+   UnidadeCriada=9, UnidadeInativada=10, UnidadeReativada=11
+
+E. PRD CF-09 exige: 'Acesso registrado em log de auditoria (quem acessou qual tenant, quando)'
+   NENHUMA entrada de read-only foi gerada pelos CTs desta task.
+
+CONFORMIDADE: FAIL — implementacao nao registra acesso read-only do operador.
+NOTA: api-contract.md Open Questions menciona que auditoria de read-only esta
+  'diferida para Phase 2' — investigar se ha documentacao desse deferimento.

@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: apps/sindico mutações de Unidade (hooks + UnidadeForm + modais)
 type: frontend
 complexity: medium
@@ -11,6 +11,8 @@ dependencies:
 
 ## Overview
 Complementa `<EstruturaPage>` com as 3 mutações de Unidade: criar (form com andar + número), inativar (confirm modal) e reativar (confirm modal). Segue o mesmo padrão das mutações de Bloco (task_15) com optimistic update e invalidação da query `['estrutura', condominioId]`. Como Unidade é imutável, **não há** mutação de rename.
+
+> **Contrato:** `CreateUnidadeRequest` e `Unidade` vêm tipados de `@portabox/api-client` ([`api-contract.yaml`](../api-contract.yaml)). Regex do `numero` (`^[0-9]{1,4}[A-Za-z]?$`) e `andar` (integer, min 0) estão no schema do contrato — zod schema no form reflete exatamente o mesmo pattern + bounds. Servidor normaliza caixa alta; cliente pré-normaliza para UX mais fluida.
 
 <critical>
 - ALWAYS READ the PRD and TechSpec before starting
@@ -35,12 +37,12 @@ Complementa `<EstruturaPage>` com as 3 mutações de Unidade: criar (form com an
 </requirements>
 
 ## Subtasks
-- [ ] 16.1 Criar 3 hooks (`useCriarUnidade`, `useInativarUnidade`, `useReativarUnidade`) com invalidação
-- [ ] 16.2 Criar `<UnidadeForm>` com react-hook-form + zod + normalização caixa alta
-- [ ] 16.3 Implementar atalho "Adicionar próxima unidade" mantendo contexto do bloco
-- [ ] 16.4 Criar modais de confirmação para inativar/reativar Unidade
-- [ ] 16.5 Integrar na `<EstruturaPage>` (menu de ações por unidade + CTA por bloco)
-- [ ] 16.6 Escrever testes Vitest + Testing Library para os fluxos
+- [x] 16.1 Criar 3 hooks (`useCriarUnidade`, `useInativarUnidade`, `useReativarUnidade`) com invalidação
+- [x] 16.2 Criar `<UnidadeForm>` com react-hook-form + zod + normalização caixa alta
+- [x] 16.3 Implementar atalho "Adicionar próxima unidade" mantendo contexto do bloco
+- [x] 16.4 Criar modais de confirmação para inativar/reativar Unidade
+- [x] 16.5 Integrar na `<EstruturaPage>` (menu de ações por unidade + CTA por bloco)
+- [x] 16.6 Escrever testes Vitest + Testing Library para os fluxos
 
 ## Implementation Details
 Ver TechSpec seção **Data Flow C2** (criar unidade) e **C5** (reativar com conflito). Zod schema:
@@ -87,20 +89,20 @@ UX de rajada ("Adicionar próxima unidade"): após submit bem-sucedido, limpar c
 
 ## Tests
 - Unit tests:
-  - [ ] `useCriarUnidade` chama `criarUnidade` com payload correto e invalida a query
-  - [ ] `useCriarUnidade` aplica optimistic update (leaf temporário) e reverte em erro
-  - [ ] `useInativarUnidade` e `useReativarUnidade` invalidam query após sucesso
-  - [ ] `<UnidadeForm>` rejeita `numero="1AB"`, `"12345"`, `""` com erro inline
-  - [ ] `<UnidadeForm>` rejeita `andar=-1` com erro inline
-  - [ ] `<UnidadeForm>` normaliza `numero="101a"` → `"101A"` antes do submit
-  - [ ] Atalho "Adicionar próxima": após sucesso, campos limpam e foco volta ao primeiro campo; modal não fecha
-  - [ ] `ApiError` 409 (tripla duplicada) aparece em toast com mensagem explicativa
-  - [ ] `ApiError` 422 (bloco inativo) aparece em toast direcionando a reativar o bloco
+  - [x] `useCriarUnidade` chama `criarUnidade` com payload correto e invalida a query
+  - [x] `useCriarUnidade` aplica optimistic update (leaf temporário) e reverte em erro
+  - [x] `useInativarUnidade` e `useReativarUnidade` invalidam query após sucesso
+  - [x] `<UnidadeForm>` rejeita `numero="1AB"`, `"12345"`, `""` com erro inline
+  - [x] `<UnidadeForm>` rejeita `andar=-1` com erro inline
+  - [x] `<UnidadeForm>` normaliza `numero="101a"` → `"101A"` antes do submit
+  - [x] Atalho "Adicionar próxima": após sucesso, campos limpam e foco volta ao primeiro campo; modal não fecha
+  - [x] `ApiError` 409 (tripla duplicada) aparece em toast com mensagem explicativa
+  - [x] `ApiError` 422 (bloco inativo) aparece em toast direcionando a reativar o bloco
 - Integration tests:
-  - [ ] MSW simula criação em rajada: 3 submits consecutivos → 3 leaves aparecem na árvore
-  - [ ] MSW simula 409 em create → toast + form permanece aberto
-  - [ ] MSW simula inativação → unidade some com toggle off; reaparece com toggle on
-  - [ ] MSW simula reativação com conflito → toast + nenhuma mudança visual
+  - [x] MSW simula criação em rajada: 3 submits consecutivos → 3 leaves aparecem na árvore
+  - [x] MSW simula 409 em create → toast + form permanece aberto
+  - [x] MSW simula inativação → unidade some com toggle off; reaparece com toggle on
+  - [x] MSW simula reativação com conflito → toast + nenhuma mudança visual
 - Test coverage target: >=80%
 - All tests must pass
 

@@ -1,13 +1,17 @@
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using PortaBox.Application.Abstractions.MultiTenancy;
 using PortaBox.Domain.Abstractions;
 using PortaBox.Infrastructure.Email;
 using PortaBox.Infrastructure.Events;
 using PortaBox.Infrastructure.Identity;
 using PortaBox.Infrastructure.MagicLinks;
+using PortaBox.Modules.Gestao.Domain.Blocos;
 using PortaBox.Modules.Gestao.Domain;
+using PortaBox.Modules.Gestao.Domain.Unidades;
 
 namespace PortaBox.Infrastructure.Persistence;
 
@@ -45,6 +49,10 @@ public class AppDbContext(
 
     public DbSet<Condominio> Condominios => Set<Condominio>();
 
+    public DbSet<Bloco> Blocos => Set<Bloco>();
+
+    public DbSet<Unidade> Unidades => Set<Unidade>();
+
     public DbSet<EmailOutboxEntry> EmailOutboxEntries => Set<EmailOutboxEntry>();
 
     public DbSet<DomainEventOutboxEntry> DomainEventOutboxEntries => Set<DomainEventOutboxEntry>();
@@ -59,6 +67,12 @@ public class AppDbContext(
 
     public DbSet<TenantAuditEntry> TenantAuditEntries => Set<TenantAuditEntry>();
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ArgumentNullException.ThrowIfNull(modelBuilder);
@@ -67,37 +81,61 @@ public class AppDbContext(
         ConfigureIdentityTables(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-        // Apply a global query filter for every entity type that implements ITenantEntity.
-        // This ensures that no query leaks data across tenants unless IgnoreQueryFilters() is
-        // called explicitly (reserved for audited, cross-tenant backoffice operations).
-        ApplyTenantQueryFilters(modelBuilder);
+        // Apply one combined global query filter per entity so tenant isolation and soft-delete
+        // compose without EF Core overriding a previous HasQueryFilter call.
+        ApplyGlobalQueryFilters(modelBuilder);
     }
 
-    private void ApplyTenantQueryFilters(ModelBuilder modelBuilder)
+    private void ApplyGlobalQueryFilters(ModelBuilder modelBuilder)
     {
         var tenantEntityInterface = typeof(ITenantEntity);
+        var softDeletableInterface = typeof(ISoftDeletable);
 
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
-            if (!tenantEntityInterface.IsAssignableFrom(entityType.ClrType))
+            var clrType = entityType.ClrType;
+            var isTenantEntity = tenantEntityInterface.IsAssignableFrom(clrType);
+            var isSoftDeletable = softDeletableInterface.IsAssignableFrom(clrType);
+
+            if (!isTenantEntity && !isSoftDeletable)
             {
                 continue;
             }
 
-            // Build the lambda: (ITenantEntity e) => e.TenantId == _tenantContext.TenantId
-            // via the generic helper to satisfy EF Core's typed filter requirement.
             var method = typeof(AppDbContext)
-                .GetMethod(nameof(ApplyTenantFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
-                .MakeGenericMethod(entityType.ClrType);
+                .GetMethod(nameof(ApplyGlobalFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
+                .MakeGenericMethod(clrType);
 
             method.Invoke(this, [modelBuilder]);
         }
     }
 
-    private void ApplyTenantFilter<T>(ModelBuilder modelBuilder)
-        where T : class, ITenantEntity
+    private void ApplyGlobalFilter<T>(ModelBuilder modelBuilder)
+        where T : class
     {
-        modelBuilder.Entity<T>().HasQueryFilter(e => e.TenantId == CurrentTenantId);
+        Expression? body = null;
+        var parameter = Expression.Parameter(typeof(T), "e");
+
+        if (typeof(ITenantEntity).IsAssignableFrom(typeof(T)))
+        {
+            var tenantProperty = Expression.Property(parameter, nameof(ITenantEntity.TenantId));
+            var tenantId = Expression.Property(Expression.Constant(this), nameof(CurrentTenantId));
+            body = Expression.Equal(Expression.Convert(tenantProperty, typeof(Guid?)), tenantId);
+        }
+
+        if (typeof(ISoftDeletable).IsAssignableFrom(typeof(T)))
+        {
+            var activeProperty = Expression.Property(parameter, nameof(ISoftDeletable.Ativo));
+            var activeFilter = Expression.Equal(activeProperty, Expression.Constant(true));
+            body = body is null ? activeFilter : Expression.AndAlso(body, activeFilter);
+        }
+
+        if (body is null)
+        {
+            return;
+        }
+
+        modelBuilder.Entity<T>().HasQueryFilter(Expression.Lambda<Func<T, bool>>(body, parameter));
     }
 
     private static void ConfigureIdentityTables(ModelBuilder modelBuilder)

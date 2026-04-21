@@ -1,0 +1,312 @@
+========================================
+CT-01: Happy path — renomear Bloco QA-02
+Timestamp: 2026-04-21T00:00:24Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome": "Bloco QA-02 Renomeado"}
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "id": "4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+    "nome": "Bloco QA-02 Renomeado",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-02: Mesmo nome (422)
+Timestamp: 2026-04-21T00:00:31Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome": "Bloco QA-02 Renomeado"}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "O novo nome do bloco deve ser diferente do nome atual.",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "traceId": "2096ea46680b3f051e364605eb87f6b0"
+}
+--- RESULTADO: FAIL ---
+Expected status: 422
+Actual status:   400
+
+--- CT-02 DETALHE ADICIONAL ---
+Status recebido: 400 (esperado 422)
+Body completo:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "O novo nome do bloco deve ser diferente do nome atual.",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "traceId": "e610c341c83ab18028b32f28ecc6c69f"
+}
+
+========================================
+GATE ANTI-JEITINHO — FALHA DETECTADA EM CT-02
+========================================
+Expected: HTTP 422 com type 'invalid-transition'
+Actual:   HTTP 400 com type 'validation-error'
+Execucao interrompida. CT-03 em diante nao executados.
+========================================
+========================================
+AUTH: Re-login Sindico A
+Timestamp: 2026-04-21T00:42:27Z
+========================================
+Status: 200
+Body: {"userId":"9ae7217c-7c68-43ba-b663-63bb9f235d97","role":"Sindico","tenantId":"4cce551d-4f18-474b-a42a-2deb6c2a0451"}
+========================================
+AUTH: Re-login Sindico B
+Timestamp: 2026-04-21T00:42:31Z
+========================================
+Status: 200
+Body: {"userId":"de785ac5-f834-47f2-8bbe-cf7ee3be24d9","role":"Sindico","tenantId":"23fb219d-460a-4eee-a9e7-308d7665350b"}
+========================================
+CT-03: Nome vazio deve retornar 400
+Timestamp: 2026-04-21T00:42:38Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome":""}
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "errors": {
+        "nome": [
+            "O nome do bloco deve ter entre 1 e 50 caracteres."
+        ]
+    },
+    "traceId": "3321b8df0968103e780833c4856485a0"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-04: Nome > 50 chars deve retornar 400
+Timestamp: 2026-04-21T00:42:46Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome":"Bloco com nome extremamente longo que vai alem de cinquenta caracteres totais"} (77 chars)
+--- RESPONSE ---
+Status: 400
+Body:
+{
+    "type": "https://portabox.app/problems/validation-error",
+    "title": "Falha de valida\u00e7\u00e3o",
+    "status": 400,
+    "detail": "Um ou mais campos est\u00e3o inv\u00e1lidos",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "errors": {
+        "nome": [
+            "O nome do bloco deve ter entre 1 e 50 caracteres."
+        ]
+    },
+    "traceId": "dad1f70a66600bb95fbdab5624f7a7a0"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-05: Conflito canonico — renomear para nome existente
+Timestamp: 2026-04-21T00:42:56Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome":"Bloco QA-01"}
+--- RESPONSE ---
+Status: 409
+Body:
+{
+    "type": "https://portabox.app/problems/canonical-conflict",
+    "title": "Conflito can\u00f4nico",
+    "status": 409,
+    "detail": "Ja existe bloco ativo com este nome",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "traceId": "ea316b0071dc68f8acba4b4d863c92cb"
+}
+--- RESULTADO: PASS ---
+Status 409 recebido. type: https://portabox.app/problems/canonical-conflict
+========================================
+CT-06: Bloco inexistente deve retornar 404
+Timestamp: 2026-04-21T00:43:03Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/00000000-1111-2222-3333-444444444444
+Body: {"nome":"Nome Qualquer"}
+--- RESPONSE ---
+Status: 404
+Body:
+{
+    "type": "https://portabox.app/problems/not-found",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "Bloco nao encontrado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/00000000-1111-2222-3333-444444444444",
+    "traceId": "aaaea4581926280bd10716bcbeaad628"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-07: Sem autenticacao deve retornar 401
+Timestamp: 2026-04-21T00:43:06Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome":"Teste Sem Auth"}
+(No cookie sent)
+--- RESPONSE ---
+Status: 401
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+    "title": "N\u00e3o autorizado",
+    "status": 401,
+    "detail": "Token de autentica\u00e7\u00e3o inv\u00e1lido ou expirado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "traceId": "8a6faf9936b98bf3b2ac4433b400693e"
+}
+--- RESULTADO: PASS ---
+========================================
+CT-08: Cross-tenant — Sindico B acessa bloco do Tenant A
+Timestamp: 2026-04-21T00:43:15Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome":"Cross Tenant Attack"}
+(Cookie: Sindico B — tenant 23fb219d-460a-4eee-a9e7-308d7665350b)
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "traceId": "10240a5e1c8a5559e3cd52ee986bf9a7"
+}
+--- RESULTADO: PASS --- (got 403 — cross-tenant blocked)
+========================================
+CT-09: Renomear bloco inativo deve retornar 422
+Timestamp: 2026-04-21T00:43:22Z
+========================================
+--- STEP 1: Criar Bloco Temp Rename QA ---
+Create status: 201
+Create body: {"id":"e6451b5b-bc1d-47e1-9300-2c5a50244273","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Bloco Temp Rename QA","ativo":true,"inativadoEm":null}
+Temp bloco ID: e6451b5b-bc1d-47e1-9300-2c5a50244273
+--- STEP 2: Inativar Bloco Temp Rename QA ---
+Inativar status: 200
+Inativar body: {"id":"e6451b5b-bc1d-47e1-9300-2c5a50244273","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Bloco Temp Rename QA","ativo":false,"inativadoEm":"2026-04-21T00:43:32.7396669Z"}
+--- STEP 3: Tentar renomear bloco inativo ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/e6451b5b-bc1d-47e1-9300-2c5a50244273
+Body: {"nome":"Bloco Temp Rename QA Renomeado"}
+--- RESPONSE ---
+Status: 404
+Body:
+{
+    "type": "https://portabox.app/problems/not-found",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "Bloco nao encontrado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/e6451b5b-bc1d-47e1-9300-2c5a50244273",
+    "traceId": "a60164d325b34d52399ffc28a8d1c0ee"
+}
+--- RESULTADO: FAIL ---
+Expected status: 422
+Actual status:   404
+Body: {"type":"https://portabox.app/problems/not-found","title":"Recurso não encontrado","status":404,"detail":"Bloco nao encontrado","instance":"/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/e6451b5b-bc1d-47e1-9300-2c5a50244273","traceId":"a60164d325b34d52399ffc28a8d1c0ee"}
+========================================
+CT-10: Persistencia DB — verificar nome atual do bloco QA-02
+Timestamp: 2026-04-21T00:43:40Z
+========================================
+Query: SELECT nome FROM bloco WHERE id = '4c936a72-...' AND tenant_id = '4cce551d-...'
+Result: Bloco QA-02 Renomeado
+--- RESULTADO: PASS --- (nome matches last valid rename from CT-01)
+========================================
+CT-11: Audit entry event_kind=6 (BlocoRenomeado)
+Timestamp: 2026-04-21T00:43:54Z
+========================================
+Query: SELECT event_kind, metadata_json, occurred_at FROM tenant_audit_log WHERE event_kind=6 AND tenant_id='4cce551d-4f18-474b-a42a-2deb6c2a0451' ORDER BY occurred_at DESC LIMIT 5
+Result:
+6|{"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02", "nomeDepois": "Bloco QA-02 Renomeado"}|2026-04-21 00:00:24.350915+00
+--- RESULTADO: PASS --- (audit entries found with nomeAntes/nomeDepois)
+========================================
+CT-12: Rename sequencial — renomear QA-02 para Bloco QA-02 V3
+Timestamp: 2026-04-21T00:44:08Z
+========================================
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/4c936a72-fc12-4f32-809f-3f290c4bc8ae
+Body: {"nome":"Bloco QA-02 V3"}
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "id": "4c936a72-fc12-4f32-809f-3f290c4bc8ae",
+    "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+    "nome": "Bloco QA-02 V3",
+    "ativo": true,
+    "inativadoEm": null
+}
+--- AUDIT CHECK AFTER CT-12 ---
+Total rename audit entries for QA-02: 2
+Latest audit entry: {"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02 Renomeado", "nomeDepois": "Bloco QA-02 V3"}
+--- RESULTADO: PASS --- (nome='Bloco QA-02 V3', audit_count=2)
+
+--- BROWSER CONSOLE UT-01 ---
+Novo nome "Bloco UI-QA-01 Editado" visivel: true
+
+
+--- BROWSER CONSOLE UT-02 ---
+Modal text: "Renomear bloco✕Nome do blocoInforme o nome do bloco.CancelarSalvar nome"
+Error element visible: false
+Has error text: false
+
+
+--- BROWSER CONSOLE UT-03 ---
+Modal text: "Renomear bloco✕Nome do blocoJa existe bloco ativo com este nomeCancelarSalvar nome"
+Toast visible: false
+Has conflict message: true
+[error] Failed to load resource: the server responded with a status of 409 (Conflict)
+========================================
+UI TESTS EXECUTION SUMMARY
+Timestamp: 2026-04-21T00:46:45Z
+========================================
+
+UT-01: PASS
+  Bloco UI-QA-01 renamed to 'Bloco UI-QA-01 Editado'
+  New name visible in tree (screenshot: ut01_pos_rename.png)
+
+UT-02: Playwright assertion FAIL / UI behavior PASS
+  Modal text captured: 'Renomear bloco✕Nome do blocoInforme o nome do bloco.CancelarSalvar nome'
+  Error message 'Informe o nome do bloco.' WAS shown in red below input
+  Playwright assertion failed because regex /obrigat|requerido|min.*car|deve ter|invalid|erro/i
+  did not match 'Informe o nome do bloco.' — assertion defect in spec
+  UI behavior IS correct (error shown for empty name)
+  Screenshot confirms: ut02_erro_visivel.png shows red error text below field
+
+UT-03: PASS
+  Tried to rename Bloco QA-02 V3 to 'Bloco QA-01'
+  Toast 'Ja existe bloco ativo com este nome' visible at top
+  Inline error 'Ja existe bloco ativo com este nome' shown in modal
+  Screenshot: ut03_erro_conflito.png

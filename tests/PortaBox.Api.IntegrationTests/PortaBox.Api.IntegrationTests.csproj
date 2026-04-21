@@ -13,6 +13,7 @@
     <PackageReference Include="coverlet.msbuild" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.16" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.23" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
     <PackageReference Include="Npgsql" Version="8.0.6" />

@@ -2,9 +2,11 @@
 
 > **Nível 3 da hierarquia de documentação.** Traduz `_prd.md` em decisões técnicas e plano de implementação. Este TechSpec estende o baseline arquitetural fixado em F01 (Clean Architecture + CQRS + EF Core + multi-tenant shared schema) com padrões novos que passam a valer para todas as features seguintes: **soft-delete padronizado** (ADR-007) e **baseline frontend TanStack Query + Context** (ADR-010). O próximo passo do pipeline é `cy-create-tasks`.
 
+> **⚠️ Contrato HTTP autoritativo:** [`api-contract.yaml`](./api-contract.yaml) (OpenAPI 3.1) é a **fonte única de verdade** para paths, métodos, request/response schemas e códigos de erro. Toda divergência entre este TechSpec e o contrato deve ser resolvida em favor do contrato. A versão legível em `api-contract.md` resume as decisões em formato Markdown.
+
 **Domínio:** D01 — Gestão do Condomínio
 **Feature:** F02 — Gestão de Blocos e Unidades
-**Última revisão:** 2026-04-18
+**Última revisão:** 2026-04-19
 
 ---
 
@@ -77,9 +79,9 @@ No frontend, F02 inaugura o baseline TanStack Query + React Context (ADR-010): t
 3. Backend responde 409 (Conflict) com `ProblemDetails` explicativo; frontend exibe toast com a mensagem.
 
 **C6. Leitura da estrutura (árvore) no backoffice**
-1. Operador seleciona tenant no dropdown; rota `/tenants/{id}/estrutura` é ativada.
-2. `useQuery(['estrutura-admin', condominioId], ...)` dispara `GET /api/v1/admin/condominios/{id}/estrutura?tenantId={id}`.
-3. Handler aceita a rota pois role é `Operator`; `ITenantContext.BeginScope(tenantId)` é aplicado explicitamente no handler (não pelo middleware).
+1. Operador seleciona tenant no dropdown; rota `/tenants/{condominioId}/estrutura` é ativada.
+2. `useQuery(queryKeys.estruturaAdmin(condominioId), ...)` dispara `GET /api/v1/admin/condominios/{condominioId}/estrutura?includeInactive={bool}` (conforme contrato — o `condominioId` no path **já é** o tenant explícito; sem query `tenantId` adicional).
+3. Handler aceita a rota pois role é `Operator`; `ITenantContext.BeginScope(condominioId)` é aplicado explicitamente no handler (não pelo middleware).
 4. Resposta idêntica ao endpoint do síndico; frontend renderiza árvore em modo read-only (componentes sem botões).
 
 **C7. Consumo por F04 (via F07 API interna — quando F04 for implementado)**
@@ -256,6 +258,8 @@ public sealed record CreateUnidadeRequest(int Andar, string Numero);
 
 ### API Endpoints
 
+> **Fonte de verdade:** [`api-contract.yaml`](./api-contract.yaml). A tabela abaixo é um índice rápido — paths, query/path params, DTOs, status codes e exemplos estão formalmente definidos no contrato OpenAPI. Qualquer divergência deve ser resolvida em favor do contrato (implementação backend e frontend usam-no como autoridade, incluindo testes de contrato em task_10).
+
 Todos sob `/api/v1`; response de sucesso é `application/json`; erros seguem RFC 7807 (`application/problem+json`).
 
 **Síndico (role `Sindico`, tenant resolvido via middleware):**
@@ -292,6 +296,7 @@ Todos sob `/api/v1`; response de sucesso é `application/json`; erros seguem RFC
 
 F02 não integra com sistemas externos no MVP, mas estabelece contratos internos críticos:
 
+- **API Contract (OpenAPI 3.1)**: [`api-contract.yaml`](./api-contract.yaml) é o **ponto de sincronização obrigatório** entre backend e frontend. Backend implementa os endpoints exatamente conforme o contrato (task_09 + validado em task_10 via testes de contrato). Frontend consome via `packages/api-client` com tipos gerados por `openapi-typescript` (task_11). Mocks locais para desenvolvimento via Prism (`npx @stoplight/prism-cli mock api-contract.yaml`).
 - **F07 (API Interna de Busca)**: consumida por F03 e F04 para validar unidade canônica e buscar moradores. F02 fornece a implementação subjacente via `IUnidadeRepository.FindActiveByCanonicalAsync` + `IBlocoRepository.GetByNameAsync`. F07 será formalizada em seu próprio PRD/TechSpec; F02 já expõe as abstrações internas.
 - **Design system `portabox-design`**: obrigatório (ADR-010 de F01). Antes de qualquer implementação frontend, invocar skill `portabox-design` para carregar tokens, tipografia, ícones Lucide. Componentes de F02 usam `<Card>`, `<Button>`, `<Modal>`, `<Badge>` do `packages/ui` (criados em F01 task 18).
 - **Outbox de eventos**: F02 adiciona 7 tipos de evento (`BlocoCriadoV1`, `BlocoRenomeadoV1`, `BlocoInativadoV1`, `BlocoReativadoV1`, `UnidadeCriadaV1`, `UnidadeInativadaV1`, `UnidadeReativadaV1`). Sem consumer in-process no MVP — persistidos para consumo futuro por F09 e eventuais workers do Mastra (contexto D04).
@@ -309,7 +314,7 @@ F02 não integra com sistemas externos no MVP, mas estabelece contratos internos
 | `PortaBox.Infrastructure.AppDbContext` | Modificado | Extensão do `OnModelCreating` com reflection para aplicar global filter `ISoftDeletable`; adição de `DbSet<Bloco>` e `DbSet<Unidade>` | Diff focado; cobrir com unit test de OnModelCreating |
 | `PortaBox.Modules.Gestao.Domain.TenantAuditEntry.EventKind` | Modificado (não-breaking) | Adiciona valores 5–11 ao enum. Risco: consumidores existentes que fazem `switch` sem `default` podem perder casos | Auditar `switch` em F01; adicionar `default` onde necessário |
 | Migration `20260418000000_AddBlocoAndUnidade` | Novo | DDL + partial unique indexes + FK constraints | Gerar via `dotnet ef migrations add` |
-| `PortaBox.Api` — routes `Features/Estrutura/*.cs` | Novo | 8 endpoints novos (7 síndico + 1 admin operador) | Criar arquivo de extensão `EstruturaEndpoints.cs` mapeado em `Program.cs` |
+| `PortaBox.Api` — routes `Features/Estrutura/*.cs` | Novo | 9 endpoints novos (8 síndico + 1 admin operador) conforme `api-contract.yaml` | Criar arquivo de extensão `EstruturaEndpoints.cs` mapeado em `Program.cs` |
 | `PortaBox.Api.Program.cs` | Modificado | Chamada a `app.MapEstruturaEndpoints()` no route group `/api/v1` | Uma linha |
 | `packages/ui` | Modificado | Adiciona componentes `<Tree>`, `<TreeNode>`, `<ConfirmModal>` | Criar arquivos; garantir aderência ao design system |
 | `packages/api-client` | Novo | Primeira versão do HTTP client tipado + query keys | Criar `packages/api-client/package.json` + fontes |
@@ -407,7 +412,7 @@ Cada passo declara explicitamente suas dependências. Passos sem dependência no
 13. **Commands + Handlers — Unidades**: `CreateUnidadeCommand`, `InativarUnidadeCommand`, `ReativarUnidadeCommand` e handlers. *Depende de:* passos 8, 11.
 14. **Query `GetEstruturaQuery` + handler** — agrupamento em memória. *Depende de:* passos 5, 8.
 15. **Registro em DI** — estender `PortaBox.Modules.Gestao.DependencyInjection` com todos os handlers, validators, repositórios. *Depende de:* passos 12, 13, 14.
-16. **Endpoints `EstruturaEndpoints.cs`** — mapeamento das 8 rotas em minimal API. *Depende de:* passo 15.
+16. **Endpoints `EstruturaEndpoints.cs`** — mapeamento das 9 rotas em minimal API conforme `api-contract.yaml`. *Depende de:* passo 15.
 17. **Testes unitários de domínio e handlers** — cobertura conforme seção Testing Approach. *Depende de:* passos 1–14.
 18. **Testes de integração dos endpoints** — base fixture, seed, casos de isolamento cross-tenant. *Depende de:* passos 16, 17.
 19. **Package `packages/api-client`** — `http.ts`, `queryKeys.ts`, módulos tipados (`estrutura.ts`, `blocos.ts`, `unidades.ts`). *Depende de:* passo 16 (contratos consolidados).
@@ -420,11 +425,13 @@ Cada passo declara explicitamente suas dependências. Passos sem dependência no
 
 ### Technical Dependencies
 
+- **API Contract** (`api-contract.yaml`): **fonte de verdade autoritativa** para a camada HTTP; backend e frontend o consomem como spec formal. Qualquer mudança no contrato exige sincronização explícita em ambos os lados + bump de versão.
 - **F01 em estado avançado**: específico — tasks 14, 15 (endpoints minimal API), 18 (packages/ui com Button/Card/Modal/Badge), 20 (Vite baseline em `apps/sindico` e `apps/backoffice`) precisam estar concluídas antes dos passos 20–24 de F02.
 - **Postgres ≥ 16**: partial unique indexes são padrão desde versões antigas; sem bloqueio.
 - **Design system `portabox-design`** v1 publicado na skill — invocar antes de qualquer frontend.
 - **Node ≥ 20 LTS** para workspaces do pnpm.
 - **.NET 8 SDK** conforme F01.
+- **Ferramentas de contrato (devDependencies)**: `openapi-typescript` para geração de tipos no frontend (task_11); `@stoplight/prism-cli` para mocks locais; opcionalmente `dredd` ou `schemathesis` para testes de contrato (task_10 SHOULD).
 
 ---
 

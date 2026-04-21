@@ -1,0 +1,17 @@
+=== CT-08 DB Query Result ===
+Query: SELECT b.id, b.nome, b.ativo, count(u.id) FILTER...
+f32f5862-ccb5-4787-b850-768440e4e2ce|Bloco Conflito X QA|f|0|0
+f7fcaf43-5186-42cb-aa97-3888121323cb|Bloco Conflito X QA|t|0|0
+88037273-d560-4415-a1e2-b45a00dc5be4|Bloco QA-01|t|16|1
+4c936a72-fc12-4f32-809f-3f290c4bc8ae|Bloco QA-02 V3|t|0|0
+ff2ed42b-e9d9-426e-81fa-6bd51b767174|Bloco QA-03|t|0|0
+ac7b8af5-4bfe-47f0-84b1-c03bc3160895|Bloco Temp Cascata QA|t|1|0
+54d4fbe9-e749-4ee4-8dc4-442355762b6c|Bloco Temp Inativo QA|t|0|0
+bb643a2a-8e4c-49c6-b76f-c98ad440a79e|Bloco Temp Pai Inativo QA|f|1|0
+e6451b5b-bc1d-47e1-9300-2c5a50244273|Bloco Temp Rename QA|t|0|0
+e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907|Bloco UI Inativar QA|t|0|0
+9aab2b47-1672-4686-ac12-6ce39b4c0f50|Bloco UI-QA-01 Editado|t|0|0
+
+
+=== DB vs API: ALL 11 blocos consistent (counts and ativo status match) ===
+PASS

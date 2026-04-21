@@ -1,0 +1,247 @@
+CT-01: BlocoCriado
+Timestamp: 2026-04-21T01:57:49Z
+BEFORE: 2026-04-21T01:57:49Z
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {"nome":"Audit Bloco QA"}
+--- RESPONSE ---
+Status: 201
+Body: {"id":"52ac8a90-b077-464a-b14d-4dbd47dae6dd","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Audit Bloco QA","ativo":true,"inativadoEm":null}
+BLOCO_ID: 52ac8a90-b077-464a-b14d-4dbd47dae6dd
+--- DB AUDIT QUERY CT-01 ---
+Query: SELECT ... WHERE tenant_id='4cce551d-4f18-474b-a42a-2deb6c2a0451' AND occurred_at > '2026-04-21T01:57:49Z'
+Result:
+74|5|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:57:49.962912+00|{"nome": "Audit Bloco QA", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+ROW COUNT: 1
+event_kind actual: 5
+--- CT-01 RESULTADO: PASS ---
+
+========================================
+CT-02: BlocoRenomeado
+Timestamp: 2026-04-21T01:58:10Z
+--- REQUEST ---
+Method: PATCH
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/52ac8a90-b077-464a-b14d-4dbd47dae6dd
+Body: {"nome":"Audit Bloco QA Renomeado"}
+--- RESPONSE ---
+Status: 200
+Body: {"id":"52ac8a90-b077-464a-b14d-4dbd47dae6dd","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Audit Bloco QA Renomeado","ativo":true,"inativadoEm":null}
+--- DB AUDIT QUERY CT-02 ---
+Result:
+75|6|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:58:10.346413+00|{"blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd", "nomeAntes": "Audit Bloco QA", "nomeDepois": "Audit Bloco QA Renomeado"}
+event_kind: 6 | performed_by: 9ae7217c-7c68-43ba-b663-63bb9f235d97 | metadata: {"blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd", "nomeAntes": "Audit Bloco QA", "nomeDepois": "Audit Bloco QA Renomeado"}
+--- CT-02 RESULTADO: PASS ---
+
+========================================
+CT-03: BlocoInativado
+--- REQUEST ---
+Method: POST :inativar
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/52ac8a90-b077-464a-b14d-4dbd47dae6dd:inativar
+--- RESPONSE ---
+Status: 200
+Body: {"id":"52ac8a90-b077-464a-b14d-4dbd47dae6dd","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Audit Bloco QA Renomeado","ativo":false,"inativadoEm":"2026-04-21T01:58:27.1141247Z"}
+--- DB AUDIT QUERY CT-03 ---
+Result: 76|7|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:58:27.114136+00|{"nome": "Audit Bloco QA Renomeado", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+event_kind: 7 | metadata: {"nome": "Audit Bloco QA Renomeado", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+--- CT-03 RESULTADO: PASS ---
+
+========================================
+CT-04: BlocoReativado
+--- REQUEST ---
+Method: POST :reativar
+--- RESPONSE ---
+Status: 200
+Body: {"id":"52ac8a90-b077-464a-b14d-4dbd47dae6dd","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Audit Bloco QA Renomeado","ativo":true,"inativadoEm":null}
+--- DB AUDIT QUERY CT-04 ---
+Result: 77|8|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:58:43.443651+00|{"nome": "Audit Bloco QA Renomeado", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+event_kind: 8 | metadata: {"nome": "Audit Bloco QA Renomeado", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+--- CT-04 RESULTADO: PASS ---
+
+========================================
+CT-05: UnidadeCriada — creating fresh bloco first
+Created bloco for units: 0260f7aa-8148-40e7-9280-7fd6ca93e4ba (HTTP 201)
+--- REQUEST ---
+Method: POST /unidades
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/0260f7aa-8148-40e7-9280-7fd6ca93e4ba/unidades
+Body: {"andar":10,"numero":"1001"}
+--- RESPONSE ---
+Status: 201
+Body: {"id":"1bae4c0d-e993-4b11-93ee-a45cfd6030fe","blocoId":"0260f7aa-8148-40e7-9280-7fd6ca93e4ba","andar":10,"numero":"1001","ativo":true,"inativadoEm":null}
+UNIDADE_ID: 1bae4c0d-e993-4b11-93ee-a45cfd6030fe
+--- DB AUDIT QUERY CT-05 ---
+Result: 78|5|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:59:09.220058+00|{"nome": "Audit Bloco Unidades QA", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba"}
+79|9|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:59:09.274795+00|{"andar": 10, "numero": "1001", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba", "unidadeId": "1bae4c0d-e993-4b11-93ee-a45cfd6030fe"}
+event_kind=9 row: 79|9|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:59:09.274795+00|{"andar": 10, "numero": "1001", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba", "unidadeId": "1bae4c0d-e993-4b11-93ee-a45cfd6030fe"}
+--- CT-05 RESULTADO: PASS ---
+
+========================================
+CT-06: UnidadeInativada
+--- REQUEST ---
+Method: POST :inativar unidade
+URL: .../unidades/1bae4c0d-e993-4b11-93ee-a45cfd6030fe:inativar
+--- RESPONSE ---
+Status: 200
+Body: {"id":"1bae4c0d-e993-4b11-93ee-a45cfd6030fe","blocoId":"0260f7aa-8148-40e7-9280-7fd6ca93e4ba","andar":10,"numero":"1001","ativo":false,"inativadoEm":"2026-04-21T01:59:28.5802926Z"}
+--- DB AUDIT QUERY CT-06 ---
+Result: 80|10|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:59:28.580302+00|{"andar": 10, "numero": "1001", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba", "unidadeId": "1bae4c0d-e993-4b11-93ee-a45cfd6030fe"}
+event_kind=10 row: 80|10|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:59:28.580302+00|{"andar": 10, "numero": "1001", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba", "unidadeId": "1bae4c0d-e993-4b11-93ee-a45cfd6030fe"}
+--- CT-06 RESULTADO: PASS ---
+
+========================================
+CT-07: UnidadeReativada
+--- REQUEST ---
+Method: POST :reativar unidade
+URL: .../unidades/1bae4c0d-e993-4b11-93ee-a45cfd6030fe:reativar
+--- RESPONSE ---
+Status: 200
+Body: {"id":"1bae4c0d-e993-4b11-93ee-a45cfd6030fe","blocoId":"0260f7aa-8148-40e7-9280-7fd6ca93e4ba","andar":10,"numero":"1001","ativo":true,"inativadoEm":null}
+--- DB AUDIT QUERY CT-07 ---
+Result: 81|11|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:59:45.85676+00|{"andar": 10, "numero": "1001", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba", "unidadeId": "1bae4c0d-e993-4b11-93ee-a45cfd6030fe"}
+event_kind=11 row: 81|11|4cce551d-4f18-474b-a42a-2deb6c2a0451|9ae7217c-7c68-43ba-b663-63bb9f235d97|2026-04-21 01:59:45.85676+00|{"andar": 10, "numero": "1001", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba", "unidadeId": "1bae4c0d-e993-4b11-93ee-a45cfd6030fe"}
+--- CT-07 RESULTADO: PASS ---
+
+========================================
+CT-08: Falhas NAO geram audit entries
+--- CT-08a: POST bloco nome vazio → expected 400 ---
+Status: 400 | Body: {"type":"https://portabox.app/problems/validation-error","title":"Falha de validação","status":400,"detail":"Um ou mais campos estão inválidos","instance":"/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos","errors":{"nome":["O nome do bloco deve ter entre 1 e 50 caracteres."]},"traceId":"b0442d0f28a4a0327ca1a8683c4af1ce"}
+New audit entries after 400: 0
+--- CT-08b: Sindico A → Tenant B → expected 403 or 404 ---
+Bloco B ID: 849b6750-0cca-4cef-a798-5d90d04246ff
+Status: 403 | Body: {"type":"https://portabox.app/problems/forbidden","title":"Acesso negado","status":403,"detail":"Você não tem permissão para executar esta operação","instance":"/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos","traceId":"645151dbc29af92ec6c033c62df92bfa"}
+New audit entries from sindicoA after cross-tenant: 0
+--- CT-08c: POST bloco nome duplicado ativo → expected 409 ---
+Status: 409 | Body: {"type":"https://portabox.app/problems/canonical-conflict","title":"Conflito canônico","status":409,"detail":"Ja existe bloco ativo com este nome","instance":"/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos","traceId":"235d64cf2243d8c0724c7c6babd31342"}
+New audit entries after 409: 0
+--- CT-08 RESULTADO: PASS ---
+
+========================================
+CT-09: Contagem global audit entries
+--- GLOBAL AUDIT COUNTS (tenant A + B) ---
+event_kind | count
+1|2
+5|16
+6|5
+7|9
+8|6
+9|26
+10|5
+11|4
+--- ENTITY COUNTS ---
+Blocos A: 13 | Blocos B: 3
+Unidades A: 24 | Unidades B: 2
+--- CT-09 RESULTADO: PASS (documentado) ---
+
+========================================
+CT-10: Metadata JSON schema por event_kind
+--- METADATA SAMPLES (event_kind 5-11, tenant A) ---
+5|{"nome": "Audit Bloco Unidades QA", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba"}
+5|{"nome": "Audit Bloco QA", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+5|{"nome": "Bloco Temp Pai Inativo QA", "blocoId": "bb643a2a-8e4c-49c6-b76f-c98ad440a79e"}
+5|{"nome": "Bloco Conflito Y QA", "blocoId": "f7fcaf43-5186-42cb-aa97-3888121323cb"}
+5|{"nome": "Bloco Conflito X QA", "blocoId": "f32f5862-ccb5-4787-b850-768440e4e2ce"}
+5|{"nome": "Bloco Temp Rename QA", "blocoId": "e6451b5b-bc1d-47e1-9300-2c5a50244273"}
+5|{"nome": "Bloco UI Inativar QA", "blocoId": "e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907"}
+5|{"nome": "Bloco Temp Cascata QA", "blocoId": "ac7b8af5-4bfe-47f0-84b1-c03bc3160895"}
+5|{"nome": "Bloco Temp Inativo QA", "blocoId": "54d4fbe9-e749-4ee4-8dc4-442355762b6c"}
+5|{"nome": "Bloco UI-QA-01", "blocoId": "9aab2b47-1672-4686-ac12-6ce39b4c0f50"}
+5|{"nome": "Bloco QA-03", "blocoId": "ff2ed42b-e9d9-426e-81fa-6bd51b767174"}
+5|{"nome": "Bloco QA-02", "blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae"}
+5|{"nome": "Bloco QA-01", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4"}
+6|{"blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd", "nomeAntes": "Audit Bloco QA", "nomeDepois": "Audit Bloco QA Renomeado"}
+6|{"blocoId": "f7fcaf43-5186-42cb-aa97-3888121323cb", "nomeAntes": "Bloco Conflito Y QA", "nomeDepois": "Bloco Conflito X QA"}
+6|{"blocoId": "9aab2b47-1672-4686-ac12-6ce39b4c0f50", "nomeAntes": "Bloco UI-QA-01", "nomeDepois": "Bloco UI-QA-01 Editado"}
+6|{"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02 Renomeado", "nomeDepois": "Bloco QA-02 V3"}
+6|{"blocoId": "4c936a72-fc12-4f32-809f-3f290c4bc8ae", "nomeAntes": "Bloco QA-02", "nomeDepois": "Bloco QA-02 Renomeado"}
+7|{"nome": "Audit Bloco QA Renomeado", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+7|{"nome": "Bloco Temp Pai Inativo QA", "blocoId": "bb643a2a-8e4c-49c6-b76f-c98ad440a79e"}
+--- CT-10 RESULTADO: PASS (schema documentado) ---
+--- METADATA KINDS 8-11 ---
+8|{"nome": "Audit Bloco QA Renomeado", "blocoId": "52ac8a90-b077-464a-b14d-4dbd47dae6dd"}
+8|{"nome": "Bloco Temp Cascata QA", "blocoId": "ac7b8af5-4bfe-47f0-84b1-c03bc3160895"}
+8|{"nome": "Bloco Temp Inativo QA", "blocoId": "54d4fbe9-e749-4ee4-8dc4-442355762b6c"}
+8|{"nome": "Bloco UI Inativar QA", "blocoId": "e35e6a6d-23fd-41bd-8ffd-fd2caa6d3907"}
+8|{"nome": "Bloco Temp Rename QA", "blocoId": "e6451b5b-bc1d-47e1-9300-2c5a50244273"}
+8|{"nome": "Bloco QA-03", "blocoId": "ff2ed42b-e9d9-426e-81fa-6bd51b767174"}
+9|{"andar": 10, "numero": "1001", "blocoId": "0260f7aa-8148-40e7-9280-7fd6ca93e4ba", "unidadeId": "1bae4c0d-e993-4b11-93ee-a45cfd6030fe"}
+9|{"andar": 99, "numero": "102", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "58cdeb53-91f5-4ec5-95ec-37510a41e0df"}
+9|{"andar": 99, "numero": "101A", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "c0f931cf-291c-40c1-86ac-23fef1ed955c"}
+9|{"andar": 99, "numero": "101", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "13064f03-745f-4394-8390-05b1d0add428"}
+9|{"andar": 99, "numero": "99", "blocoId": "88037273-d560-4415-a1e2-b45a00dc5be4", "unidadeId": "38a64689-e814-4a71-b943-6f44603cce5d"}
+9|{"andar": 1, "numero": "101", "blocoId": "bb643a2a-8e4c-49c6-b76f-c98ad440a79e", "unidadeId": "a2c82b48-a993-4200-82d7-24e1f3490b34"}
+
+========================================
+CT-11: Outbox de eventos de dominio
+--- OUTBOX COUNTS BY EVENT TYPE ---
+bloco.criado.v1|16
+bloco.inativado.v1|9
+bloco.reativado.v1|6
+bloco.renomeado.v1|5
+condominio.ativado.v1|2
+condominio.cadastrado.v1|5
+unidade.criada.v1|26
+unidade.inativada.v1|5
+unidade.reativada.v1|4
+--- OUTBOX ENTRIES FOR BLOCO_ID_CT01 (52ac8a90) ---
+915eb295-5214-4902-bcae-c0bb1f4b3865|bloco.criado.v1|52ac8a90-b077-464a-b14d-4dbd47dae6dd|2026-04-21 01:57:49.963016+00|2026-04-21 01:57:55.44146+00
+9ab4e894-23bf-43f4-bbcc-e80c45c47560|bloco.renomeado.v1|52ac8a90-b077-464a-b14d-4dbd47dae6dd|2026-04-21 01:58:10.346591+00|2026-04-21 01:58:10.451409+00
+ae716c50-8b07-49b0-9a9b-6f87e2d00630|bloco.inativado.v1|52ac8a90-b077-464a-b14d-4dbd47dae6dd|2026-04-21 01:58:27.114281+00|2026-04-21 01:58:40.254725+00
+e37beea6-c83f-4879-80f9-433c4dee43c9|bloco.reativado.v1|52ac8a90-b077-464a-b14d-4dbd47dae6dd|2026-04-21 01:58:43.4438+00|2026-04-21 01:58:55.078139+00
+--- OUTBOX ENTRIES FOR UNIDADE_ID (1bae4c0d) ---
+b254322e-baf2-4114-b292-fe4f8be18d66|unidade.criada.v1|1bae4c0d-e993-4b11-93ee-a45cfd6030fe|2026-04-21 01:59:09.274961+00|2026-04-21 01:59:10.082173+00
+a5f4e3e7-5c7b-4d96-926e-686c28533d32|unidade.inativada.v1|1bae4c0d-e993-4b11-93ee-a45cfd6030fe|2026-04-21 01:59:28.580437+00|2026-04-21 01:59:39.941618+00
+c882550c-dab8-419f-9351-ae2f41c86143|unidade.reativada.v1|1bae4c0d-e993-4b11-93ee-a45cfd6030fe|2026-04-21 01:59:45.856944+00|2026-04-21 01:59:54.829781+00
+OK: event_type=bloco.criado.v1 count=16
+OK: event_type=bloco.renomeado.v1 count=5
+OK: event_type=bloco.inativado.v1 count=9
+OK: event_type=bloco.reativado.v1 count=6
+OK: event_type=unidade.criada.v1 count=26
+OK: event_type=unidade.inativada.v1 count=5
+OK: event_type=unidade.reativada.v1 count=4
+Outbox entries for CT-01 bloco: 4 (expected 4)
+Outbox entries for CT-05 unidade: 3 (expected 3)
+--- CT-11 RESULTADO: PASS ---
+
+========================================
+CT-12: Outbox vs Audit consistency
+--- AUDIT COUNTS (F02 events, tenant A+B) ---
+event_kind | count
+5|16
+6|5
+7|9
+8|6
+9|26
+10|5
+11|4
+
+--- OUTBOX COUNTS (F02 events, tenant A+B) ---
+event_type | count
+bloco.criado.v1|16
+bloco.inativado.v1|9
+bloco.reativado.v1|6
+bloco.renomeado.v1|5
+unidade.criada.v1|26
+unidade.inativada.v1|5
+unidade.reativada.v1|4
+Audit event_kind=5: 16 | Outbox bloco.criado.v1: 16
+Audit event_kind=6: 5 | Outbox bloco.renomeado.v1: 5
+Audit event_kind=7: 9 | Outbox bloco.inativado.v1: 9
+Audit event_kind=8: 6 | Outbox bloco.reativado.v1: 6
+Audit event_kind=9: 26 | Outbox unidade.criada.v1: 26
+Audit event_kind=10: 5 | Outbox unidade.inativada.v1: 5
+Audit event_kind=11: 4 | Outbox unidade.reativada.v1: 4
+--- CT-12 RESULTADO: PASS ---
+
+========================================
+CT-13: Timestamps em UTC
+occurred_at data_type: timestamp with time zone
+--- TIMESTAMP SAMPLES ---
+2026-04-21 01:59:45.85676+00|2026-04-21 01:59:45.85676|timestamp with time zone
+2026-04-21 01:59:28.580302+00|2026-04-21 01:59:28.580302|timestamp with time zone
+2026-04-21 01:59:09.274795+00|2026-04-21 01:59:09.274795|timestamp with time zone
+2026-04-21 01:59:09.220058+00|2026-04-21 01:59:09.220058|timestamp with time zone
+2026-04-21 01:58:43.443651+00|2026-04-21 01:58:43.443651|timestamp with time zone
+CT-01 occurred_at: 2026-04-21 01:57:49.962912+00
+Current UTC: 2026-04-21T02:01:49Z
+CT-01 entries within last 1h window: 2 (expected 2 - CT-01 and CT-05 bloco)
+--- CT-13 RESULTADO: PASS ---

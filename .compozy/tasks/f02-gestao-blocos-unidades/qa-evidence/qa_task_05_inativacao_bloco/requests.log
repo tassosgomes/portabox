@@ -1,0 +1,256 @@
+# requests.log — qa_task_05_inativacao_bloco
+# Generated: 2026-04-20
+========================================
+CT-01: Happy path — inativar Bloco QA-03
+Timestamp: 2026-04-21T00:00:13Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ff2ed42b-e9d9-426e-81fa-6bd51b767174:inativar
+Body: (none)
+--- RESPONSE ---
+Status: 200
+Body:
+{
+    "id": "ff2ed42b-e9d9-426e-81fa-6bd51b767174",
+    "condominioId": "4cce551d-4f18-474b-a42a-2deb6c2a0451",
+    "nome": "Bloco QA-03",
+    "ativo": false,
+    "inativadoEm": "2026-04-21T00:00:13.9757943Z"
+}
+--- ASSERTIONS ---
+ativo field: False (expected: False)
+inativadoEm: 2026-04-21T00:00:13.9757943Z (expected: non-null timestamp)
+--- RESULTADO: PASS ---
+
+========================================
+CT-02: Bloco ja inativo — tentar inativar novamente → 422
+Timestamp: 2026-04-21T00:00:23Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ff2ed42b-e9d9-426e-81fa-6bd51b767174:inativar
+Body: (none)
+--- RESPONSE ---
+Status: 422
+Body:
+{
+    "type": "https://portabox.app/problems/invalid-transition",
+    "title": "Transi\u00e7\u00e3o inv\u00e1lida",
+    "status": 422,
+    "detail": "A entidade ja esta inativa.",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ff2ed42b-e9d9-426e-81fa-6bd51b767174:inativar",
+    "traceId": "560318425dda2ac6bf54db68b973611e"
+}
+--- ASSERTIONS ---
+problem type: https://portabox.app/problems/invalid-transition (expected: contains 'invalid-transition')
+--- RESULTADO: PASS ---
+
+========================================
+CT-03: Bloco inexistente → 404
+Timestamp: 2026-04-21T00:00:31Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/00000000-0000-0000-0000-000000000099:inativar
+Body: (none)
+--- RESPONSE ---
+Status: 404
+Body:
+{
+    "type": "https://portabox.app/problems/not-found",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "Bloco nao encontrado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/00000000-0000-0000-0000-000000000099:inativar",
+    "traceId": "2ccc5b35d866d45cdec8d5a17f11493b"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-04: Sem autenticacao → 401
+Timestamp: 2026-04-21T00:00:31Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ff2ed42b-e9d9-426e-81fa-6bd51b767174:inativar
+Auth: none
+--- RESPONSE ---
+Status: 401
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.2",
+    "title": "N\u00e3o autorizado",
+    "status": 401,
+    "detail": "Token de autentica\u00e7\u00e3o inv\u00e1lido ou expirado",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ff2ed42b-e9d9-426e-81fa-6bd51b767174:inativar",
+    "traceId": "4b3b93e4db5040e52b90b9c6cde9b322"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-05: Cross-tenant — sindico A inativar bloco de tenant B
+Timestamp: 2026-04-21T00:00:47Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/NO_BLOCO_FOUND:inativar
+Auth: cookie sindico A (tenant A)
+Note: Sindico A trying to inativar a bloco in Tenant B
+--- RESPONSE ---
+Status: 404
+Body:
+{
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+    "title": "Recurso n\u00e3o encontrado",
+    "status": 404,
+    "detail": "O recurso solicitado n\u00e3o foi encontrado",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/NO_BLOCO_FOUND:inativar",
+    "traceId": "5998dcbc24d39e0ec2300dce86565f08"
+}
+--- RESULTADO: PASS ---
+
+========================================
+CT-05 (UPDATED): Cross-tenant — sindico A inativar bloco de tenant B
+Timestamp: 2026-04-21T00:01:26Z
+Note: Bloco de tenant B ID confirmed: 849b6750-0cca-4cef-a798-5d90d04246ff
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/849b6750-0cca-4cef-a798-5d90d04246ff:inativar
+Auth: cookie sindico A (tenant A)
+--- RESPONSE ---
+Status: 403
+Body:
+{
+    "type": "https://portabox.app/problems/forbidden",
+    "title": "Acesso negado",
+    "status": 403,
+    "detail": "Voc\u00ea n\u00e3o tem permiss\u00e3o para executar esta opera\u00e7\u00e3o",
+    "instance": "/api/v1/condominios/23fb219d-460a-4eee-a9e7-308d7665350b/blocos/849b6750-0cca-4cef-a798-5d90d04246ff:inativar",
+    "traceId": "a312647c781e83f4425454169bd536dc"
+}
+--- RESULTADO: PASS ---
+Status 403 (403 or 404 acceptable per contract)
+Bloco B ativo after attempt: True (should be True — no cross-tenant write)
+
+========================================
+CT-08: GET estrutura sem includeInactive — bloco QA-03 deve estar oculto
+Timestamp: 2026-04-21T00:02:29Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura
+Note: no includeInactive param, default=false
+--- RESPONSE ---
+Status: 200
+Blocos in response:
+  id=88037273-d560-4415-a1e2-b45a00dc5be4 nome=Bloco QA-01 ativo=True
+  id=4c936a72-fc12-4f32-809f-3f290c4bc8ae nome=Bloco QA-02 Renomeado ativo=True
+  id=9aab2b47-1672-4686-ac12-6ce39b4c0f50 nome=Bloco UI-QA-01 ativo=True
+--- ASSERTIONS ---
+Bloco QA-03 in response: NOT_FOUND (expected: NOT_FOUND)
+--- RESULTADO: PASS ---
+
+========================================
+CT-09: GET estrutura com includeInactive=true — bloco QA-03 deve aparecer ativo=false
+Timestamp: 2026-04-21T00:02:29Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/estrutura?includeInactive=true
+--- RESPONSE ---
+Status: 200
+Blocos in response:
+  id=88037273-d560-4415-a1e2-b45a00dc5be4 nome=Bloco QA-01 ativo=True
+  id=4c936a72-fc12-4f32-809f-3f290c4bc8ae nome=Bloco QA-02 Renomeado ativo=True
+  id=ff2ed42b-e9d9-426e-81fa-6bd51b767174 nome=Bloco QA-03 ativo=False
+  id=54d4fbe9-e749-4ee4-8dc4-442355762b6c nome=Bloco Temp Inativo QA ativo=False
+  id=9aab2b47-1672-4686-ac12-6ce39b4c0f50 nome=Bloco UI-QA-01 ativo=True
+--- ASSERTIONS ---
+Bloco QA-03 ativo: False (expected: False)
+--- RESULTADO: PASS ---
+
+========================================
+CT-10: Sem cascata automatica — unidades permanecem ativas
+Timestamp: 2026-04-21T00:02:50Z
+========================================
+--- STEP 1: Criar bloco temp ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos
+Body: {"nome": "Bloco Temp Cascata QA"}
+Status: 201
+Body: {"id":"ac7b8af5-4bfe-47f0-84b1-c03bc3160895","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Bloco Temp Cascata QA","ativo":true,"inativadoEm":null}
+
+--- STEP 2: Criar unidade ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ac7b8af5-4bfe-47f0-84b1-c03bc3160895/unidades
+Body: {"andar": 1, "numero": "101"}
+Status: 201
+Body: {"id":"1e990dbb-aed4-40c0-a48b-7a721692f872","blocoId":"ac7b8af5-4bfe-47f0-84b1-c03bc3160895","andar":1,"numero":"101","ativo":true,"inativadoEm":null}
+
+--- STEP 3: Inativar bloco temp ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ac7b8af5-4bfe-47f0-84b1-c03bc3160895:inativar
+Status: 200
+Body: {"id":"ac7b8af5-4bfe-47f0-84b1-c03bc3160895","condominioId":"4cce551d-4f18-474b-a42a-2deb6c2a0451","nome":"Bloco Temp Cascata QA","ativo":false,"inativadoEm":"2026-04-21T00:02:50.1678534Z"}
+
+--- STEP 4: DB check — unidade permanece ativa ---
+Query: SELECT ativo FROM unidade WHERE id = '1e990dbb-aed4-40c0-a48b-7a721692f872'
+Result: t
+--- RESULTADO: PASS ---
+
+========================================
+CT-11: Criar unidade em bloco inativo → 422 invalid-transition
+Timestamp: 2026-04-21T00:03:04Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ff2ed42b-e9d9-426e-81fa-6bd51b767174/unidades
+Body: {"andar": 1, "numero": "201"}
+Note: Bloco QA-03 is currently inactive
+--- RESPONSE ---
+Status: 422
+Body:
+{
+    "type": "https://portabox.app/problems/invalid-transition",
+    "title": "Transi\u00e7\u00e3o inv\u00e1lida",
+    "status": 422,
+    "detail": "Bloco inativo",
+    "instance": "/api/v1/condominios/4cce551d-4f18-474b-a42a-2deb6c2a0451/blocos/ff2ed42b-e9d9-426e-81fa-6bd51b767174/unidades",
+    "traceId": "4ebb6d247663d3b059bb1c6c1fced310"
+}
+--- ASSERTIONS ---
+problem type: https://portabox.app/problems/invalid-transition (expected: contains invalid-transition)
+--- RESULTADO: PASS ---
+
+[UI SETUP ERROR] require is not defined
+
+[UI SETUP ERROR] require is not defined
+
+[UI SETUP ERROR] require is not defined
+
+[UI SETUP ERROR] require is not defined
+
+[UI SETUP ERROR] require is not defined
+
+[UI SETUP ERROR] require is not defined
+
+--- BROWSER CONSOLE UT-01 ---
+Auth cookie expired. URL: http://localhost:5174/login?redirectTo=%2Festrutura
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+
+--- BROWSER CONSOLE UT-01 ---
+Bloco "Bloco UI Inativar QA" visible after inativacao (default view): false
+
+
+--- BROWSER CONSOLE UT-02 ---
+Bloco "Bloco UI Inativar QA" visible with Mostrar inativos=true: true
+
+
+--- BROWSER CONSOLE UT-03 ---
+Bloco: Ações do bloco Bloco QA-01
+Modal full text: "Inativar bloco✕Inativar Bloco QA-01 vai oculta-lo de novos cadastros; unidades ativas permanecem e precisam ser inativadas separadamente.CancelarInativar bloco"
+

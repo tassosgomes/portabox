@@ -1,6 +1,9 @@
 export {
   Building2,
+  ChevronDown,
+  ChevronRight,
   FileText,
+  Home,
   UserPlus,
   Mail,
   CheckCircle,

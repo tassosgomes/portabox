@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 title: "Infra soft-delete: ISoftDeletable + SoftDeleteableAggregateRoot + global filter por reflection"
 type: backend
 complexity: high

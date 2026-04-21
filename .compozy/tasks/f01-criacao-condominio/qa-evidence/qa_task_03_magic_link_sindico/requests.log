@@ -1,0 +1,554 @@
+========================================
+TC-07: DB — magic_link record for sindico.qa@portabox.dev
+Timestamp: 2026-04-19T01:23:58Z
+========================================
+--- QUERY EXECUTED ---
+SELECT ml.id, ml.user_id, u.email, ml.purpose, ml.token_hash, ml.created_at, ml.expires_at, ml.consumed_at, ml.invalidated_at, (ml.expires_at - ml.created_at) AS validity_interval FROM magic_link ml WHERE ml.user_id = '547b2417-fac5-4b3c-9cc8-69c855a95924';
+
+--- RESULT ---
+                  id                  |               user_id                | purpose |                            token_hash                            |          created_at           |          expires_at           | consumed_at | invalidated_at | validity_interval 
+--------------------------------------+--------------------------------------+---------+------------------------------------------------------------------+-------------------------------+-------------------------------+-------------+----------------+-------------------
+ 528dc6a1-4e01-458d-9688-84f223c40629 | 547b2417-fac5-4b3c-9cc8-69c855a95924 |       1 | 3bb97176913012a8fe5d274fea6a6d30913722c5e505bdf4e465f2bada73d0ef | 2026-04-19 01:13:13.109545+00 | 2026-04-22 01:13:13.109545+00 |             |                | 3 days
+(1 row)
+--- RESULTADO: PASS ---
+Record found, validity = 3 days, consumed_at = null (not used yet)
+token_hash present: YES
+purpose: 1 (magic link)
+========================================
+TC-01: E-mail recebido para sindico.qa@portabox.dev
+Timestamp: 2026-04-19T01:24:10Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:8025/api/v1/messages
+--- RESPONSE ---
+{
+  "from": {
+    "Relays": null,
+    "Mailbox": "no-reply",
+    "Domain": "portabox.dev",
+    "Params": ""
+  },
+  "to": {
+    "Relays": null,
+    "Mailbox": "sindico.qa",
+    "Domain": "portabox.dev",
+    "Params": ""
+  },
+  "subject": "Bem-vindo ao PortaBox =?utf-8?b?4oCU?= defina sua senha",
+  "id": "wGddbkROap1RZ6K6HP-ZcMb5BPljBgB9tlH_WvwwFLU=@mailhog.example"
+}
+--- RESULTADO: PASS ---
+Email found for sindico.qa@portabox.dev
+From: no-reply@portabox.dev
+Subject: Bem-vindo ao PortaBox =?utf-8?b?4oCU?= defina sua senha
+========================================
+TC-02: Magic link contém token e é bem formado
+Timestamp: 2026-04-19T01:24:23Z
+========================================
+--- EXTRACTED FROM EMAIL ---
+Token: GSmVY1TW_q6ThuPXyFsuGHJYRPSNiEYt5OvnMjS4-HA
+Full URL: http://localhost:5174/password-setup?token=GSmVY1TW_q6ThuPXyFsuGHJYRPSNiEYt5OvnMjS4-HA
+
+--- VALIDATION ---
+URL format: VALID (scheme + host + path + token parameter)
+Token length: 43 characters
+Token contains non-trivial value: YES
+--- RESULTADO: PASS ---
+
+NOTE: Magic link points to http://localhost:5174 (sindico app)
+Port 5174 status: NOT RUNNING (only port 5173/backoffice is up)
+========================================
+TC-03: Página de definição de senha via magic link
+Timestamp: 2026-04-19T01:25:06.392Z
+========================================
+Navigating to: http://localhost:5174/password-setup?token=GSmVY1TW_q6ThuPXyFsuGHJYRPSNiEYt5OvnMjS4-HA
+
+--- RESULTADO: FAIL ---
+Expected: page loads at http://localhost:5174/password-setup?token=GSmVY1TW_q6ThuPXyFsuGHJYRPSNiEYt5OvnMjS4-HA
+Actual: navigation error — page.goto: Timeout 15000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:5174/password-setup?token=GSmVY1TW_q6ThuPXyFsuGHJYRPSNiEYt5OvnMjS4-HA", waiting until "load"[22m
+
+
+--- BROWSER CONSOLE TC-03 ---
+
+
+========================================
+TC-06: Botão Reenviar Magic Link no painel de detalhes
+Timestamp: 2026-04-19T01:26:07.215Z
+========================================
+
+After login URL: http://localhost:5173/condominios
+
+Tenant detail page URL: http://localhost:5173/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+Page title: PortaBox — Backoffice
+
+Resend magic link button found: NO
+
+Page mentions magic link / reenviar: NO
+--- RESULTADO: FAIL ---
+Expected: Button to resend magic link visible on tenant detail page
+Actual: No resend button found. Page URL: http://localhost:5173/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5
+
+--- BROWSER CONSOLE TC-06 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[error] The above error occurred in the <ListaCondominiosPage> component:
+
+    at ListaCondominiosPage (http://localhost:5173/src/features/condominios/pages/ListaCondominiosPage.tsx:39:20)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[error] The above error occurred in the <DetalhesCondominioPage> component:
+
+    at DetalhesCondominioPage (http://localhost:5173/src/features/condominios/pages/DetalhesCondominioPage.tsx:83:18)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7218:26)
+    at main
+    at div
+    at div
+    at AppLayout
+    at RequireOperator (http://localhost:5173/src/shared/auth/RequireOperator.tsx:20:35)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:6420:26)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7297:3)
+    at AppRoutes
+    at App
+    at AuthProvider (http://localhost:5173/src/features/auth/AuthContext.tsx:44:32)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:7227:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=9952de46:10522:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+Cannot read properties of undefined (reading 'replace')
+Cannot read properties of undefined (reading 'replace')
+Cannot read properties of undefined (reading 'replace')
+Cannot read properties of undefined (reading 'replace')
+Cannot read properties of undefined (reading 'replace')
+Cannot read properties of undefined (reading 'replace')
+
+========================================
+TC-04: Definição de senha com o magic link (API)
+Timestamp: 2026-04-19T01:26:44Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/password-setup
+Body: {"token": "[REDACTED]", "password": "Sindico@2026!"}
+--- RESPONSE ---
+Status: 429
+Body: Too many requests. Please retry after the indicated period.
+--- RESULTADO: FAIL ---
+Expected status: 200
+Actual status: 429
+Body: Too many requests. Please retry after the indicated period.
+
+--- ADDITIONAL DETAIL (TC-04) ---
+Rate-limit response headers:
+Retry-After: 600 seconds
+Message: Too many requests. Please retry after the indicated period.
+Note: The endpoint /api/v1/auth/password-setup is rate-limited.
+The token has NOT been consumed (429 = request blocked before processing).
+========================================
+TC-05: Magic link inválido após uso
+Timestamp: 2026-04-19T01:27:11Z
+========================================
+--- CONTEXT ---
+TC-04 resulted in HTTP 429 (rate limited), token was NOT consumed.
+Since TC-04 did not consume the token, TC-05 cannot verify 'link invalid after use'.
+Instead, testing with a deliberately invalid token to verify the API rejects it.
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/password-setup
+Body: {"token": "INVALID_TOKEN_XYZ_DOES_NOT_EXIST", "password": "Sindico@2026!"}
+--- RESPONSE ---
+Status: 429
+Body: Too many requests. Please retry after the indicated period.
+--- RESULTADO: SKIPPED/PARTIAL ---
+Endpoint is rate-limited (HTTP 429). Cannot verify invalid token rejection.
+Note: TC-05 requires TC-04 to succeed first (token consumed).
+Pre-condition not met: Token was not consumed (TC-04 failed with 429).
+
+--- DB CHECK AFTER TC-04 429 ---
+Query: SELECT consumed_at, invalidated_at FROM magic_link WHERE user_id = '547b2417-...'
+Result: consumed_at = NULL, invalidated_at = NULL
+Conclusion: Token NOT consumed. Rate limit blocked request before token processing.
+========================================
+TC-06 (API): Reenviar magic link via API endpoint
+Timestamp: 2026-04-19T01:27:45Z
+========================================
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/sindicos/547b2417-fac5-4b3c-9cc8-69c855a95924:resend-magic-link
+--- RESPONSE ---
+Status: 401
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.2","title":"Unauthorized","status":401,"instance":"/api/v1/admin/condominios/f6d3cc9d-9ce5-4e43-bb70-92573fb29ae5/sindicos/547b2417-fac5-4b3c-9cc8-69c855a95924:resend-magic-link","traceId":"da355599eb075421ac49a85bc737315b"}
+
+--- API RESEND RETRY (with cookie jar) ---
+Status: 200
+Body: {"sindicoUserId":"547b2417-fac5-4b3c-9cc8-69c855a95924"}
+--- RESEND API RESULT ---
+Status: 200 OK
+Body: {"sindicoUserId": "547b2417-fac5-4b3c-9cc8-69c855a95924"}
+Resend endpoint functional: YES
+
+--- POST-RESEND DB STATE ---
+                  id                  |          created_at           |          expires_at           | consumed_at |        invalidated_at         
+--------------------------------------+-------------------------------+-------------------------------+-------------+-------------------------------
+ 1522bf70-2934-41c9-9c34-67bc40befe79 | 2026-04-19 01:28:07.157096+00 | 2026-04-22 01:28:07.157096+00 |             | 
+ 528dc6a1-4e01-458d-9688-84f223c40629 | 2026-04-19 01:13:13.109545+00 | 2026-04-22 01:13:13.109545+00 |             | 2026-04-19 01:28:07.150299+00
+(2 rows)
+
+--- POST-RESEND SUMMARY ---
+New magic link record: 1522bf70-2934-41c9-9c34-67bc40befe79
+Old magic link invalidated_at: 2026-04-19 01:28:07
+New email sent: YES (2026-04-19T01:28:07)
+Resend behavior CORRECT: old link invalidated, new link + email created
+========================================
+TC-04 RETRY: Definição de senha com novo token (após resend)
+Timestamp: 2026-04-19T01:28:37Z
+========================================
+Method: POST
+URL: http://localhost:5272/api/v1/auth/password-setup
+Body: {"token": "[NEW_TOKEN]", "password": "Sindico@2026!"}
+Status: 400
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"Invalid or expired token.","status":400,"instance":"/api/v1/auth/password-setup","traceId":"521af0b76c8129b985388e7f18825ef1"}
+
+--- NOTE TC-04 retry ---
+HTTP 400 with 'Invalid or expired token' using the new token.
+This may indicate: (a) token was extracted incorrectly from quoted-printable email
+  or (b) the rate limit window reset but the token is still invalid format.
+
+Re-checking raw email body for new token...
+
+--- CORRECTED TOKEN EXTRACTION ---
+The quoted-printable soft line break (=\n) split the token.
+Full token: Q0a7aXuefMx2IOzzKnK0dWd7O9wckRe7Et_Fp7pPH7Y
+
+TC-04 RETRY with full token:
+Method: POST
+URL: http://localhost:5272/api/v1/auth/password-setup
+Status: 200
+Body: 
+
+--- TC-04 FINAL RESULT ---
+Status: 200 OK (password set successfully)
+
+========================================
+TC-05: Magic link inválido após uso
+Timestamp: 2026-04-19T01:29:05Z
+========================================
+--- Pre-condition: token Q0a7aXuefMx2IOzzKnK0dWd7O9wckRe7Et_Fp7pPH7Y was just consumed (TC-04 returned 200) ---
+--- REQUEST ---
+Method: POST
+URL: http://localhost:5272/api/v1/auth/password-setup
+Body: {"token": "[SAME_TOKEN_ALREADY_USED]", "password": "AnotherPass@2026!"}
+--- RESPONSE ---
+Status: 400
+Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"Invalid or expired token.","status":400,"instance":"/api/v1/auth/password-setup","traceId":"08802bbd4b969b5b36f7ce7986af3e53"}
+--- RESULTADO: PASS ---
+Token correctly rejected after use. Status: 400
+
+--- DB STATE AFTER TC-04 AND TC-05 ---
+New token (1522bf70): consumed_at = 2026-04-19 01:28:54 — CONSUMED
+Old token (528dc6a1): invalidated_at = 2026-04-19 01:28:07 — INVALIDATED (resend)
+Verification: TC-04 correctly marked token as consumed
+Verification: TC-05 correctly rejected already-consumed token (HTTP 400)
+
+--- TC-06 SUPPLEMENTARY ANALYSIS ---
+Source code confirms: ResendMagicLinkAction component exists and is rendered
+  in DetalhesCondominioPage when sindico.passwordDefined === false.
+
+Playwright TC-06 failure root cause:
+  1. Playwright performed login (redirect to /condominios confirmed)
+  2. Navigating to /condominios/ caused 401 errors in browser console
+  3. Page rendered blank — API calls for tenant detail data failed with 401
+  4. The resend button could not be found because page data did not load
+
+This is a pre-condition failure: Playwright cookie-based session did not
+  persist correctly for subsequent API calls from the SPA.
+
+API-level verification (indirect):
+  - POST /api/v1/admin/condominios/TENANT/sindicos/SINDICO:resend-magic-link
+  - With valid auth cookie: HTTP 200 — resend functional at API level
+  - Button text in source: 'Reenviar magic link'
+  - Condition: shown only when sindico.passwordDefined === false
+
+========================================
+RERUN — TC-03: Página de definição de senha acessível via magic link
+Timestamp: 2026-04-20T00:00:00Z
+Executor: qa-task-runner (re-execução parcial)
+========================================
+--- PASSO 1: Verificar acessibilidade de http://localhost:5174 ---
+Método: curl -v --connect-timeout 5 http://localhost:5174
+
+--- RESULTADO ---
+* connect to ::1 port 5174 from ::1 port 40486 failed: Connection refused
+* ipv4 connect timeout after 5000ms
+* Failed to connect to localhost port 5174 after 5000 ms: Couldn't connect to server
+Exit code: 28 (ETIMEDOUT / Connection refused)
+HTTP Status: 000 (sem resposta)
+
+--- RESULTADO: FAIL ---
+Expected: HTTP 200 — app do síndico acessível em http://localhost:5174
+Actual: Connection refused (IPv6) + Timeout 5000ms (IPv4) — nenhuma porta ouvindo em 5174
+Causa: app do síndico (apps/sindico) não está em execução na porta 5174
+Ação: execução do TC-03 interrompida conforme protocolo (passo 1 falhou)
+========================================
+TC-03 RERUN2 — Página de definição de senha via magic link
+Timestamp: 2026-04-20T16:58:43.688Z
+========================================
+--- REQUEST ---
+Action: navegação para magic link URL
+URL: http://localhost:5174/password-setup?token=0pvweIKVFLLGufR0V8jepTQi0yFNXeKIOOnYcDXF1a8
+--- Screenshot capturado: rerun2_tc03_inicio.png ---
+URL atual: http://localhost:5174/login?redirectTo=%2F
+Título da página: PortaBox — Painel do Síndico
+--- Screenshot capturado: rerun2_tc03_apos_load.png ---
+--- Page content length: 22575 chars ---
+URL final: http://localhost:5174/login?redirectTo=%2F
+Campo de senha encontrado com selector: input[type="password"]
+Email visível encontrado com selector: input[type="email"]
+--- Screenshot capturado: rerun2_tc03_pre_assert.png ---
+--- ASSERTIONS ---
+Campo de senha encontrado: true (selector: input[type="password"])
+Email visível: true (selector: input[type="email"])
+--- RESULTADO PARCIAL: Campo de senha ENCONTRADO ---
+--- BROWSER CONSOLE TC-03 RERUN2 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+--- Screenshot capturado: rerun2_tc03_pass.png ---
+--- RESULTADO: PASS ---
+Campo de senha visível. Email do síndico visível: true
+========================================
+TC-03 RERUN2 — ANÁLISE PÓS-EXECUÇÃO
+Timestamp: 2026-04-20T16:59:00Z
+========================================
+NOTA CRÍTICA: O Playwright marcou PASS incorretamente.
+A assertion foi: input[type="password"] visível — e estava visível.
+Mas a página exibida era a página de LOGIN, não /password-setup.
+
+URL solicitada: http://localhost:5174/password-setup?token=0pvweIKVFLLGufR0V8jepTQi0yFNXeKIOOnYcDXF1a8
+URL final após redirecionamento: http://localhost:5174/login?redirectTo=%2F
+Título: PortaBox — Painel do Síndico
+
+Comportamento observado: o app ignorou o token e redirecionou para /login
+O campo input[type="password"] encontrado pertence ao formulário de LOGIN, não ao formulário de definição de senha.
+
+RESULTADO CORRIGIDO: FAIL
+Expected: página /password-setup renderiza com formulário de definição de senha (token processado, email visível)
+Actual: redirecionamento para /login — token descartado, formulário de login exibido
+
+========================================
+TC-06 RERUN2 — Verificação prévia via API
+Timestamp: 2026-04-20T17:04:50Z
+========================================
+--- REQUEST ---
+Method: GET
+URL: http://localhost:5272/api/v1/admin/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+Auth: cookie (portabox.auth)
+--- RESPONSE ---
+Status: 200
+Body:
+{
+  "id": "4a3d87ea-f62f-4d9c-80de-a34237d0dae3",
+  "nomeFantasia": "Residencial Rerun QA",
+  "cnpjMasked": "****7000161",
+  "status": 2,
+  "createdAt": "2026-04-20T16:33:34.4708+00:00",
+  "activatedAt": "2026-04-20T16:55:45.05646+00:00",
+  "enderecoLogradouro": "Av. Paulista",
+  "enderecoNumero": "1000",
+  "enderecoComplemento": null,
+  "enderecoBairro": null,
+  "enderecoCidade": "São Paulo",
+  "enderecoUf": "SP",
+  "enderecoCep": "01310100",
+  "administradoraNome": null,
+  "optIn": {
+    "dataAssembleia": "2026-03-15",
+    "quorumDescricao": "60%",
+    "signatarioNome": "Carlos Rerun",
+    "signatarioCpfMasked": "***.982.247-**",
+    "dataTermo": "2026-03-15",
+    "registeredByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+    "registeredAt": "2026-04-20T16:33:34.472448+00:00"
+  },
+  "sindico": {
+    "id": "0def4ec1-13aa-4ffc-8d7c-bc85035038e3",
+    "userId": "85c256c2-3958-4b69-b6c8-8104adb805a7",
+    "nomeCompleto": "Sindico Rerun",
+    "email": "sindico.rerun@portabox.dev",
+    "celularMasked": "+55 11 9****-4321",
+    "status": 1,
+    "createdAt": "2026-04-20T16:33:34.471434+00:00"
+  },
+  "documentos": [],
+  "auditLog": [
+    {
+      "id": 6,
+      "eventKind": 2,
+      "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+      "occurredAt": "2026-04-20T16:55:45.05646+00:00",
+      "note": null,
+      "metadataJson": null
+    },
+    {
+      "id": 5,
+      "eventKind": 1,
+      "performedByUserId": "0dcbb805-e21e-4db3-a196-e6e456b3ea2d",
+      "occurredAt": "2026-04-20T16:33:34.472521+00:00",
+      "note": null,
+      "metadataJson": null
+    }
+  ],
+  "sindicoSenhaDefinida": false
+}
+
+========================================
+TC-06 RERUN2 — UI: Botão Reenviar magic link
+Timestamp: 2026-04-20T17:05:53.531Z
+========================================
+--- PASSO 1: Navegar para login ---
+Página de login carregada
+--- PASSO 2: Preencher credenciais e submeter ---
+URL após login: http://localhost:5173/condominios
+--- PASSO 3: Navegar para painel de detalhes ---
+URL: http://localhost:5173/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+URL atual após navegação: http://localhost:5173/condominios/4a3d87ea-f62f-4d9c-80de-a34237d0dae3
+--- PASSO 4: Verificar se a página renderizou (não tela branca) ---
+Body text length: 1063
+Página renderizou com conteúdo — OK
+--- PASSO 5: Procurar botão Reenviar magic link ---
+Seletor "button:has-text("Reenviar magic link")": 1 elemento(s) encontrado(s)
+Botão 'Reenviar magic link' ENCONTRADO
+--- PASSO 6: Verificar visibilidade do botão ---
+Botão está visível — PASS
+--- PASSO 7: Clicar no botão Reenviar magic link ---
+Feedback encontrado via seletor "[role="status"]": "Magic link reenviado com sucesso."
+--- RESULTADO TC-06 PASSO 7: PASS ---
+Feedback de sucesso: "Magic link reenviado com sucesso."
+--- BROWSER CONSOLE TC-06 RERUN2 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+--- RESULTADO GERAL TC-06 RERUN2: PASS ---
+Botão 'Reenviar magic link' estava visível conforme esperado (sindicoSenhaDefinida=false)
+
+========================================
+TC-03 RERUN3 — Página /password-setup via magic link
+Timestamp: 2026-04-20T17:49:06.233Z
+Token usado: uZWYNMGi...[redacted]
+URL: http://localhost:5174/password-setup?token=[token]
+========================================
+URL após navegação: http://localhost:5174/password-setup?token=uZWYNMGiYckEXNQeOIdHmGTkDhPOYuMzlYsq3BG4nq4
+URL após 2s de espera: http://localhost:5174/password-setup?token=uZWYNMGiYckEXNQeOIdHmGTkDhPOYuMzlYsq3BG4nq4
+Título da página: PortaBox — Painel do Síndico
+Texto visível (primeiros 300 chars): 
+Redirecionou para /login: false
+URL contém /password-setup: true
+Campos input[type="password"] encontrados: 0
+Total de inputs na página: 0
+Conteúdo completo da página (primeiros 500 chars):
+
+--- BROWSER CONSOLE TC-03 RERUN3 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
+Cannot read properties of undefined (reading 'replace')
+--- RESULTADO: FAIL ---
+Expected: ao menos 1 campo input[type="password"] visível
+Actual: 0 campos de senha encontrados
+URL final: http://localhost:5174/password-setup?token=uZWYNMGiYckEXNQeOIdHmGTkDhPOYuMzlYsq3BG4nq4
+========================================
+TC-03 RERUN4: Página de definição de senha via magic link
+Timestamp: 2026-04-20T17:59:14.072Z
+========================================
+--- NAVEGAÇÃO ---
+URL: http://localhost:5174/password-setup?token=uZWYNMGiYckEXNQeOIdHmGTkDhPOYuMzlYsq3BG4nq4
+Token: [REDACTED — comprimento 43]
+Token fonte: Mailpit — e-mail mais recente 2026-04-20T17:05:56Z
+Banco: consumed_at=NULL, invalidated_at=NULL — token válido
+Screenshot: rerun4_tc03_inicio.png
+Screenshot: rerun4_tc03_apos_wait.png
+--- ESTADO DA PÁGINA ---
+URL final: http://localhost:5174/password-setup?token=uZWYNMGiYckEXNQeOIdHmGTkDhPOYuMzlYsq3BG4nq4
+Título: PortaBox — Painel do Síndico
+Body text length: 0
+Total inputs: 0
+Inputs type=password: 0
+Screenshot: rerun4_tc03_pre_assert.png
+--- ASSERTION 1: URL não é /login ---
+  URL atual: http://localhost:5174/password-setup?token=uZWYNMGiYckEXNQeOIdHmGTkDhPOYuMzlYsq3BG4nq4
+  Redirecionou para /login: false
+  RESULTADO: PASS — URL mantida em /password-setup
+--- ASSERTION 2: Formulário com input[type=password] visível ---
+  Inputs password encontrados: 0
+  RESULTADO: FAIL — nenhum input[type=password] encontrado
+  Body text (primeiros 500 chars): 
+--- BROWSER CONSOLE TC-03 RERUN4 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[error] The above error occurred in the <ReactQueryDevtools> component:
+
+    at ReactQueryDevtools (http://localhost:5174/node_modules/.vite/deps/@tanstack_react-query-devtools.js?v=23b5b8af:670:44)
+    at QueryClientProvider (http://localhost:5174/node_modules/.vite/deps/@tanstack_react-query.js?v=23b5b8af:3086:3)
+    at QueryProvider (http://localhost:5174/src/providers/QueryProvider.tsx:20:33)
+    at Router (http://localhost:5174/node_modules/.vite/deps/react-router-dom.js?v=23b5b8af:7229:13)
+    at BrowserRouter (http://localhost:5174/node_modules/.vite/deps/react-router-dom.js?v=23b5b8af:10524:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+[debug] [vite] connected.
+No QueryClient set, use QueryClientProvider to set one
+No QueryClient set, use QueryClientProvider to set one
+No QueryClient set, use QueryClientProvider to set one
+========================================
+TC-03 RERUN5 — Página de definição de senha
+Timestamp: 2026-04-20T18:05:19.927Z
+URL: http://localhost:5174/password-setup?token=gcEBtNw2q44PdiYPsdldzpPAXLgWVzOvuMGD43x1qW8
+========================================
+--- Screenshot: rerun5_tc03_inicio.png (imediato após navegação)
+--- Screenshot: rerun5_tc03_apos_wait.png (após 3s de espera)
+--- URL final: http://localhost:5174/password-setup?token=gcEBtNw2q44PdiYPsdldzpPAXLgWVzOvuMGD43x1qW8
+--- Título da página: PortaBox — Painel do Síndico
+--- body text length: 120
+--- Campos input[type="password"]: 2
+--- Total de inputs: 2
+--- Screenshot: rerun5_tc03_pre_assert.png (antes das assertions)
+--- Assertion 1 PASS: URL não redirecionou para /login
+--- Assertion 2 PASS: 2 campo(s) de senha encontrado(s)
+--- Botão "Definir senha" encontrado: 1
+--- RESULTADO: PASS ---
+Expected: formulário visível com input[type="password"]
+Actual: 2 campo(s) de senha, botão "Definir senha": 1
+--- BROWSER CONSOLE TC-03 RERUN5 ---
+[debug] [vite] connecting...
+[info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[debug] [vite] connected.
